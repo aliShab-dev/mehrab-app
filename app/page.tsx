@@ -1,7 +1,12 @@
+'use client';
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Button } from "@mui/material";
+import { useContext } from "react";
+import { ThemeContext } from "./ThemeContext";
 
 export default function Home() {
+  const context = useContext(ThemeContext);
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -14,10 +19,11 @@ export default function Home() {
           priority
         />
         <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
+          <Button onClick={() => context?.setPalette("blue")}>
+            blue
+          </Button>
+          <Button onClick={() => context?.setPalette("green")}>green</Button>
+          <Button onClick={() => context?.setPalette("light-green")}>light-green</Button>
         </ol>
 
         <div className={styles.ctas}>

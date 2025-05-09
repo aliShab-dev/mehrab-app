@@ -2,7 +2,7 @@
 
 import React, { createContext, Dispatch, SetStateAction, useState } from 'react';
 
-type PaletteType = 'light-green' | 'green' | 'blue';
+export type PaletteType = 'light-green' | 'green' | 'blue';
 
 interface ThemeContextType {
   palette: PaletteType;

@@ -1,45 +1,81 @@
-'use client';
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
+"use client";
+import { createTheme, CssBaseline, ThemeOptions, ThemeProvider } from "@mui/material";
 import { use } from "react";
 import { ThemeContext } from "./ThemeContext";
 
-export const getCustomTheme = (palette: string) => {
-    switch (palette) {
-      case 'light-green':
-        return createTheme({
-          palette: {
-            mode: 'light',
-            primary: { main: '#8BC34A' },
-            secondary: { main: '#AED581' },
-          },
-        });
-      case 'green':
-        return createTheme({
-          palette: {
-            mode: 'light',
-            primary: { main: '#4CAF50' },
-            secondary: { main: '#81C784' },
-          },
-        });
-      case 'blue':
-        return createTheme({
-          palette: {
-            mode: 'light',
-            primary: { main: '#2196F3' },
-            secondary: { main: '#64B5F6' },
-          },
-        });
-      default:
-        return createTheme({
-          palette: {
-            mode: 'light',
-          },
-        });
-    }
+declare module "@mui/material/styles" {
+  interface Palette {
+    navbarColor: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    navbarColor?: PaletteOptions["primary"];
+  }
+}
+
+type BaseTheme = {
+  direction: 'ltr' | 'rtl';
+  typography: {
+    fontFamily: string;
   };
+} & ThemeOptions;
 
+const baseTheme: BaseTheme = {
+  direction: 'rtl', 
+  typography: {
+    fontFamily: 'Dirooz, Roboto, Arial, sans-serif', 
+  },
+}
 
-export default function MUIThemeProvider({ children }: { children: React.ReactNode }) {
+export const getCustomTheme = (palette: string) => {
+  switch (palette) {
+    case "light-green":
+      return createTheme({
+        ...baseTheme,
+        palette: {
+          mode: "light",
+          primary: { main: "#8BC34A" },
+          secondary: { main: "#AED581" },
+        },
+      });
+    case "green":
+      return createTheme({
+        ...baseTheme,
+        palette: {
+          mode: "light",
+          primary: { main: "#3AEDA2" },
+          secondary: { main: "#4EBFA8" },
+          navbarColor: {
+            main: "#C8F0E5",
+            light: "#E2FBF1",
+            dark: "#B1DCCF",
+          },
+        },
+      });
+    case "blue":
+      return createTheme({
+        ...baseTheme,
+        palette: {
+          mode: "light",
+          primary: { main: "#00B4D8" },
+          secondary: { main: "#0263A3" },
+        },
+      });
+    default:
+      return createTheme({
+        ...baseTheme,
+        palette: {
+          mode: "light",
+        },
+      });
+  }
+};
+
+export default function MUIThemeProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const context = use(ThemeContext)!;
 
   const theme = getCustomTheme(context.palette);

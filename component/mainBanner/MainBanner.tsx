@@ -9,7 +9,6 @@ const MainBanner = () => {
         width: "92%",
         height: "auto",
         mx: 'auto'
-        // minHeight: "300px",
       }}
     >
       <Image
@@ -18,7 +17,7 @@ const MainBanner = () => {
         layout="responsive"
         width={1920}
         height={600}
-        style={{ marginTop: -55}}
+        style={{ marginTop: -65}}
       />
     </Stack>
   );

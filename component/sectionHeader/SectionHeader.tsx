@@ -9,21 +9,21 @@ type SectionHeaderType = {
 
 const SectionHeader = ({ title, backIcon, frontIcon }: SectionHeaderType) => {
   return (
-    <Stack mr={2} mt={-3}>
-      <Stack direction={"row"} gap={3}>
+    <Stack mr={1.5} mt={-2.5}>
+      <Stack direction={"row"} gap={2.2}>
         <Stack position={"relative"} mt={.5}>
           <Image
             alt={backIcon.alt}
             src={backIcon.src}
             width={100}
             height={100}
-            style={{ position: "absolute", top: -50, left: -15, zIndex: 90 }}
+            style={{ position: "absolute", top: -50, left: -10, zIndex: 90 }}
           />
           <Image
             alt={frontIcon.alt}
             src={frontIcon.src}
-            width={42}
-            height={42}
+            width={44}
+            height={44}
             style={{zIndex: 100}}
           />
         </Stack>

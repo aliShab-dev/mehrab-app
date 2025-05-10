@@ -1,4 +1,4 @@
-import { styled } from "@mui/material/styles";
+import { alpha, styled } from "@mui/material/styles";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -6,7 +6,8 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React from "react";
-import { Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
+import Image from "next/image";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -19,6 +20,8 @@ const Accordion = styled((props: AccordionProps) => (
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary {...props} />
 ))(({ theme }) => ({
+  width: 330,
+  paddingRight: 0,
   backgroundColor: "rgba(0, 0, 0, .00)",
   flexDirection: "row-reverse",
   [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]:
@@ -26,6 +29,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
       transform: "rotate(90deg)",
     },
   [`& .${accordionSummaryClasses.content}`]: {
+    margin: 0,
     marginLeft: theme.spacing(1),
   },
   ...theme.applyStyles("dark", {
@@ -34,71 +38,161 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  padding: theme.spacing(2),
+  width: 330,
+  padding: theme.spacing(1),
 }));
+
+type headerButtonType = {
+  expanded: string | false;
+  name: string;
+};
+
+const HeaderButton = ({ expanded, name }: headerButtonType) => (
+  <Button
+    disableRipple
+    fullWidth
+    sx={{
+      color: (theme) => theme.palette.primary.main,
+      border:
+        expanded == name
+          ? (theme) => `1px solid ${theme.palette.secondary.main}`
+          : "none",
+      borderRadius: 4.5,
+      boxShadow:
+        expanded == name
+          ? (theme) =>
+              `0px 2px 10px 0px ${alpha(theme.palette.secondary.main, 0.3)}`
+          : "none",
+      pr: expanded == name ? 1.5 : 1,
+      py: 0.7,
+      "&:hover": {
+        background: "none",
+      },
+    }}
+  >
+    <Stack
+      direction={"row"}
+      width={"100%"}
+      alignItems={"center"}
+      justifyContent={"start"}
+      gap={1.7}
+    >
+      <Stack position={"relative"}>
+        <Image
+          src={expanded == name ? "/selected-folder.png" : "/Folder.png"}
+          alt={expanded == name ? "selected-folder-icon" : "folder-icon"}
+          width={expanded == name ? 42 : 50}
+          height={expanded == name ? 42 : 50}
+        />
+        <Image
+          src={expanded == name ? "/selected-Union.png" : "/Union.png"}
+          alt={expanded == name ? "selected-Union-icon" : "Union-icon"}
+          width={23}
+          height={23}
+          style={{
+            position: "absolute",
+            top: expanded == name ? 13 : 16,
+            right: expanded == name ? 10 : 13,
+          }}
+        />
+      </Stack>
+      <Typography
+        fontSize={24}
+        sx={(theme) => ({
+          color:
+            expanded === name
+              ? theme.palette.primary.main
+              : theme.palette.text.primary,
+        })}
+      >
+        {name}
+      </Typography>
+    </Stack>
+  </Button>
+);
+
+type SubCat = { id: number; name: string };
+
+const motionCats = ["کلاژ موشن", "کمیک موشن", "هندموشن", "فلت موشن", "اینفوموشن"];
+const subCat: SubCat[] = [
+  { id: 1, name: "نمونه کار اول" },
+  { id: 2, name: "نمونه کار دوم" },
+  { id: 3, name: "نمونه کار سوم" },
+];
 
 const ButtonMenu = () => {
   const [expanded, setExpanded] = React.useState<string | false>("panel1");
+  const [selectedSubCat, setSelectedSubCat] = React.useState<number | false>(
+    false
+  );
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
       setExpanded(newExpanded ? panel : false);
     };
 
+  const handleSubCatChange = (id: number) => {
+    setSelectedSubCat((prev) => (prev === id ? false : id));
+  };
+
   return (
-    <div>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography component="span">Collapsible Group Item #1</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography component="span">Collapsible Group Item #2</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography component="span">Collapsible Group Item #3</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada
-            lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-    </div>
+    <Stack height={"87vh"} overflow={"hidden"} sx={{ overflowY: "scroll" }} mt={4}>
+      {motionCats.map((cat, index) => (
+        <Accordion expanded={expanded === cat} onChange={handleChange(cat)} sx={{mb: (index === cat.length - 1 || expanded === cat) ? 0 : 4}}>
+          <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+            <HeaderButton key={cat} expanded={expanded} name={cat} />
+          </AccordionSummary>
+          <AccordionDetails>
+            <Stack mt={0.6}>
+              {subCat.map((subCat) => (
+                <Button
+                  key={subCat.id}
+                  disableRipple
+                  onClick={() => handleSubCatChange(subCat.id)}
+                  sx={{ px: 0, py: .3 }}
+                >
+                  <Stack
+                    direction={"row"}
+                    justifyContent={"start"}
+                    gap={1.5}
+                    alignItems={'center'}
+                    width={"100%"}
+                    sx={{ cursor: "pointer" }}
+                  >
+                    <Image
+                      src="/banner.png"
+                      alt={`${subCat.id}-${subCat.name}`}
+                      width={54}
+                      height={30}
+                      style={{
+                        borderRadius: 2,
+                        objectFit: "cover",
+                        filter:
+                          subCat.id == selectedSubCat
+                            ? "none"
+                            : "grayscale(100%)",
+                      }}
+                    />
+                    <Typography
+                    fontSize={13}
+                      sx={(theme) => ({
+                        color:
+                          subCat.id == selectedSubCat
+                            ? theme.palette.secondary.main
+                            : theme.palette.text.primary,
+                      })}
+                    >
+                      {subCat.name}
+                    </Typography>
+                  </Stack>
+                </Button>
+              ))}
+            </Stack>
+          </AccordionDetails>
+        </Accordion>
+      ))}
+    </Stack>
   );
 };
 
-export default ButtonMenu
+export default ButtonMenu;

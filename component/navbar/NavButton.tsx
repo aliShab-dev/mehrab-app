@@ -15,10 +15,10 @@ const NavButton = ({ href, label, sx }: NavButtonProps) => {
     const isActive = pathname === href;
     return(
 
-        <Link href={href} passHref legacyBehavior>
+        <Link href={href} passHref>
         <Button
           color={isActive ? 'secondary' : 'inherit'}
-          sx={{ mx: 1, fontSize: 18, fontWeight: 600, ...sx}}
+          sx={{ mx: 1, fontSize: 18, fontWeight: 600, color: isActive ? undefined : 'text.primary', ...sx}}
         >
           {label}
         </Button>

@@ -4,6 +4,8 @@ import { Button } from "@mui/material";
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import Navbar from "@/component/navbar/Navbar";
+import MainBanner from "@/component/mainBanner/MainBanner";
+import MotionSection from "@/component/motionSection/MotionSection";
 
 export default function Home() {
   const context = useContext(ThemeContext);
@@ -11,45 +13,24 @@ export default function Home() {
     <div>
       <Navbar />
       <main>
-        <Image
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <Button onClick={() => context?.setPalette("blue")}>blue</Button>
-          <Button onClick={() => context?.setPalette("green")}>green</Button>
-          <Button onClick={() => context?.setPalette("light-green")}>
-            light-green
-          </Button>
-        </ol>
+        <section>
+          <MainBanner />
+        </section>
 
-        <div>
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+        <section>
+          <MotionSection />
+        </section>
+
+        <section>
+          {/* <FilmDocSection /> */}
+        </section>
+
+        <section>
+          {/* <AudioSection /> */}
+        </section>
+       
       </main>
-      <footer>
+      {/* <footer>
         <a
           href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
           target="_blank"
@@ -92,7 +73,7 @@ export default function Home() {
           />
           Go to nextjs.org →
         </a>
-      </footer>
+      </footer> */}
     </div>
   );
 }

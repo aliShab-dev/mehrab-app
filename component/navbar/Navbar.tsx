@@ -48,14 +48,14 @@ const Navbar = () => {
       sx={{
         width: "100%",
         height: 120,
-        background: "linear-gradient(to top, #F8F9FF, #C8F0E5)",
+        background: "linear-gradient(to top,rgba(248, 249, 255, .2), #C8F0E5)",
         pt: 0,
       }}
     >
       <Stack
         direction={"row"}
         width={"90%"}
-        height={"74%"}
+        height={"72%"}
         justifyContent={"space-between"}
         alignItems={"center"}
       >

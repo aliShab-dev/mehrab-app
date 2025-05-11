@@ -6,7 +6,7 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React from "react";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Divider, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 const Accordion = styled((props: AccordionProps) => (
@@ -20,7 +20,7 @@ const Accordion = styled((props: AccordionProps) => (
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
   <MuiAccordionSummary {...props} />
 ))(({ theme }) => ({
-  width: 330,
+  width: "100%",
   paddingRight: 0,
   backgroundColor: "rgba(0, 0, 0, .00)",
   flexDirection: "row-reverse",
@@ -30,7 +30,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     },
   [`& .${accordionSummaryClasses.content}`]: {
     margin: 0,
-    marginLeft: theme.spacing(1),
+    // marginLeft: theme.spacing(1),
   },
   ...theme.applyStyles("dark", {
     backgroundColor: "rgba(255, 255, 255, .05)",
@@ -49,6 +49,7 @@ type headerButtonType = {
 
 const HeaderButton = ({ expanded, name }: headerButtonType) => (
   <Button
+    component="div"
     disableRipple
     fullWidth
     sx={{
@@ -63,7 +64,7 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
           ? (theme) =>
               `0px 2px 10px 0px ${alpha(theme.palette.secondary.main, 0.3)}`
           : "none",
-      pr: expanded == name ? 1.5 : 1,
+      pr: expanded == name ? 1.1 : 1,
       py: 0.7,
       "&:hover": {
         background: "none",
@@ -113,7 +114,17 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
 
 type SubCat = { id: number; name: string };
 
-const motionCats = ["کلاژ موشن", "کمیک موشن", "هندموشن", "فلت موشن", "اینفوموشن"];
+const motionCats = [
+  "کلاژ موشن",
+  "کمیک موشن",
+  "هندموشن",
+  "فلت موشن",
+  "اینفوموشن",
+  "رئال موشن",
+  " لوگوموشن",
+  "پوستر موشن",
+  " استوری موشن",
+];
 const subCat: SubCat[] = [
   { id: 1, name: "نمونه کار اول" },
   { id: 2, name: "نمونه کار دوم" },
@@ -121,76 +132,124 @@ const subCat: SubCat[] = [
 ];
 
 const ButtonMenu = () => {
-  const [expanded, setExpanded] = React.useState<string | false>("panel1");
-  const [selectedSubCat, setSelectedSubCat] = React.useState<number | false>(
-    false
-  );
+  const [expanded, setExpanded] = React.useState<string>("کلاژ موشن");
+  const [selectedSubCat, setSelectedSubCat] = React.useState<number>(1);
 
-  const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-      setExpanded(newExpanded ? panel : false);
-    };
+  const handleChange = (panel: string) => (event: React.SyntheticEvent) => {
+    setExpanded(panel);
+  };
 
   const handleSubCatChange = (id: number) => {
-    setSelectedSubCat((prev) => (prev === id ? false : id));
+    setSelectedSubCat(id);
   };
 
   return (
-    <Stack height={"87vh"} overflow={"hidden"} sx={{ overflowY: "scroll" }} mt={4}>
-      {motionCats.map((cat, index) => (
-        <Accordion expanded={expanded === cat} onChange={handleChange(cat)} sx={{mb: (index === cat.length - 1 || expanded === cat) ? 0 : 4}}>
-          <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-            <HeaderButton key={cat} expanded={expanded} name={cat} />
-          </AccordionSummary>
-          <AccordionDetails>
-            <Stack mt={0.6}>
-              {subCat.map((subCat) => (
-                <Button
-                  key={subCat.id}
-                  disableRipple
-                  onClick={() => handleSubCatChange(subCat.id)}
-                  sx={{ px: 0, py: .3 }}
-                >
-                  <Stack
-                    direction={"row"}
-                    justifyContent={"start"}
-                    gap={1.5}
-                    alignItems={'center'}
-                    width={"100%"}
-                    sx={{ cursor: "pointer" }}
+    <Stack>
+      <Stack
+        height={"71vh"}
+        overflow={"hidden"}
+        sx={{
+          overflowY: "scroll",
+          direction: "ltr",
+          "&::-webkit-scrollbar": {
+            width: "6px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "#E9E9E9",
+            background: `linear-gradient(to bottom, transparent 0%, #E9E9E9 0%, #E9E9E9 100%, transparent 100%)`,
+            borderRadius: 2,
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#4EBFA8",
+            width: "6px",
+            borderRadius: 2,
+          },
+          "&::-webkit-scrollbar-button": {
+            display: "none",
+          },
+        }}
+        mt={4.5}
+        mr={-0.8}
+        pr={1}
+        width={335}
+      >
+        {motionCats.map((cat, index) => (
+          <Accordion
+            key={cat}
+            expanded={expanded === cat}
+            onChange={handleChange(cat)}
+            sx={{
+              width: "100%",
+              direction: "rtl",
+              mb: index === cat.length - 1 || expanded === cat ? 0 : 3.8,
+            }}
+          >
+            <AccordionSummary
+              aria-controls="panel1d-content"
+              id="panel1d-header"
+            >
+              <HeaderButton key={cat} expanded={expanded} name={cat} />
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack mt={0.6}>
+                {subCat.map((subCat) => (
+                  <Button
+                    key={subCat.id}
+                    disableRipple
+                    onClick={() => handleSubCatChange(subCat.id)}
+                    sx={{ px: 0, py: 0.3 }}
                   >
-                    <Image
-                      src="/banner.png"
-                      alt={`${subCat.id}-${subCat.name}`}
-                      width={54}
-                      height={30}
-                      style={{
-                        borderRadius: 2,
-                        objectFit: "cover",
-                        filter:
-                          subCat.id == selectedSubCat
-                            ? "none"
-                            : "grayscale(100%)",
-                      }}
-                    />
-                    <Typography
-                    fontSize={13}
-                      sx={(theme) => ({
-                        color:
-                          subCat.id == selectedSubCat
-                            ? theme.palette.secondary.main
-                            : theme.palette.text.primary,
-                      })}
+                    <Stack
+                      direction={"row"}
+                      justifyContent={"start"}
+                      gap={1.5}
+                      alignItems={"center"}
+                      width={"100%"}
+                      sx={{ cursor: "pointer" }}
                     >
-                      {subCat.name}
-                    </Typography>
-                  </Stack>
-                </Button>
-              ))}
-            </Stack>
-          </AccordionDetails>
-        </Accordion>
-      ))}
+                      <Image
+                        src="/banner.png"
+                        alt={`${subCat.id}-${subCat.name}`}
+                        width={54}
+                        height={30}
+                        style={{
+                          borderRadius: 2,
+                          objectFit: "cover",
+                          filter:
+                            subCat.id == selectedSubCat
+                              ? "none"
+                              : "grayscale(100%)",
+                        }}
+                      />
+                      <Typography
+                        fontSize={13}
+                        sx={(theme) => ({
+                          color:
+                            subCat.id == selectedSubCat
+                              ? theme.palette.secondary.main
+                              : theme.palette.text.primary,
+                        })}
+                      >
+                        {subCat.name}
+                      </Typography>
+                    </Stack>
+                  </Button>
+                ))}
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+        ))}
+      </Stack>
+      <Divider
+        orientation="horizontal"
+        sx={{
+          marginTop: 1.5,
+          mr: -1,
+          ml: 3,
+          borderBottomWidth: 1,
+          borderColor: alpha("#CACACA", 0.5),
+        }}
+      />
     </Stack>
   );
 };

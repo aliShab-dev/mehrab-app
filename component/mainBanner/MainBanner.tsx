@@ -1,4 +1,5 @@
-import { Stack, Typography } from "@mui/material";
+'use client';
+import { Stack } from "@mui/material";
 import Image from "next/image";
 
 const MainBanner = () => {
@@ -8,7 +9,7 @@ const MainBanner = () => {
         position: "relative",
         width: "92%",
         height: "auto",
-        mx: 'auto'
+        mx: "auto",
       }}
     >
       <Image
@@ -17,7 +18,7 @@ const MainBanner = () => {
         layout="responsive"
         width={1920}
         height={600}
-        style={{ marginTop: -65}}
+        style={{ marginTop: -65 }}
       />
     </Stack>
   );

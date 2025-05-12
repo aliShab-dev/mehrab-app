@@ -1,11 +1,10 @@
 "use client";
-import Image from "next/image";
-import { Button } from "@mui/material";
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import Navbar from "@/component/navbar/Navbar";
 import MainBanner from "@/component/mainBanner/MainBanner";
 import MotionSection from "@/component/motionSection/MotionSection";
+import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
 
 export default function Home() {
   const context = useContext(ThemeContext);
@@ -22,13 +21,13 @@ export default function Home() {
         </section>
 
         <section>
-          <div style={{height: 100}}></div>
-          {/* <FilmDocSection /> */}
+          <FilmDocSection />
         </section>
 
         <section>
           {/* <AudioSection /> */}
         </section>
+          <div style={{height: 100}}></div>
        
       </main>
       {/* <footer>

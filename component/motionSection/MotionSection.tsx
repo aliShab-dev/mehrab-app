@@ -1,3 +1,4 @@
+'use client';
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
 import ButtonMenu from "./components/ButtonMenu";

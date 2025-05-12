@@ -1,6 +1,7 @@
-"use-client";
+"use client";
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import ReactPlayer from "react-player";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 type VideoPlayerType = {
   url: string;

@@ -4,6 +4,11 @@
   height: 100%;
 }
 
+.mySwiper .swiper-pagination {
+  position: relative;
+  margin-top: 45px;
+}
+
 .swiper-slide {
   text-align: center;
   font-size: 18px;

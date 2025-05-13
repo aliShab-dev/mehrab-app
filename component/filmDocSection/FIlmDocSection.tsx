@@ -4,16 +4,22 @@ import SectionHeader from "../sectionHeader/SectionHeader";
 import { useState } from "react";
 import VideoSwiper from "./component/VideoSwiper";
 
-const category = [
-  { name: "ویدیو کامنت ضبطی", video: [] },
-  { name: "مستند کوتاه", video: [] },
-  { name: "کلیپ", video: [] },
-  { name: "مصاحبه", video: [] },
-  { name: "تیزر گزارشی", video: [] },
+type CategoryItem = { name: string; video: string[] | [] };
+
+type CategoryType = CategoryItem[];
+
+const category: CategoryType = [
+  { name: "ویدیو کامنت ضبطی", video: ["https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ] },
+  { name: "مستند کوتاه", video: ["https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"] },
+  { name: "کلیپ", video: ["https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"] },
+  { name: "مصاحبه", video: ["https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"] },
+  { name: "تیزر گزارشی", video: [ "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" , "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" ,"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"] },
 ];
 
 const FilmDocSection = () => {
-  const [selectedCategory, setSeletedCategory] = useState("ویدیو کامنت ضبطی");
+  const [selectedCategory, setSeletedCategory] = useState<CategoryItem>(
+    category[1]
+  );
   return (
     <Stack height={700} width={"100%"} mt={11} gap={10}>
       <Stack width={"87%"} mx="auto">
@@ -62,18 +68,22 @@ const FilmDocSection = () => {
               <Button
                 key={cat.name}
                 disableRipple
-                onClick={() => setSeletedCategory(cat.name)}
-                variant={cat.name == selectedCategory ? "contained" : "text"}
+                onClick={() => setSeletedCategory(cat)}
+                variant={
+                  cat.name == selectedCategory.name ? "contained" : "text"
+                }
                 sx={{
                   px: 1.8,
                   py: 0.1,
                   borderRadius: 2,
                   color: (theme) =>
-                    cat.name == selectedCategory
+                    cat.name == selectedCategory.name
                       ? "#fff"
                       : theme.palette.text.primary,
                   bgcolor:
-                    cat.name == selectedCategory ? "secondary.main" : "inherit",
+                    cat.name == selectedCategory.name
+                      ? "secondary.main"
+                      : "inherit",
                   boxShadow: 0,
                 }}
               >
@@ -82,9 +92,7 @@ const FilmDocSection = () => {
             ))}
           </Stack>
         </Stack>
-        <Stack width={'100%'}>
-          <VideoSwiper />
-        </Stack>
+        <VideoSwiper videoList={selectedCategory.video} />
       </Stack>
     </Stack>
   );

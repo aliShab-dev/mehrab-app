@@ -1,5 +1,10 @@
 "use client";
-import { createTheme, CssBaseline, ThemeOptions, ThemeProvider } from "@mui/material";
+import {
+  createTheme,
+  CssBaseline,
+  ThemeOptions,
+  ThemeProvider,
+} from "@mui/material";
 import { use } from "react";
 import { ThemeContext } from "./ThemeContext";
 
@@ -14,18 +19,18 @@ declare module "@mui/material/styles" {
 }
 
 type BaseTheme = {
-  direction: 'ltr' | 'rtl';
+  direction: "ltr" | "rtl";
   typography: {
     fontFamily: string;
   };
 } & ThemeOptions;
 
 const baseTheme: BaseTheme = {
-  direction: 'rtl', 
+  direction: "rtl",
   typography: {
-    fontFamily: 'Dirooz, Roboto, Arial, sans-serif', 
+    fontFamily: "Dirooz, Roboto, Arial, sans-serif",
   },
-}
+};
 
 export const getCustomTheme = (palette: string) => {
   switch (palette) {
@@ -36,6 +41,11 @@ export const getCustomTheme = (palette: string) => {
           mode: "light",
           primary: { main: "#8BC34A" },
           secondary: { main: "#AED581" },
+          background: {
+            ...baseTheme?.palette?.background,
+            default: "#F8F9FF",
+            paper: "#F8F9FF",
+          },
         },
       });
     case "green":
@@ -50,6 +60,11 @@ export const getCustomTheme = (palette: string) => {
             light: "#E2FBF1",
             dark: "#B1DCCF",
           },
+          background: {
+            ...baseTheme?.palette?.background,
+            default: "#F8F9FF",
+            paper: "#F8F9FF",
+          },
         },
       });
     case "blue":
@@ -59,6 +74,11 @@ export const getCustomTheme = (palette: string) => {
           mode: "light",
           primary: { main: "#00B4D8" },
           secondary: { main: "#0263A3" },
+          background: {
+            ...baseTheme?.palette?.background,
+            default: "#F8F9FF",
+            paper: "#F8F9FF",
+          },
         },
       });
     default:

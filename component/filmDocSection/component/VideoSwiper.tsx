@@ -39,7 +39,7 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
     <Stack width="100%" height={500} mt={3}>
       <MySwiperStyles />
       <Swiper
-        slidesPerView="auto" // important: auto sizing
+        slidesPerView="auto"
         spaceBetween={30}
         centeredSlides={true}
         loop={true}
@@ -52,7 +52,7 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
           <SwiperSlide
             key={index}
             style={{
-              width: "55%", // this is how we control width per slide
+              width: "55%", 
               borderRadius: 28,
               overflow: "clip",
             }}
@@ -70,7 +70,6 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
                 },
               }}
             >
-              {/* {video} */}
               <ReactPlayer
                 url={video}
                 controls

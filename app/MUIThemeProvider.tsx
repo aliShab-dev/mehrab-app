@@ -11,10 +11,12 @@ import { ThemeContext } from "./ThemeContext";
 declare module "@mui/material/styles" {
   interface Palette {
     navbarColor: Palette["primary"];
+    svgColor: Palette["primary"];
   }
 
   interface PaletteOptions {
     navbarColor?: PaletteOptions["primary"];
+    svgColor?: PaletteOptions["primary"];
   }
 }
 
@@ -39,8 +41,10 @@ export const getCustomTheme = (palette: string) => {
         ...baseTheme,
         palette: {
           mode: "light",
-          primary: { main: "#8BC34A" },
-          secondary: { main: "#AED581" },
+          primary: { main: "#37E3C3" },
+          secondary: { main: "#4EBFA8" },
+          svgColor: { main: "#19CEAA" },
+          navbarColor: { main: "#19CEAA" },
           background: {
             ...baseTheme?.palette?.background,
             default: "#F8F9FF",
@@ -55,11 +59,8 @@ export const getCustomTheme = (palette: string) => {
           mode: "light",
           primary: { main: "#3AEDA2" },
           secondary: { main: "#4EBFA8" },
-          navbarColor: {
-            main: "#C8F0E5",
-            light: "#E2FBF1",
-            dark: "#B1DCCF",
-          },
+          svgColor: { main: "#CBCCE4" },
+          navbarColor: { main: "#C8F0E5" },
           background: {
             ...baseTheme?.palette?.background,
             default: "#F8F9FF",
@@ -74,6 +75,8 @@ export const getCustomTheme = (palette: string) => {
           mode: "light",
           primary: { main: "#00B4D8" },
           secondary: { main: "#0263A3" },
+          svgColor: { main: "#90E0EF" },
+          navbarColor: { main: "#2DC0DF" },
           background: {
             ...baseTheme?.palette?.background,
             default: "#F8F9FF",

@@ -47,7 +47,7 @@ const Navbar = () => {
       sx={{
         width: "100%",
         height: 120,
-        background: "linear-gradient(to top,rgba(248, 249, 255, .2), #C8F0E5)",
+        background: theme => `linear-gradient(to top,rgba(248, 249, 255, .01), ${alpha(theme.palette.navbarColor.main, .9)})`,
         pt: 0,
       }}
     >

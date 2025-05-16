@@ -6,6 +6,7 @@ import MainBanner from "@/component/mainBanner/MainBanner";
 import MotionSection from "@/component/motionSection/MotionSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
 import AudioSection from "@/component/audioSection/AudioSection";
+import GraphicDesignSection from "@/component/graphicDesignSection/GraphicDesignSection";
 
 export default function Home() {
   const context = useContext(ThemeContext);
@@ -27,6 +28,10 @@ export default function Home() {
 
         <section>
           <AudioSection />
+        </section>
+
+        <section>
+          <GraphicDesignSection />
         </section>
           <div style={{height: 100}}></div>
        

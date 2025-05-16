@@ -111,6 +111,9 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
             borderRadius: "50%",
             bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
             color: "#fff",
+            '&:hover':{
+              bgcolor: theme => playing ? alpha(theme.palette.primary.main, .8) : alpha("#DFE0E6", 0.8),
+            }
           }}
         >
           {playing ? (

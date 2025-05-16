@@ -105,7 +105,7 @@ const AudioList = ({
           zIndex: 1,
           pointerEvents: "none",
           background:
-            "linear-gradient(to bottom,rgba(248, 249, 255, .0), #C8F0E5)",
+            theme => `linear-gradient(to bottom,rgba(248, 249, 255, .0), ${theme.palette.navbarColor.main})`,
         }}
       ></Box>
     </Stack>

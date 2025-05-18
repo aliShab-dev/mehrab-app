@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   alpha,
   Divider,
@@ -15,8 +15,8 @@ import { PaletteType, ThemeContext } from "@/app/ThemeContext";
 import CircleIcon from "@mui/icons-material/Circle";
 
 const options = [
-  { value: "light-green", label: "سبز روشن", color: "#8BC34A" },
-  { value: "green", label: "سبز", color: "#3AEDA2" },
+  { value: "light-green", label: "سبز ", color: "#4EBFA8" },
+  { value: "green", label: " سبز روشن ", color: "#37E3C3" },
   { value: "blue", label: "آبی", color: "#00B4D8" },
 ];
 
@@ -47,7 +47,11 @@ const Navbar = () => {
       sx={{
         width: "100%",
         height: 120,
-        background: theme => `linear-gradient(to top,rgba(248, 249, 255, .01), ${alpha(theme.palette.navbarColor.main, .9)})`,
+        background: (theme) =>
+          `linear-gradient(to top,rgba(248, 249, 255, .01), ${alpha(
+            theme.palette.navbarColor.main,
+            0.9
+          )})`,
         pt: 0,
       }}
     >
@@ -111,7 +115,7 @@ const Navbar = () => {
             sx={{
               borderColor: (theme) => alpha(theme.palette.secondary.main, 0.2),
               borderWidth: "1px",
-              ml: 1
+              ml: 1,
             }}
           />
           <Stack direction="row" alignItems={"center"} gap={1.2} pl={3}>
@@ -128,7 +132,7 @@ const Navbar = () => {
                   alpha(theme.palette.secondary.main, 0.2),
                 borderWidth: "1px",
                 ml: -1,
-                mr: 1
+                mr: 1,
               }}
             />
             <IconButton

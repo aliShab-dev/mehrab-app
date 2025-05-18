@@ -21,7 +21,7 @@ const FilmDocSection = () => {
     category[1]
   );
   return (
-    <Stack height={'auto'} width={"100%"} mt={12} gap={10}>
+    <Stack height={'auto'} width={"100%"} pt={12} gap={10} sx={{overflowX: 'hidden', overflowY: 'visible'}}>
       <Stack width={"87%"} mx="auto">
         <SectionHeader
           backIcon={{

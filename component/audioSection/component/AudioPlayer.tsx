@@ -88,7 +88,7 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
               borderRadius: 2,
             },
             "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#4EBFA8",
+              backgroundColor: theme => theme.palette.secondary.light,
               width: "6px",
               borderRadius: 2,
             },

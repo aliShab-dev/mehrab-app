@@ -86,7 +86,7 @@ const mockDataList: MockDataList = [
 const AudioSection = () => {
   const [selectedItem, setSelectedItem] = useState(mockDataList[0]);
   return (
-    <Stack height={'auto'} width={"100%"} mt={22} gap={9}>
+    <Stack height={"auto"} width={"100%"} mt={22} gap={9}>
       <Stack width={"87%"} mx="auto">
         <SectionHeader
           backIcon={{
@@ -101,7 +101,7 @@ const AudioSection = () => {
         />
       </Stack>
       <Stack
-        direction={'row'}
+        direction={"row"}
         gap={6}
         width={"81%"}
         height={350}
@@ -109,8 +109,8 @@ const AudioSection = () => {
         px={11}
         sx={{
           borderRadius: 6,
-          background:
-            theme => `linear-gradient(to bottom,rgba(248, 249, 255, .0), ${theme.palette.navbarColor.main})`,
+          background: (theme) =>
+            `linear-gradient(to bottom,rgba(248, 249, 255, .0), ${theme.palette.navbarColor.main})`,
         }}
       >
         <AudioList
@@ -118,7 +118,7 @@ const AudioSection = () => {
           selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
         />
-        
+
         <AudioPLayer selectedItem={selectedItem} />
       </Stack>
     </Stack>

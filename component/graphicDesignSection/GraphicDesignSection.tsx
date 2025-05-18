@@ -1,4 +1,5 @@
 "use client";
+
 import { Box, Stack, useTheme } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
 import PosterSwiper from "./component/PosterSwiper";
@@ -33,7 +34,7 @@ const GraphicDesignSection = () => {
           viewBox="0 0 1440 320"
           sx={{
             position: "absolute",
-            top: '-70%',
+            top: "-70%",
             left: 0,
             width: "100%",
             height: "100%",
@@ -57,7 +58,7 @@ const GraphicDesignSection = () => {
             zIndex: 100,
           }}
         >
-            <PosterSwiper />
+          <PosterSwiper />
         </Stack>
       </Stack>
     </Stack>

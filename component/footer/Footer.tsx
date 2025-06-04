@@ -42,6 +42,7 @@ const StyledButton = styled((props: ButtonProps) => (
 const Footer = () => {
   return (
     <Stack
+      component={'footer'}
       bgcolor={(theme) => theme.palette.primary.main}
       height={184}
       width={"100%"}

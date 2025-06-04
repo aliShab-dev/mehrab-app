@@ -14,7 +14,6 @@ export default function Home() {
   const context = useContext(ThemeContext);
   return (
     <div>
-      <Navbar />
       <main>
         <section>
           <MainBanner />
@@ -42,9 +41,6 @@ export default function Home() {
        
           <div style={{height: 100}}></div>
       </main>
-      <footer>
-        <Footer />
-      </footer>
     </div>
   );
 }

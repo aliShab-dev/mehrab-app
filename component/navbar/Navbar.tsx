@@ -42,6 +42,7 @@ const Navbar = () => {
 
   return (
     <Stack
+      component={'nav'}
       direction={"row"}
       justifyContent={"center"}
       sx={{

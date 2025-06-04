@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./ThemeContext";
 import MUIThemeProvider from "./MUIThemeProvider";
+import Navbar from "@/component/navbar/Navbar";
+import Footer from "@/component/footer/Footer";
+import { usePathname } from "next/navigation";
 
 interface CustomMetadata extends Metadata {
   title: string;
@@ -19,6 +22,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname()
+  const isAdminRoute = pathname.startsWith('/admin');
   return (
     <html lang="fa" dir="rtl">
       <head>
@@ -28,7 +33,10 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <MUIThemeProvider >
+            {!isAdminRoute && <Navbar />}
             {children}
+            {!isAdminRoute && <Footer />}
+
           </MUIThemeProvider>
         </ThemeProvider>
       </body>

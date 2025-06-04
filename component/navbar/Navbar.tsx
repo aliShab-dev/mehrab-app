@@ -105,8 +105,9 @@ const Navbar = () => {
         <Stack direction={"row"} height={40} gap={1} mr={7}>
           <NavButton href="/" label="صفحه اصلی" />
           <NavButton href="/product" label="تولیدات" />
-          <NavButton href="/contact" label="داستان ما" />
+          <NavButton href="/about-us" label="داستان ما" />
           <NavButton href="/contact" label="ارتباط با ما" />
+          <NavButton href="/set-order" label="ثبت سفارش" />
         </Stack>
 
         <Stack direction={"row"} height={40} gap={1}>

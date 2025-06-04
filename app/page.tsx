@@ -1,14 +1,12 @@
 "use client";
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
-import Navbar from "@/component/navbar/Navbar";
 import MainBanner from "@/component/mainBanner/MainBanner";
 import MotionSection from "@/component/motionSection/MotionSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
 import AudioSection from "@/component/audioSection/AudioSection";
 import GraphicDesignSection from "@/component/graphicDesignSection/GraphicDesignSection";
 import Comunity from "@/component/comunity/Cumunity";
-import Footer from "@/component/footer/Footer";
 
 export default function Home() {
   const context = useContext(ThemeContext);

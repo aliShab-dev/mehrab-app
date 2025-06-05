@@ -12,7 +12,7 @@ const PageHeader = ({ title, Icon }: PageHeaderType) => {
     return (
         <Stack direction={'row'} width={'100%'} mx={'auto'} gap={1} justifyContent={'center'} alignItems={'center'}>
             <Icon color={'secondary'} sx={{ mt: .5}}/>
-            <Typography fontSize={30}>
+            <Typography component={'h1'} fontSize={30}>
                 {title}
             </Typography>
         </Stack>

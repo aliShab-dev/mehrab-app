@@ -293,8 +293,6 @@ const SetOrder = () => {
     handleClose();
   };
 
-  console.log(fields);
-
   return (
     <Stack width={"80%"} mx={"auto"}>
       <Stack

@@ -19,7 +19,7 @@ export type Category = {
   level: number[];
 };
 
-type MenuType = "category" | "subCat" | "level" | "";
+type MenuType = "category" | "subCat" | "level" | "sort";
 
 export type TextBoxProps = {
   label: string;
@@ -73,10 +73,15 @@ const categories = [
   },
 ];
 
+const sortOptions = [
+  { label: "جدیدترین", value: "latest" },
+  { label: "قدیمی‌ترین", value: "oldest" },
+];
+
 const CustomButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#fff",
   borderRadius: 10,
-  boxShadow: theme.shadows[3],
+  boxShadow: theme.shadows[2],
   margin: 0,
   fontSize: 14,
   width: 180,
@@ -94,7 +99,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
     color: theme.palette.secondary.main,
   },
   "&:hover": {
-    boxShadow: theme.shadows[5],
+    boxShadow: theme.shadows[4],
   },
 }));
 
@@ -115,6 +120,7 @@ const SelectedCatBtn = ({
   setSelectedSubCat,
   setSelectedCategory,
 }: CatButton) => {
+  const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuType, setMenuType] = useState("");
 
@@ -154,13 +160,17 @@ const SelectedCatBtn = ({
       width={"100%"}
       justifyContent={"space-between"}
     >
-      <CustomButton onClick={(e) => handleOpenMenu(e, "category")}>
+      <CustomButton
+        disableRipple
+        onClick={(e) => handleOpenMenu(e, "category")}
+      >
         <CategoryRoundedIcon />
         {selectedCategory ? selectedCategory.name : "دسته بندی"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 
       <CustomButton
+        disableRipple
         onClick={(e) => handleOpenMenu(e, "level")}
         disabled={!selectedCategory}
       >
@@ -170,6 +180,7 @@ const SelectedCatBtn = ({
       </CustomButton>
 
       <CustomButton
+        disableRipple
         onClick={(e) => handleOpenMenu(e, "subCat")}
         disabled={!selectedCategory}
       >
@@ -177,6 +188,16 @@ const SelectedCatBtn = ({
         <Typography fontSize={14} textAlign={"start"} width={"100%"} noWrap>
           {selectedSubCat ?? "سبک"}
         </Typography>
+        <ExpandMoreIcon className="arrow" />
+      </CustomButton>
+
+      <CustomButton disableRipple onClick={(e) => handleOpenMenu(e, "sort")}>
+        <BarChartRoundedIcon />
+        {sortOrder === "latest"
+          ? "جدیدترین"
+          : sortOrder === "oldest"
+          ? "قدیمی‌ترین"
+          : "مرتب‌سازی"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
@@ -231,7 +252,7 @@ const SelectedCatBtn = ({
                 handleSelectLevel(level);
               }}
               sx={{
-                mx: .5,
+                mx: 0.5,
                 my: 0.5,
                 borderRadius: 3,
                 fontSize: 12,
@@ -241,6 +262,28 @@ const SelectedCatBtn = ({
               }}
             >
               سطح {level}
+            </MenuItem>
+          ))}
+        {menuType === "sort" &&
+          sortOptions.map((opt) => (
+            <MenuItem
+              key={opt.value}
+              selected={sortOrder === opt.value}
+              onClick={() => {
+                setSortOrder(opt.value as "latest" | "oldest");
+                handleClose();
+              }}
+              sx={{
+                mx: 0.5,
+                my: 0.5,
+                borderRadius: 3,
+                fontSize: 12,
+                "&.Mui-selected": {
+                  bgcolor: (theme) => alpha(theme.palette.primary.main, 0.2),
+                },
+              }}
+            >
+              {opt.label}
             </MenuItem>
           ))}
       </Menu>

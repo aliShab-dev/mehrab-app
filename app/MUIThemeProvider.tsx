@@ -1,4 +1,5 @@
 "use client";
+
 import {
   createTheme,
   CssBaseline,
@@ -7,6 +8,8 @@ import {
 } from "@mui/material";
 import { use } from "react";
 import { ThemeContext } from "./ThemeContext";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -33,6 +36,12 @@ const baseTheme: BaseTheme = {
     fontFamily: "Dirooz, Roboto, Arial, sans-serif",
   },
 };
+
+function createEmotionCache() {
+  return createCache({ key: "css", prepend: true });
+}
+
+const cache = createEmotionCache();
 
 export const getCustomTheme = (palette: string) => {
   switch (palette) {
@@ -104,9 +113,11 @@ export default function MUIThemeProvider({
   const theme = getCustomTheme(context.palette);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </CacheProvider>
   );
 }

@@ -45,7 +45,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   borderRadius: 10,
   boxShadow: `0px 5px 10px -5px ${theme.palette.secondary.main}`,
   margin: 0,
-  fontSize: 24,
+  fontSize: 20,
   padding: theme.spacing(1, 7),
   width: 280,
   display: "flex",
@@ -56,8 +56,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
     left: 20,
   },
   "&:hover": {
-    boxShadow: `0px 5px 10px -1px ${theme.palette.secondary.main}`,
-  }
+    boxShadow: `0px 5px 14px -3px ${theme.palette.secondary.main}`,
+  },
 }));
 
 const CustomAccordion = styled(Accordion)(({ theme }) => ({
@@ -95,6 +95,7 @@ const TextBox: FC<TextBoxProps> = ({ label, text, setText }) => (
     sx={{
       px: 1,
       py: 1,
+      gap: 0.5,
       width: {
         xs: "100%",
         sm: "50%",
@@ -406,7 +407,12 @@ const SetOrder = () => {
         justifyContent={"space-between"}
       >
         {listOfIcons.map((item) => (
-          <Stack justifyContent={"center"} alignItems={"center"} gap={1}>
+          <Stack
+            key={item.title}
+            justifyContent={"center"}
+            alignItems={"center"}
+            gap={1}
+          >
             <Image
               src={item.src}
               alt={item.title}
@@ -446,7 +452,7 @@ const SetOrder = () => {
               onClick={(e) => handleOpenMenu(e, "subCat")}
               disabled={!selectedCategory}
             >
-              <Typography fontSize={24} width={"100%"} noWrap>
+              <Typography fontSize={20} width={"100%"} noWrap>
                 {selectedSubCat ?? "سبک"}
               </Typography>
               <ExpandMoreIcon />
@@ -537,7 +543,7 @@ const SetOrder = () => {
             setText={handleTextBox("placement")}
           />
           <Stack width={"100%"} gap={1}>
-            <Stack>
+            <Stack gap={0.5}>
               <Typography variant="subtitle2">ارسال فایل نمونه:</Typography>
               <input
                 ref={fileInputRef}
@@ -575,7 +581,7 @@ const SetOrder = () => {
                 }}
               />
             </Stack>
-            <Stack>
+            <Stack gap={0.5}>
               <Typography variant="subtitle2">توضیحات:</Typography>
               <TextField
                 variant="outlined"

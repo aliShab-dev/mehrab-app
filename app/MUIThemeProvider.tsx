@@ -1,5 +1,3 @@
-"use client";
-
 import {
   createTheme,
   CssBaseline,
@@ -9,7 +7,7 @@ import {
 import { use } from "react";
 import { ThemeContext } from "./ThemeContext";
 import createCache from "@emotion/cache";
-import { CacheProvider } from "@emotion/react";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -113,11 +111,11 @@ export default function MUIThemeProvider({
   const theme = getCustomTheme(context.palette);
 
   return (
-    <CacheProvider value={cache}>
+    <AppRouterCacheProvider options={{key: 'css'}}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         {children}
       </ThemeProvider>
-    </CacheProvider>
+    </AppRouterCacheProvider>
   );
 }

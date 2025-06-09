@@ -1,3 +1,5 @@
+'use client';
+
 import { alpha, IconButton, Slider, Stack, Typography } from "@mui/material";
 import { MockData } from "../AudioSection";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";

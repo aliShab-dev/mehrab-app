@@ -1,6 +1,9 @@
+'use client'
+
 import { alpha, Box, Skeleton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 type CardType = {
   id: string;
@@ -40,6 +43,7 @@ const CardContainer = ({
   showAll,
   allItems,
 }: CardContainer) => {
+  const router = useRouter()
   return (
     <motion.div
       key={showAll ? "all" : `page-${page}`}
@@ -101,6 +105,8 @@ const CardContainer = ({
             >
               <Box
                 flexDirection={"column"}
+                component={'a'}
+                onClick={() => router.push(`/products/${product.id}`)}
                 sx={{
                   width: 280,
                   borderRadius: 3,

@@ -1,5 +1,6 @@
 import { products } from "@/app/lib/products";
-import { Typography } from "@mui/material";
+import DissplayBox from "@/component/ZoomImage/ZoomImage";
+import { Box, Stack, Typography, useTheme } from "@mui/material";
 import { notFound } from "next/navigation";
 
 type ProductPageProps = {
@@ -9,13 +10,12 @@ type ProductPageProps = {
 };
 
 const ProductPage = async ({ params }: ProductPageProps) => {
-  console.log(products);
   const product = products.find((p) => p.id == params.productId);
   if (!product) return notFound();
   return (
-    <>
-      <Typography> {product.name}</Typography>
-    </>
+    <Stack width={"75%"} mt={5} mx={"auto"} mb={15}>
+      <DissplayBox product={product} />
+    </Stack>
   );
 };
 

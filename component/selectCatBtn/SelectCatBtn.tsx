@@ -12,6 +12,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 export type Category = {
   name: string;
@@ -91,7 +92,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   position: "relative",
   color: theme.palette.text.primary,
   "& .MuiSvgIcon-root": {
-    fontSize: 18,
+    fontSize: 22,
   },
   "& .arrow": {
     position: "absolute",
@@ -192,7 +193,7 @@ const SelectedCatBtn = ({
       </CustomButton>
 
       <CustomButton disableRipple onClick={(e) => handleOpenMenu(e, "sort")}>
-        <BarChartRoundedIcon />
+        <SwapVertIcon />
         {sortOrder === "latest"
           ? "جدیدترین"
           : sortOrder === "oldest"

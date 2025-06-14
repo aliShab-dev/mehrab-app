@@ -210,3 +210,57 @@ export const products = [
     category: "موشن گرافی / رئال موشن",
   },
 ];
+
+export const relatedProduct = [
+  {
+    id: "1",
+    src: "/orange.png",
+    name: "راز کوه‌های سپید",
+    author: "سازمان فرهنگ اسلامی",
+    category: "موشن گرافی / رئال موشن",
+  },
+  {
+    id: "2",
+    src: "/book.png",
+    name: "طلوع امید",
+    author: "کانون پرورش فکری",
+    category: "موشن گرافی / رئال موشن",
+  },
+  {
+    id: "3",
+    src: "/poster.png",
+    name: "پرواز تا قله",
+    author: "خانه مستند انقلاب",
+    category: "موشن گرافی / رئال موشن",
+  },
+  {
+    id: "4",
+    src: "/orange.png",
+    name: "نبض حیات",
+    author: "به سفارش بسیج هنرمندان",
+    category: "موشن گرافی / رئال موشن",
+  },
+  {
+    id: "5",
+    src: "/poster.png",
+    name: "شوق پرواز",
+    author: "مرکز هنرهای دیجیتال",
+    category: "موشن گرافی / رئال موشن",
+  },
+]
+export const restEpisod = [
+  {
+    id: "1",
+    src: "/orange.png",
+    name: "راز کوه‌های سپید",
+    author: "سازمان فرهنگ اسلامی",
+    category: "موشن گرافی / رئال موشن",
+  },
+  {
+    id: "2",
+    src: "/book.png",
+    name: "طلوع امید",
+    author: "کانون پرورش فکری",
+    category: "موشن گرافی / رئال موشن",
+  },
+]

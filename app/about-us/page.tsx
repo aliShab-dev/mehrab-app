@@ -1,8 +1,10 @@
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import SmsRoundedIcon from "@mui/icons-material/SmsRounded";
 import PageHeader from "@/component/pageHeader/PageHeader";
 import QuoteBox from "@/component/qouteBox/QuoteBox";
 import TextTitle from "@/component/textTitle/TextTitle";
+import UserImageCarousel from "@/component/about-us/StaffSlicer";
+import { usersStaff } from "../lib/users";
 
 const aboutUs = () => {
   return (
@@ -26,6 +28,14 @@ const aboutUs = () => {
 پر از شور یادگیری باشد تا بتواند به جدیدترین و به روزترین دانش های فنی و هنری مسلط شود.
 منظم و دقیق باشد تا بی وقفه و باجدیت در مسیر تولید آثار هنری قدم بردارد."
       />
+
+      <Stack width={"87%"} mx={"auto"} gap={1.5} height={420}>
+        <Typography fontSize={28} fontWeight={700} color={"secondary"}>
+          پرسنل تخصصی محراب
+        </Typography>
+
+        <UserImageCarousel users={usersStaff} initialSelectedId="1" />
+      </Stack>
     </Stack>
   );
 };

@@ -12,7 +12,7 @@ interface NavButtonProps {
 
 const NavButton = ({ href, label, sx }: NavButtonProps) => {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = pathname === href || pathname.startsWith(`${href}/`);
   return (
     <Link href={href} passHref>
       <Button

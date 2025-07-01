@@ -87,7 +87,7 @@ const CardContainerProduct = ({
           <Swiper
             dir="rtl"
             slidesPerView="auto"
-            spaceBetween={40}
+            spaceBetween={50}
             centeredSlides={false}
             watchOverflow={true}
             onSwiper={(swiper) => {
@@ -108,6 +108,11 @@ const CardContainerProduct = ({
               swiper.on("reachEnd", () => setIsEnd(true));
               swiper.on("fromEdge", updateEdges);
             }}
+            style={{
+              paddingRight: 20,
+              paddingLeft: 20
+            }}
+            
           >
             {cardData.map((data) => (
               <SwiperSlide key={data.name} style={{ width: 250 }}>

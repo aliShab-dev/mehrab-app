@@ -1,4 +1,5 @@
 "use client";
+
 import {
   alpha,
   Avatar,
@@ -75,15 +76,35 @@ const PermissionTabs = () => {
     }
   };
 
+  const resetHandler = () => {
+    setName("");
+    setPassword("");
+    setAdminPermission([]);
+    setImage(null);
+  };
+
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
-      <Typography component={"h2"} fontSize={18} pr={1}>
-        ادمین ها:
-      </Typography>
+      <Stack direction={"row"} alignItems={"center"} gap={3}>
+        <Typography component={"h2"} fontSize={18} pr={1}>
+          ادمین ها:
+        </Typography>
+        <Button
+          variant="contained"
+          sx={{ color: "white" }}
+          onClick={() => {
+            handleAdminClick(0);
+            resetHandler();
+          }}
+        >
+          اضافه کردن ادمین
+        </Button>
+      </Stack>
 
       <Stack
         direction={"row"}
         sx={{
+          position: "relative",
           height: 400,
           background: "#F8F9ff",
           border: "1px solid #aaa",
@@ -92,7 +113,25 @@ const PermissionTabs = () => {
           gap: 2,
         }}
       >
-        <Stack width={"30%"} height={"100%"} overflow={"auto"} gap={1.2}>
+        <Stack
+          width={{ xs: selectedAdmin == null ? "100%" : 0, sm: "30%" }}
+          height={"100%"}
+          overflow={"auto"}
+          gap={1.2}
+          sx={{
+            position: { xs: "absolute", sm: "relative" },
+            top: 0,
+            right: 0,
+            opacity: { xs: selectedAdmin !== null ? 0 : 1, sm: 1 },
+            transform: {
+              xs:
+                selectedAdmin !== null ? "translateX(-100%)" : "translateX(0)",
+              sm: "translateX(0)",
+            },
+            pointerEvents: selectedAdmin !== null ? "none" : "auto",
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+          }}
+        >
           {admins.map((admin) => (
             <Stack
               component={"button"}
@@ -140,131 +179,180 @@ const PermissionTabs = () => {
             </Stack>
           ))}
         </Stack>
+
         <Stack
-          width={"70%"}
+          width={{ xs: selectedAdmin == null ? 0 : "100%", sm: "70%" }}
           border={"1px solid #aaa"}
           height={"100%"}
           borderRadius={2}
-          p={1}
-          py={2}
-          gap={2}
+          sx={{
+            position: { xs: "absolute", sm: "relative" },
+            top: 0,
+            right: 0,
+            opacity: { xs: selectedAdmin == null ? 0 : 1, sm: 1 },
+            transform: {
+              xs: selectedAdmin == null ? "translateX(100%)" : "translateX(0)",
+              sm: "translateX(0)",
+            },
+            pointerEvents: selectedAdmin == null ? "none" : "auto",
+            transition: "opacity 0.3s ease, transform 0.3s ease",
+          }}
         >
-          <Stack direction={{ xs: "column", md: "row" }} gap={1}>
-            <TextField
-              fullWidth
-              value={name}
-              onChange={(e) => setName(e.target.value.trimStart())}
-              variant="outlined"
-              label={"نام کاربری"}
-              type="text"
-              sx={{
-                width: "50%",
-                "& label": {
-                  right: 25,
-                  left: "auto",
-                  fontSize: 16,
-                },
+          {selectedAdmin !== null ? (
+            <Stack gap={{ xs: 2, md: 3 }} p={1} py={2}>
+              <Stack width={"100%"} textAlign={"center"}>
+                <Typography component={"h2"} fontSize={22} pr={1}>
+                  {selectedAdmin && selectedAdmin > 0
+                    ? " ویرایش ادمین"
+                    : "اضافه کردن ادمین"}
+                </Typography>
+              </Stack>
+              <Stack direction={{ xs: "column", md: "row" }} gap={1}>
+                <TextField
+                  fullWidth
+                  value={name}
+                  onChange={(e) => setName(e.target.value.trimStart())}
+                  variant="outlined"
+                  label={"نام کاربری"}
+                  type="text"
+                  sx={{
+                    width: { xs: "100%", md: "50%" },
+                    "& label": {
+                      right: 25,
+                      left: "auto",
+                      fontSize: 16,
+                    },
 
-                "& legend": {
-                  right: 30,
-                  textAlign: "right",
-                  fontSize: 18,
-                },
-              }}
-            />
-            <TextField
-              value={password}
-              onChange={(e) => setPassword(e.target.value.trimStart())}
-              fullWidth
-              variant="outlined"
-              label="رمز عبور"
-              type={"text"}
-              sx={{
-                width: "50%",
-                "& label": {
-                  right: 25,
-                  left: "auto",
-                  fontSize: 16,
-                },
+                    "& legend": {
+                      right: 30,
+                      textAlign: "right",
+                      fontSize: 18,
+                    },
+                  }}
+                />
+                <TextField
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value.trimStart())}
+                  fullWidth
+                  variant="outlined"
+                  label="رمز عبور"
+                  type={"text"}
+                  sx={{
+                    width: { xs: "100%", md: "50%" },
+                    "& label": {
+                      right: 25,
+                      left: "auto",
+                      fontSize: 16,
+                    },
 
-                "& legend": {
-                  right: 30,
-                  textAlign: "right",
-                  fontSize: 18,
-                },
-              }}
-            />
-          </Stack>
-          <Stack spacing={2}>
-            <Button
-              color="secondary"
-              variant="outlined"
-              component="label"
-              sx={{ py: 1, gap: 2 }}
-              startIcon={<InsertPhotoIcon />}
-            >
-              انتخاب عکس
-              <input
-                type="file"
-                accept="image/*"
-                capture="environment"
-                hidden
-                onChange={handleChange}
-              />
-            </Button>
-
-            {image && (
-              <Typography variant="body2">
-                تصویر انتخاب شده: {image.name}
-              </Typography>
-            )}
-          </Stack>
-
-          {/* Permission selector */}
-          <Stack>
-            <Button
-              color="secondary"
-              variant="outlined"
-              onClick={handleClick}
-              sx={{ minWidth: 200, fontSize: 15 }}
-            >
-              {adminPermission.length > 0
-                ? permissionsList
-                    .filter((_, index) => adminPermission.includes(index + 1))
-                    .join(", ")
-                : "سطوح دسترسی"}
-            </Button>
-
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              transformOrigin={{ vertical: "top", horizontal: "right" }}
-              dir="rtl"
-            >
-              {permissionsList.map((permission) => (
-                <MenuItem
-                  key={permission}
-                  onClick={() => handleToggle(permission)}
+                    "& legend": {
+                      right: 30,
+                      textAlign: "right",
+                      fontSize: 18,
+                    },
+                  }}
+                />
+              </Stack>
+              <Stack spacing={2}>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  component="label"
+                  sx={{ py: 1, gap: 2 }}
+                  startIcon={<InsertPhotoIcon />}
                 >
-                  <Checkbox
-                    checked={adminPermission.includes(
-                      permissionsList.indexOf(permission) + 1
-                    )}
+                  انتخاب عکس
+                  <input
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    hidden
+                    onChange={handleChange}
                   />
-                  <ListItemText primary={permission} />
-                </MenuItem>
-              ))}
-            </Menu>
-          </Stack>
-          <Button
-            variant="contained"
-            sx={{ color: "white", mt: 1, gap: 2, fontSize: 18 }}
-            startIcon={<SaveIcon />}
-          >
-            {selectedAdmin ? "ذخیره تغییرات" : "افزودن ادمین جدید"}
-          </Button>
+                </Button>
+
+                {image && (
+                  <Typography variant="body2">
+                    تصویر انتخاب شده: {image.name}
+                  </Typography>
+                )}
+              </Stack>
+              <Stack>
+                <Button
+                  color="secondary"
+                  variant="outlined"
+                  onClick={handleClick}
+                  sx={{ minWidth: 200, fontSize: 15 }}
+                >
+                  {adminPermission.length > 0
+                    ? permissionsList
+                        .filter((_, index) =>
+                          adminPermission.includes(index + 1)
+                        )
+                        .join(", ")
+                    : "سطوح دسترسی"}
+                </Button>
+
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  transformOrigin={{ vertical: "top", horizontal: "right" }}
+                  dir="rtl"
+                >
+                  {permissionsList.map((permission) => (
+                    <MenuItem
+                      key={permission}
+                      onClick={() => handleToggle(permission)}
+                    >
+                      <Checkbox
+                        checked={adminPermission.includes(
+                          permissionsList.indexOf(permission) + 1
+                        )}
+                      />
+                      <ListItemText primary={permission} />
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Stack>
+              <Stack direction={"row"} gap={2} mt={{ xs: 0, md: 2 }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    gap: 2,
+                    fontSize: { xs: 14, sm: 18 },
+                    width: "70%",
+                  }}
+                  startIcon={<SaveIcon />}
+                >
+                  {selectedAdmin ? "ذخیره تغییرات" : "افزودن ادمین جدید"}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setSelectedAdmin(null);
+                    resetHandler();
+                  }}
+                  sx={{ gap: 2, fontSize: { xs: 14, sm: 18 }, width: "30%" }}
+                >
+                  لغو
+                </Button>
+              </Stack>
+            </Stack>
+          ) : (
+            <Stack textAlign={"center"} height={"100%"}>
+              <Typography
+                fontSize={22}
+                variant="body2"
+                color="text.secondary"
+                my={"auto"}
+              >
+                هیچ ادمینی انتخاب نشده است.
+              </Typography>
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </Stack>

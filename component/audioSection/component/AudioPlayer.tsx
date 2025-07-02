@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { alpha, IconButton, Slider, Stack, Typography } from "@mui/material";
 import { MockData } from "../AudioSection";
@@ -59,7 +59,11 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
   };
 
   console.log(selectedItem.url);
+  const [isClient, setIsClient] = useState(false);
 
+  useEffect(() => {
+    setIsClient(true); // triggers only on client
+  }, []);
   return (
     <Stack direction={"row"} width={"100%"} gap={3}>
       <Stack width={"50%"} mt={7.5} gap={0.5}>
@@ -90,7 +94,7 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
               borderRadius: 2,
             },
             "&::-webkit-scrollbar-thumb": {
-              backgroundColor: theme => theme.palette.secondary.light,
+              backgroundColor: (theme) => theme.palette.secondary.light,
               width: "6px",
               borderRadius: 2,
             },
@@ -104,7 +108,13 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
       </Stack>
 
       <Stack width={"50%"} alignItems={"center"} px={3} gap={2.5}>
-        <audio ref={audioRef} src={'/bensound-slowmotion.mp3'} preload="auto" />
+        {isClient && (
+          <audio
+            ref={audioRef}
+            src={"/bensound-slowmotion.mp3"}
+            preload="auto"
+          />
+        )}
         <IconButton
           onClick={togglePlay}
           sx={{
@@ -113,9 +123,12 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
             borderRadius: "50%",
             bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
             color: "#fff",
-            '&:hover':{
-              bgcolor: theme => playing ? alpha(theme.palette.primary.main, .8) : alpha("#DFE0E6", 0.8),
-            }
+            "&:hover": {
+              bgcolor: (theme) =>
+                playing
+                  ? alpha(theme.palette.primary.main, 0.8)
+                  : alpha("#DFE0E6", 0.8),
+            },
           }}
         >
           {playing ? (
@@ -142,7 +155,7 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
               setPosition(newTime);
             }}
             sx={(theme) => ({
-                direction: 'ltr',
+              direction: "ltr",
               height: 12,
               color: theme.palette.primary.main,
               "& .MuiSlider-track": {

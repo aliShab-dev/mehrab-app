@@ -1,7 +1,9 @@
 "use client";
+
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import PermiissionTabs from "./tabs/PermisionTabs";
+import MotionGraphy from "./tabs/MotionGraphy";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -70,7 +72,7 @@ const AdminPanel = () => {
           <PermiissionTabs   />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <MotionGraphy />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           Item Three

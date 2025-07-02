@@ -128,7 +128,7 @@ const PermissionTabs = () => {
                 selectedAdmin !== null ? "translateX(-100%)" : "translateX(0)",
               sm: "translateX(0)",
             },
-            pointerEvents: selectedAdmin !== null ? "none" : "auto",
+            pointerEvents:  "auto",
             transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
         >
@@ -194,7 +194,7 @@ const PermissionTabs = () => {
               xs: selectedAdmin == null ? "translateX(100%)" : "translateX(0)",
               sm: "translateX(0)",
             },
-            pointerEvents: selectedAdmin == null ? "none" : "auto",
+            pointerEvents: "auto",
             transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
         >

@@ -116,6 +116,7 @@ const AddProduct = ({
         />
 
         <InputField
+          mediaType={'audio'}
           name={staffName}
           setName={setStaffName}
           description={description}

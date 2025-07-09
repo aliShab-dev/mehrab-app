@@ -4,6 +4,10 @@ import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
 import PermiissionTabs from "./tabs/PermisionTabs";
 import MotionGraphy from "./tabs/MotionGraphy";
+import Movie from "./tabs/Movie";
+import Audio from "./tabs/Audio";
+import Graphic from "./tabs/Graphic";
+import Report from "./tabs/Report";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -47,7 +51,6 @@ const AdminPanel = () => {
             نام ادمین:
           </Typography>
           <Typography component={"h2"} fontSize={18} color="secondary.main">
-       
             ادمین شماره یک
           </Typography>
         </Stack>
@@ -66,22 +69,26 @@ const AdminPanel = () => {
             <Tab label="فیلم و مستند" sx={{ fontSize: 20 }} />
             <Tab label="صوت و نریشن" sx={{ fontSize: 20 }} />
             <Tab label="گرافیک دیزاین" sx={{ fontSize: 20 }} />
+            <Tab label="گزارشات" sx={{ fontSize: 20 }} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <PermiissionTabs   />
+          <PermiissionTabs />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <MotionGraphy />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          Item Three
+          <Movie />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
-          Item بخشی
+          <Audio />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={4}>
-          Item four
+          <Graphic />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={5}>
+          <Report />
         </CustomTabPanel>
       </Stack>
     </Stack>

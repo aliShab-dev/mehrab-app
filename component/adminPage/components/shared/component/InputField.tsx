@@ -1,19 +1,17 @@
+"use client";
+
 import {
-  Avatar,
-  Box,
-  Button,
   FormControl,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
   Stack,
   TextField,
-  Tooltip,
-  Typography,
 } from "@mui/material";
 import SelectStaff from "./SelectStaff";
+import { Dayjs } from "dayjs";
+import PosterSection from "./PosterSection";
 
 export const StyledTextField = ({ ...props }) => (
   <TextField
@@ -60,6 +58,17 @@ interface InputFieldProps {
   ) => void;
   setIsAddStaff: (isAdd: boolean) => void;
   mediaType: "audio" | "video" | "image";
+  buttonRef: React.RefObject<HTMLButtonElement | null>;
+  openTimer: boolean;
+  handleButtonClick: () => void;
+  handleClose: () => void;
+  episod: number | "";
+  handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setOpenTimer: (isOpen: boolean) => void;
+  selectedTime: Dayjs | null;
+  handleChangeTimer: (newValue: Dayjs | null) => void;
+  poster: File | null;
+  setPoster: (file: File | null) => void;
 }
 
 const InputField = ({
@@ -85,12 +94,23 @@ const InputField = ({
   staffArray,
   setIsAddStaff,
   mediaType,
+  buttonRef,
+  openTimer,
+  handleButtonClick,
+  handleClose,
+  handleChangeTimer,
+  episod,
+  handleEpisod,
+  setOpenTimer,
+  selectedTime,
+  poster,
+  setPoster,
 }: InputFieldProps) => {
   return (
     <Stack
       width={"100%"}
       height={380}
-      gap={1}
+      gap={1.2}
       sx={{ py: 1.2, overflowX: "hidden", overflowY: "auto" }}
     >
       <StyledTextField
@@ -106,6 +126,18 @@ const InputField = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setDescription(e.target.value)
         }
+        multiline
+        minRows={1}
+        maxRows={3}
+        fullWidth
+        sx={{
+          textarea: {
+            resize: "vertical",
+            maxHeight: 100,
+            minHeight: 50,
+            overflow: "auto",
+          },
+        }}
       />
       <Stack direction={"row"} width={"100%"} gap={2}>
         <FormControl sx={{ minWidth: 120, width: "100%" }}>
@@ -179,6 +211,25 @@ const InputField = ({
           </Select>
         </FormControl>
       </Stack>
+
+      {/* section for Audio and Video */}
+      {mediaType !== "image" && (
+        <PosterSection
+          buttonRef={buttonRef}
+          openTimer={openTimer}
+          handleButtonClick={handleButtonClick}
+          episod={episod}
+          handleEpisod={handleEpisod}
+          setOpenTimer={setOpenTimer}
+          selectedTime={selectedTime}
+          handleChangeTimer={handleChangeTimer}
+          poster={poster}
+          setPoster={setPoster}
+          handleClose={handleClose}
+        />
+      )}
+
+      {/* select your staff here */}
       <SelectStaff
         staffArray={staffArray}
         setStaffArray={setStaffArray}

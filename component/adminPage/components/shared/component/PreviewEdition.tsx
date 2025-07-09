@@ -1,9 +1,10 @@
-import { Avatar, Box, Button, Stack } from "@mui/material";
+"use client";
+
+import { Button, Stack } from "@mui/material";
 import { Product } from "../../tabs/MotionGraphy";
 import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
-import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import MediaPreview from "./MediaPreview";
 import { useRef } from "react";
@@ -29,6 +30,7 @@ interface PreviewEditionInterface {
   setProducts: (products: Product[]) => void;
   setIsAddStaff: (isAdd: boolean) => void;
   submitProduct: () => void;
+  mediaType: "audio" | "video" | "image";
 }
 
 const PreviewEdition = ({
@@ -50,6 +52,7 @@ const PreviewEdition = ({
   setProducts,
   setIsAddStaff,
   submitProduct,
+  mediaType,
 }: PreviewEditionInterface) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleDownload = () => {
@@ -101,7 +104,7 @@ const PreviewEdition = ({
 
   return (
     <Stack justifyContent={"space-around"}>
-      <MediaPreview productImage={productImage} mediaType="audio" />
+      <MediaPreview productImage={productImage} mediaType={mediaType} />
 
       <Stack direction={"row"} justifyContent={"space-around"}>
         <Button
@@ -123,7 +126,7 @@ const PreviewEdition = ({
           <input
             ref={fileInputRef}
             type="file"
-            accept="audio/*"
+            accept={`${mediaType}/*`}
             hidden
             onChange={handleFileChange}
           />

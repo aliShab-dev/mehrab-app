@@ -1,5 +1,6 @@
-"use client";
-
+import { useRef, useState } from "react";
+import { Product } from "./MotionGraphy";
+import { Dayjs } from "dayjs";
 import {
   Avatar,
   Box,
@@ -14,47 +15,19 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useRef, useState } from "react";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddProduct from "../shared/AddProduct";
-import { Dayjs } from "dayjs";
-
-export type Product = {
-  name: string;
-  description: string;
-  image: File | null;
-  staff: { name: string; role: string; image: File | null }[];
-  level: string;
-  category: string;
-};
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const productsWithCat = [
-  { id: 1, name: "کلاژ موشن", products: [] },
-  { id: 2, name: "کمیک موشن", products: [] },
-  { id: 3, name: "هندموشن", products: [] },
-  { id: 4, name: "فلت موشن", products: [] },
-  { id: 5, name: "اینفوموشن", products: [] },
-  { id: 6, name: "رئال موشن", products: [] },
-  { id: 7, name: "لوگوموشن", products: [] },
-  { id: 8, name: "پوستر موشن", products: [] },
-  { id: 9, name: "استوری موشن", products: [] },
+  { id: 1, name: "نریشن", products: [] },
+  { id: 2, name: "صوت", products: [] },
 ];
 
-const subCat = [
-  "کلاژ موشن",
-  "کمیک موشن",
-  "هندموشن",
-  "فلت موشن",
-  "اینفوموشن",
-  "رئال موشن",
-  " لوگوموشن",
-  "پوستر موشن",
-  " استوری موشن",
-];
+const subCat = ["نریشن", "صوت"];
 
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
-const MotionGraphy = () => {
+const Audio = () => {
   const [age, setAge] = useState(subCat[0]);
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
@@ -143,7 +116,7 @@ const MotionGraphy = () => {
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>
         <Typography component={"h2"} fontSize={18} pr={1}>
-          موشن گرافی:
+          صوت و نریشن: 
         </Typography>
       </Stack>
 
@@ -160,7 +133,7 @@ const MotionGraphy = () => {
         }}
       >
         <AddProduct
-          mediaType="image"
+          mediaType="audio"
           poster={poster}
           setPoster={setPoster}
           buttonRef={buttonRef}
@@ -335,5 +308,4 @@ const MotionGraphy = () => {
     </Stack>
   );
 };
-
-export default MotionGraphy;
+export default Audio;

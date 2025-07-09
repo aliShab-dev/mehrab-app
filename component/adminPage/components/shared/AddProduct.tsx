@@ -1,7 +1,10 @@
+"use client";
+
 import { SelectChangeEvent, Stack } from "@mui/material";
 import { Product } from "../tabs/MotionGraphy";
 import PreviewEdition from "./component/PreviewEdition";
 import InputField from "./component/InputField";
+import { Dayjs } from "dayjs";
 
 interface DisplayProductInterface {
   productImage: File | null;
@@ -40,6 +43,19 @@ interface DisplayProductInterface {
   setStaffRole: (role: string) => void;
   staffRole: string;
   handleDeleteStaff: (name: string) => void;
+  buttonRef: React.RefObject<HTMLButtonElement | null>;
+  openTimer: boolean;
+  handleButtonClick: () => void;
+  handleClose: () => void;
+  handleChange: (newValue: Dayjs | null) => void;
+  episod: number | "";
+  handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  setOpenTimer: (isOpen: boolean) => void;
+  selectedTime: Dayjs | null;
+  handleChangeTimer: (newValue: Dayjs | null) => void;
+  poster: File | null;
+  setPoster: (file: File | null) => void;
+  mediaType: "audio" | "video" | "image";
 }
 
 const AddProduct = ({
@@ -77,6 +93,18 @@ const AddProduct = ({
   staffRole,
   setAge,
   handleDeleteStaff,
+  buttonRef,
+  openTimer,
+  handleButtonClick,
+  handleClose,
+  handleChangeTimer,
+  episod,
+  handleEpisod,
+  setOpenTimer,
+  selectedTime,
+  poster,
+  setPoster,
+  mediaType,
 }: DisplayProductInterface) => {
   return (
     <Stack
@@ -95,6 +123,7 @@ const AddProduct = ({
     >
       <Stack direction="row" width="100%" height="100%" gap={2}>
         <PreviewEdition
+          mediaType={mediaType}
           productImage={productImage}
           setProductImage={setProductImage}
           name={name}
@@ -116,9 +145,20 @@ const AddProduct = ({
         />
 
         <InputField
-          mediaType={'audio'}
-          name={staffName}
-          setName={setStaffName}
+          poster={poster}
+          setPoster={setPoster}
+          buttonRef={buttonRef}
+          openTimer={openTimer}
+          handleButtonClick={handleButtonClick}
+          handleClose={handleClose}
+          handleChangeTimer={handleChangeTimer}
+          episod={episod}
+          handleEpisod={handleEpisod}
+          setOpenTimer={setOpenTimer}
+          selectedTime={selectedTime}
+          mediaType={mediaType}
+          name={name}
+          setName={setName}
           description={description}
           setDescription={setDescription}
           level={level}

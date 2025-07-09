@@ -1,3 +1,5 @@
+"use client";
+
 import { Avatar, Box } from "@mui/material";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import ReactPlayer from "react-player";
@@ -10,7 +12,6 @@ interface MediaPreviewProps {
 }
 
 const MediaPreview = ({ productImage, mediaType }: MediaPreviewProps) => {
-  console.log(productImage);
   const objectUrl = useMemo(() => {
     if (productImage) {
       return URL.createObjectURL(productImage);
@@ -60,7 +61,7 @@ const MediaPreview = ({ productImage, mediaType }: MediaPreviewProps) => {
     >
       {mediaType === "image" && (
         <Avatar
-          src={objectUrl} // use the memoized object URL here!
+          src={objectUrl}
           variant="rounded"
           alt="Media"
           sx={{
@@ -74,7 +75,7 @@ const MediaPreview = ({ productImage, mediaType }: MediaPreviewProps) => {
 
       {mediaType === "video" && (
         <ReactPlayer
-          url={objectUrl} // use the memoized object URL here!
+          url={objectUrl}
           controls
           width="100%"
           height="100%"

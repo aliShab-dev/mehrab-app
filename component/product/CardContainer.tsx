@@ -1,13 +1,14 @@
 "use client";
 
-import { alpha, Box, Stack, Typography } from "@mui/material";
+import { alpha, Box, IconButton, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { css, Global } from "@emotion/react";
-
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import type { Swiper as SwiperClass } from "swiper";
 const cardVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 },
@@ -42,32 +43,63 @@ const CardContainerProduct = ({
 }) => {
   const [isBeginning, setIsBeginning] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
-
+  const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   return (
     <Stack gap={1} mt={6}>
       <Stack>
-        <Typography fontSize={26}>
-          {label}
-        </Typography>
+        <Typography fontSize={26}>{label}</Typography>
       </Stack>
       <Box position="relative" dir="rtl" sx={{ overflow: "hidden" }}>
-        {isBeginning && (
-          <Box
+        {!isBeginning && (
+          <IconButton
+            onClick={() => swiperRef?.slidePrev()}
             sx={{
               position: "absolute",
-              top: 0,
-              left: 0,
-              width: 60,
-              height: "100%",
-              zIndex: 10,
-              background: (theme) =>
-                `linear-gradient(to right, ${theme.palette.background.default}, transparent)`,
-              pointerEvents: "none",
+              right: 0,
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: 20,
+              bgcolor: "background.paper",
+              color: 'primary.main',
+              boxShadow: 2,
+              borderRadius: "50%",
+              width: 40,
+              height: 40,
+              "&:hover": {
+                bgcolor: "primary.main",
+                color: "white",
+              },
             }}
-          />
+          >
+            <ChevronRight fontSize="large"/>
+          </IconButton>
         )}
 
-        {isEnd && (
+        {!isEnd && (
+          <IconButton
+            onClick={() => swiperRef?.slideNext()}
+            sx={{
+              position: "absolute",
+              left: 0,
+              top: "50%",
+              transform: "translateY(-50%)",
+              zIndex: 20,
+              bgcolor: "background.paper",
+              color: 'primary.main',
+              boxShadow: 2,
+              borderRadius: "50%",
+              width: 40,
+              height: 40,
+              "&:hover": {
+                bgcolor: "primary.main",
+                color: "white",
+              },
+            }}
+          >
+            <ChevronLeft fontSize="large" sx={{ml: -.2}}/>
+          </IconButton>
+        )}
+        {!isBeginning && (
           <Box
             sx={{
               position: "absolute",
@@ -82,6 +114,22 @@ const CardContainerProduct = ({
             }}
           />
         )}
+
+        {!isEnd && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: 60,
+              height: "100%",
+              zIndex: 10,
+              background: (theme) =>
+                `linear-gradient(to right, ${theme.palette.background.default}, transparent)`,
+              pointerEvents: "none",
+            }}
+          />
+        )}
         <MySwiperStyles />
         <Stack direction={"row"} gap={1} mt={1}>
           <Swiper
@@ -91,6 +139,8 @@ const CardContainerProduct = ({
             centeredSlides={false}
             watchOverflow={true}
             onSwiper={(swiper) => {
+              setSwiperRef(swiper);
+
               const updateEdges = () => {
                 if (swiper.isLocked) {
                   setIsBeginning(false);
@@ -110,9 +160,8 @@ const CardContainerProduct = ({
             }}
             style={{
               paddingRight: 20,
-              paddingLeft: 20
+              paddingLeft: 20,
             }}
-            
           >
             {cardData.map((data) => (
               <SwiperSlide key={data.name} style={{ width: 250 }}>

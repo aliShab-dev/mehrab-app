@@ -1,10 +1,12 @@
 "use client";
 
-import { Box, Stack, Typography } from "@mui/material";
+import { alpha, Box, IconButton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useState } from "react";
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import type { Swiper as SwiperClass } from "swiper";
 
 type Staff = {
   src: string;
@@ -15,26 +17,62 @@ type Staff = {
 const Staff = ({ staff }: { staff: Staff[] }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
+  const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
 
   return (
     <Box position="relative" dir="rtl" sx={{ overflow: "hidden" }}>
-      {isBeginning && (
-        <Box
+      {!isBeginning && (
+        <IconButton
+          onClick={() => swiperRef?.slidePrev()}
+          size="large"
           sx={{
             position: "absolute",
-            top: 0,
-            left: 0,
-            width: 60,
-            height: "100%",
-            zIndex: 10,
-            background: (theme) =>
-              `linear-gradient(to right, ${theme.palette.background.default}, transparent)`,
-            pointerEvents: "none",
+            p: 3,
+            right: 0,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 20,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
+            color: "primary.main",
+            borderRadius: "50%",
+            width: 40,
+            height: 40,
+            "&:hover": {
+              bgcolor: "primary.main",
+              color: "white",
+            },
           }}
-        />
+        >
+          <ChevronRight sx={{ fontSize: 72 }} />
+        </IconButton>
       )}
 
-      {isEnd && (
+      {!isEnd && (
+        <IconButton
+          onClick={() => swiperRef?.slideNext()}
+          size="large"
+          sx={{
+            position: "absolute",
+            p: 3,
+            left: 0,
+            top: "50%",
+            transform: "translateY(-50%)",
+            zIndex: 20,
+            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
+            color: "primary.main",
+            borderRadius: "50%",
+            width: 40,
+            height: 40,
+            "&:hover": {
+              bgcolor: "primary.main",
+              color: "white",
+            },
+          }}
+        >
+          <ChevronLeft sx={{ ml: -0.6, fontSize: 72 }} />
+        </IconButton>
+      )}
+      {!isBeginning && (
         <Box
           sx={{
             position: "absolute",
@@ -49,12 +87,30 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
           }}
         />
       )}
+
+      {!isEnd && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: 60,
+            height: "100%",
+            zIndex: 10,
+            background: (theme) =>
+              `linear-gradient(to right, ${theme.palette.background.default}, transparent)`,
+            pointerEvents: "none",
+          }}
+        />
+      )}
       <Stack direction={"row"} gap={1} mt={1}>
         <Swiper
           dir="rtl"
           slidesPerView="auto"
           spaceBetween={16}
           onSwiper={(swiper) => {
+            setSwiperRef(swiper);
+
             setIsBeginning(swiper.isBeginning);
             setIsEnd(swiper.isEnd);
 

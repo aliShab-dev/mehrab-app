@@ -113,12 +113,31 @@ const DissplayBox = ({ product }: { product: ProductType }) => {
       <Box
         sx={{
           width: "100%",
-          aspectRatio: "2.1/1",
-          bgcolor: "#000",
+          aspectRatio: "1.8056",
+          position: "relative",
+          overflow: "hidden",
+          borderRadius: 5,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 5,
+          backgroundImage: `url(${product.src})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backdropFilter: "blur(10px)",
+            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            zIndex: 0,
+          },
+          "& > *": {
+            zIndex: 1, // make sure the ZoomImageModal content stays above the blur
+          },
         }}
       >
         <ZoomImageModal src={product.src} alt={product.name} />

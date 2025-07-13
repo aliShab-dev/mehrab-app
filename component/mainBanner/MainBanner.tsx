@@ -7,10 +7,14 @@ import {
   Typography,
   useTheme,
   alpha,
+  Avatar,
 } from "@mui/material";
-import { motion } from "framer-motion";
+import { animate, motion, useMotionValue } from "framer-motion";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TelegramIcon from "@mui/icons-material/Telegram";
+import { useState } from "react";
+import { OrbitControls } from "@react-three/drei";
+import { Counter, IconSwinger, ModelCanvas, MouseType } from "./component/subs";
 
 const svgPaths = [
   "M123.2 -214C158.7 -192.8 185.9 -157.9 199.9 -120C214 -82 215 -41 218.5 2C221.9 45 227.9 90 212.1 124.9C196.2 159.9 158.6 184.7 119.6 196.2C80.7 207.7 40.3 205.9 3.8 199.2C-32.7 192.6 -65.3 181.2 -94.5 164C-123.6 146.8 -149.3 123.9 -176.8 95.6C-204.3 67.3 -233.6 33.7 -232.5 0.7C-231.3 -32.3 -199.7 -64.7 -169.9 -89C-140.1 -113.4 -112.3 -129.8 -84.3 -155.3C-56.3 -180.8 -28.1 -215.4 7.9 -229C43.8 -242.6 87.7 -235.2 123.2 -214",
@@ -31,23 +35,51 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const MainBanner = () => {
   const theme = useTheme();
+  const count = useMotionValue(0);
+  const [display, setDisplay] = useState(0);
+
+  const startCounting = () => {
+    count.set(0);
+    animate(count, 1000, {
+      duration: 2,
+      ease: "easeOut",
+      onUpdate: (latest) => {
+        setDisplay(Number(latest.toFixed(0)));
+      },
+    });
+  };
+
+  // const [mouse, setMouse] = useState<MouseType>({ x: 0, y: 0 });
+
+  // const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   const x = (e.clientX / window.innerWidth) * 2 - 1; // -1 to 1
+  //   const y = -((e.clientY / window.innerHeight) * 2 - 1); // invert Y
+  //   setMouse({ x, y });
+  // };
+
   return (
     <Stack
       sx={{
         position: "relative",
-        width: "90%",
-        height: 420,
+        width: "80%",
+        height: 500,
         mx: "auto",
         borderRadius: 2,
         overflow: "visible",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        mb: 5,
       }}
+      // onMouseMove={handleMouseMove}
     >
+      {/* <ModelCanvas mouse={mouse} /> */}
+      <IconSwinger />
+      <Counter startCounting={startCounting} display={display} />
+
       <svg
         viewBox="0 0 450 450"
-        width="50%"
+        width="100%"
         height="100%"
         style={{ overflow: "visible", transform: "translateY(30px)" }}
       >
@@ -64,6 +96,7 @@ const MainBanner = () => {
           </linearGradient>
         </defs>
         <motion.path
+          // onMouseMove={handleMouseMove}
           fill="url(#pathGradient)"
           stroke="url(#pathGradient)"
           strokeWidth={3}
@@ -86,9 +119,10 @@ const MainBanner = () => {
           justifyContent: "center",
           alignItems: "center",
           gap: 3,
+          zIndex: 300,
         }}
       >
-        <Typography fontSize={32} fontWeight={700} color='primary.dark'> 
+        <Typography fontSize={32} fontWeight={700} color="primary.dark">
           از ایده تا تصویر روایتگر داستان شما
         </Typography>
         <Typography fontSize={24} color="secondary.dark">

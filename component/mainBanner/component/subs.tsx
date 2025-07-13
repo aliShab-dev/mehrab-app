@@ -1,3 +1,5 @@
+"use client";
+
 import { Suspense, useRef, useState } from "react";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -61,28 +63,6 @@ export function IconSwinger() {
               scale: 1.1,
               transition: { duration: 0.3 },
             }}
-            animate={{
-              rotate: [
-                baseRotate - currentSwing * icon.factor,
-                baseRotate + currentSwing * icon.factor,
-                baseRotate - currentSwing * icon.factor,
-              ],
-              x: [
-                -currentMove * icon.factor,
-                currentMove * icon.factor,
-                -currentMove * icon.factor,
-              ],
-              y: [
-                currentMove * icon.factor,
-                -currentMove * icon.factor,
-                currentMove * icon.factor,
-              ],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 2,
-              ease: "easeInOut",
-            }}
             style={{
               position: "absolute",
               bottom: icon.bottom,
@@ -92,16 +72,41 @@ export function IconSwinger() {
               transformStyle: "preserve-3d",
             }}
           >
-            <Avatar
-              src={icon.src}
-              alt="Icon"
-              variant="square"
-              sx={{
-                width: 100,
-                height: 100,
-                transformStyle: "preserve-3d",
+            <motion.div
+              animate={{
+                rotate: [
+                  baseRotate - currentSwing * icon.factor,
+                  baseRotate + currentSwing * icon.factor,
+                  baseRotate - currentSwing * icon.factor,
+                ],
+                x: [
+                  -currentMove * icon.factor,
+                  currentMove * icon.factor,
+                  -currentMove * icon.factor,
+                ],
+                y: [
+                  currentMove * icon.factor,
+                  -currentMove * icon.factor,
+                  currentMove * icon.factor,
+                ],
               }}
-            />
+              transition={{
+                repeat: Infinity,
+                duration: 2,
+                ease: "easeInOut",
+              }}
+            >
+              <Avatar
+                src={icon.src}
+                alt="Icon"
+                variant="square"
+                sx={{
+                  width: 100,
+                  height: 100,
+                  transformStyle: "preserve-3d",
+                }}
+              />
+            </motion.div>
           </motion.div>
         );
       })}

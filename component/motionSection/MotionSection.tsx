@@ -13,7 +13,7 @@ const MotionSection = () => {
           src: "/motion-back.png",
         }}
         frontIcon={{ alt: "motion-graphic-image", src: "/Camera.png" }}
-        title="برترین‌های موشن گرافی"
+        title="برترین‌های فیلم و مستند"
       />
       <Stack direction={'row'} width={'100%'}>
         <ButtonMenu />

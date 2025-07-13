@@ -1,6 +1,6 @@
 "use client";
 
-import { alpha, IconButton, Stack, Typography } from "@mui/material";
+import { alpha, Box, IconButton, Stack, Typography } from "@mui/material";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Global } from "@emotion/react";
@@ -130,7 +130,7 @@ const PosterSwiper = () => {
   }, []);
 
   return (
-    <Stack width="100%" mt={-3} height={535} overflow={"visible"}>
+    <Stack width="100%" mt={-3} height={425} overflow={"visible"}>
       <MySwiperStyles />
 
       <IconButton
@@ -141,8 +141,8 @@ const PosterSwiper = () => {
           height: 36,
           pl: 1.4,
           position: "absolute",
-          top: "30%",
-          left: "calc(50% + 150px)",
+          top: "35%",
+          left: "calc(50% + 275px)",
           zIndex: 10,
           background: `linear-gradient(to bottom,#37E3C3, #049070)`,
           boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -164,8 +164,8 @@ const PosterSwiper = () => {
           height: 36,
           pr: 1.4,
           position: "absolute",
-          top: "30%",
-          right: "calc(50% + 150px)",
+          top: "35%",
+          right: "calc(50% + 275px)",
           zIndex: 10,
           background: `linear-gradient(to bottom,#37E3C3, #049070)`,
           boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -182,11 +182,11 @@ const PosterSwiper = () => {
       <Swiper
         ref={swiperRef}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        slidesPerView={5}
+        slidesPerView={3}
         spaceBetween={40}
         centeredSlides
         loop
-        navigation={true}
+        navigation
         modules={[Navigation]}
         className="custom-swiper"
         style={{ paddingBottom: 80 }}
@@ -198,38 +198,53 @@ const PosterSwiper = () => {
               borderRadius: 16,
               overflow: "visible",
               transition: "transform 0.3s ease",
+              boxShadow: "0 2px 8px rgba(0,0,1,0.4)",
             }}
           >
-            <Stack p={1} pt={3} textAlign="start" height={"100%"}>
-              <Image
-                src={poster.src}
-                alt={poster.name}
-                width={0}
-                height={0}
-                sizes="100vw"
-                style={{ width: "100%", height: "auto", borderRadius: 12 }}
-              />
+            <Stack p={1} pt={3} textAlign="start" height="100%" width="100%">
+              {/* Aspect Ratio Container */}
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  paddingTop: `${(1080 / 1950) * 100}%`, // ≈55.38%
+                  borderRadius: 2,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src={poster.src}
+                  alt={poster.name}
+                  fill
+                  style={{
+                    objectFit: "cover",
+                    borderRadius: 12,
+                  }}
+                />
+              </Box>
+
               <Stack p={0.5} pr={0.8} mt={-0.3}>
                 <Typography fontWeight={600} fontSize={14} mt={1}>
                   {poster.name}
                 </Typography>
                 <Typography
                   variant="body2"
-                  fontSize={12}
+                  fontSize={14}
                   color="text.secondary"
                 >
                   طراح: {poster.author}
                 </Typography>
               </Stack>
-              {activeIndex == index && (
+
+              {activeIndex === index && (
                 <Stack
-                  position={"absolute"}
+                  position="absolute"
                   bottom={-23}
-                  right={"42%"}
+                  right="45%"
                   boxShadow={3}
-                  borderRadius={"50%"}
+                  borderRadius="50%"
                   color={(theme) => theme.palette.secondary.main}
-                  bgcolor={"#fff"}
+                  bgcolor="#fff"
                   p={0.9}
                   sx={{
                     "&:hover": {
@@ -247,6 +262,8 @@ const PosterSwiper = () => {
       </Swiper>
 
       <Stack
+        position={"absolute"}
+        bottom={-40}
         direction={"row-reverse"}
         gap={2}
         width={"100%"}
@@ -264,10 +281,16 @@ const PosterSwiper = () => {
             height={75}
             sx={{
               transition: "color 0.3s ease, background 0.3s ease",
+              boxShadow: (theme) =>
+                category == index
+                  ? `0 2px 15px 10px ${alpha(theme.palette.primary.main, 0.5)}`
+                  : 3,
               color: category == index ? "#fff" : "inherit",
               background: (theme) =>
                 category == index
-                  ? `linear-gradient(to bottom,${theme.palette.primary.main}, ${alpha(theme.palette.secondary.dark, .9)})`
+                  ? `linear-gradient(to bottom,${
+                      theme.palette.primary.main
+                    }, ${alpha(theme.palette.secondary.dark, 0.9)})`
                   : `linear-gradient(to bottom,#FFFFFF, #D2D3F0)`,
             }}
           >

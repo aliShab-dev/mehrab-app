@@ -7,7 +7,7 @@ import PosterSwiper from "./component/PosterSwiper";
 const GraphicDesignSection = () => {
   const theme = useTheme();
   return (
-    <Stack height={700} width={"100%"} mt={20} gap={15}>
+    <Stack height={600} width={"100%"} mt={20} gap={15}>
       <Stack width={"85%"} mx="auto">
         <SectionHeader
           backIcon={{
@@ -27,7 +27,7 @@ const GraphicDesignSection = () => {
         />
       </Stack>
 
-      <Stack width="98.9vw" height="65vh" position="relative">
+      <Stack width="98.9vw" height={430} position="relative">
         <Box
           component="svg"
           xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +56,7 @@ const GraphicDesignSection = () => {
             bgcolor: theme.palette.svgColor.main,
             position: "relative",
             zIndex: 100,
+            mt: 3
           }}
         >
           <PosterSwiper />

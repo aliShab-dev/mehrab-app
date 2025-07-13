@@ -133,11 +133,15 @@ const subCat: SubCat[] = [
 ];
 
 const ButtonMenu = () => {
-  const [expanded, setExpanded] = React.useState<string>("کلاژ موشن");
+  const [expanded, setExpanded] = React.useState<string | false>("کلاژ موشن");
   const [selectedSubCat, setSelectedSubCat] = React.useState<number>(1);
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent) => {
-    setExpanded(panel);
+    if(panel == expanded){
+      setExpanded(false);
+    }else{
+      setExpanded(panel);
+    }
   };
 
   const handleSubCatChange = (id: number) => {

@@ -8,12 +8,12 @@ import {
   useTheme,
   alpha,
   Avatar,
+  ButtonProps,
 } from "@mui/material";
 import { animate, motion, useMotionValue } from "framer-motion";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import { useState } from "react";
-import { OrbitControls } from "@react-three/drei";
 import { Counter, IconSwinger, ModelCanvas, MouseType } from "./component/subs";
 
 const svgPaths = [
@@ -25,7 +25,7 @@ const svgPaths = [
   "M124.9 -209.4C159.9 -196.2 184.7 -158.6 194.4 -119.6C204.1 -80.7 198.5 -40.3 199.2 0.4C200 41.2 206.9 82.3 196.7 120.3C186.4 158.3 159 193 123.3 200.6C87.7 208.1 43.8 188.4 0.6 187.4C-42.7 186.4 -85.3 204.1 -116.8 194.1C-148.3 184.1 -168.5 146.6 -179 109.6C-189.5 72.7 -190.3 36.3 -192.3 -1.2C-194.3 -38.7 -197.6 -77.3 -186.3 -112.8C-174.9 -148.3 -149 -180.7 -115.5 -194.7C-82 -208.7 -41 -204.3 2 -207.8C45 -211.3 90 -222.6 124.9 -209.4",
 ];
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   borderRadius: 18,
   gap: 15,
   fontSize: 18,
@@ -49,13 +49,13 @@ const MainBanner = () => {
     });
   };
 
-  // const [mouse, setMouse] = useState<MouseType>({ x: 0, y: 0 });
+  const [mouse, setMouse] = useState<MouseType>({ x: 0, y: 0 });
 
-  // const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-  //   const x = (e.clientX / window.innerWidth) * 2 - 1; // -1 to 1
-  //   const y = -((e.clientY / window.innerHeight) * 2 - 1); // invert Y
-  //   setMouse({ x, y });
-  // };
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const x = (e.clientX / window.innerWidth) * 2 - 1; // -1 to 1
+    const y = -((e.clientY / window.innerHeight) * 2 - 1); // invert Y
+    setMouse({ x, y });
+  };
 
   return (
     <Stack
@@ -71,7 +71,7 @@ const MainBanner = () => {
         alignItems: "center",
         mb: 5,
       }}
-      // onMouseMove={handleMouseMove}
+      onMouseMove={handleMouseMove}
     >
       {/* <ModelCanvas mouse={mouse} /> */}
       <IconSwinger />
@@ -135,10 +135,10 @@ const MainBanner = () => {
         </Typography>
 
         <Stack direction={"row"} gap={3}>
-          <StyledButton variant="contained" endIcon={<StarBorderIcon />}>
+          <StyledButton component={'a'} href="/products" variant="contained" endIcon={<StarBorderIcon />}>
             نمونه کار ها
           </StyledButton>
-          <StyledButton variant="contained" endIcon={<TelegramIcon />}>
+          <StyledButton component={'a'} href="/set-order" variant="contained" endIcon={<TelegramIcon />}>
             {" "}
             سفارش
           </StyledButton>

@@ -10,7 +10,7 @@ import createCache from "@emotion/cache";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { faIR } from "@mui/material/locale";
 import { faIR as DateFaIR } from "@mui/x-date-pickers/locales";
-import { faIR as DataTableFa } from '@mui/x-data-grid/locales';
+import { faIR as DataTableFa } from "@mui/x-data-grid/locales";
 
 declare module "@mui/material/styles" {
   interface Palette {
@@ -75,7 +75,7 @@ export const getCustomTheme = (palette: string) => {
             mode: "light",
             primary: { main: "#3AEDA2" },
             secondary: { main: "#4EBFA8" },
-            svgColor: { main: "#CBCCE4" },
+            svgColor: { main: "#91e6c2" },
             navbarColor: { main: "#C8F0E5" },
             background: {
               ...baseTheme?.palette?.background,

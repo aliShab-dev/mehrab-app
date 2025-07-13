@@ -58,93 +58,112 @@ const MainBanner = () => {
   };
 
   return (
-    <Stack
-      sx={{
-        position: "relative",
-        width: "80%",
-        height: 500,
-        mx: "auto",
-        borderRadius: 2,
-        overflow: "visible",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        mb: 5,
-      }}
-      onMouseMove={handleMouseMove}
+    <motion.div
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      style={{ width: "100%", height: "100%" }}
     >
-      {/* <ModelCanvas mouse={mouse} /> */}
-      <IconSwinger />
-      <Counter startCounting={startCounting} display={display} />
-
-      <svg
-        viewBox="0 0 450 450"
-        width="100%"
-        height="100%"
-        style={{ overflow: "visible", transform: "translateY(30px)" }}
-      >
-        <defs>
-          <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop
-              offset="0%"
-              stopColor={alpha(theme.palette.primary.main, 0.3)}
-            />
-            <stop
-              offset="100%"
-              stopColor={alpha(theme.palette.secondary.main, 0.9)}
-            />
-          </linearGradient>
-        </defs>
-        <motion.path
-          // onMouseMove={handleMouseMove}
-          fill="url(#pathGradient)"
-          stroke="url(#pathGradient)"
-          strokeWidth={3}
-          animate={{ d: svgPaths }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            repeatType: "reverse",
-            ease: "linear",
-          }}
-          transform="translate(200 200) scale(2, 1)"
-        />
-      </svg>
       <Stack
         sx={{
-          position: "absolute",
-          top: 50,
-          width: "100%",
+          position: "relative",
+          width: "80%",
+          height: 500,
           mx: "auto",
+          borderRadius: 2,
+          overflow: "visible",
+          display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          gap: 3,
-          zIndex: 300,
+          mb: 5,
         }}
+        onMouseMove={handleMouseMove}
       >
-        <Typography fontSize={32} fontWeight={700} color="primary.dark">
-          از ایده تا تصویر روایتگر داستان شما
-        </Typography>
-        <Typography fontSize={24} color="secondary.dark">
-          "محراب پل ارتباطی بین ایده و مخاطبان"
-        </Typography>
-        <Typography width={600} textAlign={"center"}>
-          ما با تولید محتوای خلاقانه و متنوع، به شما کمک می کنیم با پیام خود را
-          به مخاطبانتان برسانید از پوستر و موشن گرافیک تا مستند ها و کلیپ های
-          جذاب هرا آنچه که نیاز دارید را در محراب پیدا کنید..
-        </Typography>
+        {/* <ModelCanvas mouse={mouse} /> */}
+        {/* <IconSwinger /> */}
+        {/* <Counter startCounting={startCounting} display={display} /> */}
 
-        <Stack direction={"row"} gap={3}>
-          <StyledButton component={'a'} href="/products" variant="contained" endIcon={<StarBorderIcon />}>
-            نمونه کار ها
-          </StyledButton>
-          <StyledButton component={'a'} href="/set-order" variant="contained" endIcon={<TelegramIcon />}>
-            {" "}
-            سفارش
-          </StyledButton>
+        <svg
+          viewBox="0 0 450 450"
+          width="100%"
+          height="100%"
+          style={{ overflow: "visible", transform: "translateY(30px)" }}
+        >
+          <defs>
+            <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop
+                offset="0%"
+                stopColor={alpha(theme.palette.primary.main, 0.3)}
+              />
+              <stop
+                offset="100%"
+                stopColor={alpha(theme.palette.secondary.main, 0.9)}
+              />
+            </linearGradient>
+          </defs>
+          <motion.path
+            // onMouseMove={handleMouseMove}
+            fill="url(#pathGradient)"
+            stroke="url(#pathGradient)"
+            strokeWidth={3}
+            animate={{ d: svgPaths }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "linear",
+            }}
+            transform="translate(200 200) scale(2, 1)"
+          />
+        </svg>
+
+        <Stack
+          sx={{
+            position: "absolute",
+            top: 50,
+            width: "100%",
+            mx: "auto",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 3,
+            zIndex: 300,
+          }}
+        >
+          <Typography fontSize={32} fontWeight={700} color="primary.dark">
+            از ایده تا تصویر روایتگر داستان شما
+          </Typography>
+          <Typography fontSize={24} color="secondary.dark">
+            "محراب پل ارتباطی بین ایده و مخاطبان"
+          </Typography>
+          <Typography width={600} textAlign={"center"}>
+            ما با تولید محتوای خلاقانه و متنوع، به شما کمک می کنیم با پیام خود
+            را به مخاطبانتان برسانید از پوستر و موشن گرافیک تا مستند ها و کلیپ
+            های جذاب هرا آنچه که نیاز دارید را در محراب پیدا کنید..
+          </Typography>
+
+          <Stack direction={"row"} gap={3}>
+            <StyledButton
+              component={"a"}
+              href="/products"
+              variant="contained"
+              endIcon={<StarBorderIcon />}
+            >
+              نمونه کار ها
+            </StyledButton>
+            <StyledButton
+              component={"a"}
+              href="/set-order"
+              variant="contained"
+              endIcon={<TelegramIcon />}
+            >
+              {" "}
+              سفارش
+            </StyledButton>
+          </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </motion.div>
   );
 };
 

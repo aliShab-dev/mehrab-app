@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import { useContext } from "react";
 import { ThemeContext } from "./ThemeContext";
 import MainBanner from "@/component/mainBanner/MainBanner";
@@ -9,7 +9,7 @@ import GraphicDesignSection from "@/component/graphicDesignSection/GraphicDesign
 import Comunity from "@/component/comunity/Cumunity";
 
 export default function Home() {
-  const context = useContext(ThemeContext);
+  // const context = useContext(ThemeContext);
   return (
     <div>
       <main>

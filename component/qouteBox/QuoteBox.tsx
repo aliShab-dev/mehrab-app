@@ -72,7 +72,7 @@ const QuoteBox = () => {
         textAlign={"center"}
       >
         <Fade in={true} timeout={1000} key={value}>
-          <Typography fontSize={18} whiteSpace="pre-line" textAlign={"center"}>
+          <Typography fontSize={18} whiteSpace="pre-line" textAlign={"justify"}>
             {quotes[value]?.passage}
           </Typography>
         </Fade>
@@ -94,11 +94,15 @@ const QuoteBox = () => {
               fontSize: 20,
               mx: 1,
               px: 2,
-              py: 1,
-              borderRadius: 2,
+              py: .3,
+              borderRadius: 4,
+              bgcolor: theme => theme.palette.primary.main,
+              color: 'white',
               transition: "all 0.5s ease",
               border: "1px solid transparent",
               "&.Mui-selected": {
+                // bgcolor: theme => theme.palette.secondary.main,
+                // color: 'white',
                 borderColor: (theme) => theme.palette.secondary.main,
                 backgroundColor: "#f9f9f9",
               },

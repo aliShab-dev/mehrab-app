@@ -34,7 +34,7 @@ type BaseTheme = {
 const baseTheme: BaseTheme = {
   direction: "rtl",
   typography: {
-    fontFamily: "Dirooz, Roboto, Arial, sans-serif",
+    fontFamily: "Peyda, YekanBakh, Dirooz, Roboto, Arial, sans-serif",
   },
 };
 

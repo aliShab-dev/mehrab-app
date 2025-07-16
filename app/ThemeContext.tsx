@@ -14,7 +14,7 @@ export const ThemeContext = createContext<ThemeContextType | null>(null);
 
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [palette, setPalette] = useState<PaletteType>('light-green');
+  const [palette, setPalette] = useState<PaletteType>('green');
 
   return (
     <ThemeContext value={{ palette, setPalette }}>

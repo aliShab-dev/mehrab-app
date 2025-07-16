@@ -8,7 +8,7 @@ import { animate, motion, useMotionValue } from "framer-motion";
 import { Avatar, Typography } from "@mui/material";
 
 const icons = [
-  { src: "/like.png", bottom: "40%", right: "8%", rotate: "30deg", factor: 1 },
+  { src: "/like.png", bottom: "40%", right: "8%", rotate: "-10  deg", factor: 1 },
   {
     src: "/camera.png",
     bottom: "20%",
@@ -45,8 +45,8 @@ export type MouseType = {
 };
 
 export function IconSwinger() {
-  const swingAmplitude = 5;
-  const moveAmplitude = 5;
+  const swingAmplitude = 3;
+  const moveAmplitude = 3;
 
   return (
     <>
@@ -73,7 +73,7 @@ export function IconSwinger() {
             }}
           >
             <motion.div
-              animate={{
+              whileHover={{
                 rotate: [
                   baseRotate - currentSwing * icon.factor,
                   baseRotate + currentSwing * icon.factor,
@@ -104,6 +104,7 @@ export function IconSwinger() {
                   width: 100,
                   height: 100,
                   transformStyle: "preserve-3d",
+                  transform: `rotate(${icon.rotate})`
                 }}
               />
             </motion.div>

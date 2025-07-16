@@ -70,11 +70,12 @@ const FilmDocSection = () => {
     <Stack
       height={"auto"}
       width={"100%"}
+      mt={5}
       pt={12}
-      gap={10}
+      gap={5}
       sx={{ overflowX: "hidden", overflowY: "clip" }}
     >
-      <Stack width={"87%"} mx="auto">
+      <Stack width={"80%"} mx="auto">
         <SectionHeader
           backIcon={{
             alt: "Film-document-background-image",
@@ -88,12 +89,26 @@ const FilmDocSection = () => {
             src: "/cameraFilm.png",
             height: 33,
           }}
-          title="برترین‌های موشن گرافی"
+          title="برترین‌های فیلم و مستند"
         />
+      </Stack>
+      <Stack>
+        {/* <svg
+          width="100%"
+          height="775"
+          viewBox="0 0 1920 775"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M71 79H-14C-32.7777 79 -48 94.2223 -48 113V741C-48 759.778 -32.7777 775 -14 775H1888.6C1906.33 775 1921.09 761.376 1922.5 743.703L1972.57 115.703C1974.15 95.9223 1958.52 79 1938.68 79H1781C1762.22 79 1747 63.7777 1747 45V34C1747 15.2223 1731.78 0 1713 0H139C120.222 0 105 15.2223 105 34V45C105 63.7777 89.7777 79 71 79Z"
+            fill="#3AEDA2"
+          />
+        </svg> */}
       </Stack>
       <Stack
         width="100%"
-        height={523}
+        height="auto"
         position="relative"
         alignItems="center"
         bgcolor={"primary.main"}
@@ -114,7 +129,8 @@ const FilmDocSection = () => {
             py={1}
             borderRadius={3}
             justifyContent={"space-between"}
-            width={"80vw"}
+            width={"100%"}
+            gap={2}
           >
             {category.map((cat) => (
               <Button

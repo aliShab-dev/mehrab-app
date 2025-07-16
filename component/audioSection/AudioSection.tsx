@@ -1,3 +1,5 @@
+'use client'
+
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
 import MockDataList from "./component/AudioList";
@@ -86,8 +88,8 @@ const mockDataList: MockDataList = [
 const AudioSection = () => {
   const [selectedItem, setSelectedItem] = useState(mockDataList[0]);
   return (
-    <Stack height={"auto"} width={"100%"} mt={22} gap={9}>
-      <Stack width={"87%"} mx="auto">
+    <Stack height={"auto"} width={"100%"} mt={15} gap={5}>
+      <Stack width={"80%"} mx="auto">
         <SectionHeader
           backIcon={{
             alt: "pudcast-icon",
@@ -103,7 +105,7 @@ const AudioSection = () => {
       <Stack
         direction={"row"}
         gap={6}
-        width={"81%"}
+        width={"75%"}
         height={350}
         mx="auto"
         px={11}

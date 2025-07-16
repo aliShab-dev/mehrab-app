@@ -21,7 +21,7 @@ const NavButton = ({ href, label, sx }: NavButtonProps) => {
         sx={{
           mx: 1,
           fontSize: 18,
-          fontWeight: 600,
+          fontWeight: 800,
           color: isActive ? undefined : "text.primary",
           ...sx,
         }}

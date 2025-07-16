@@ -1,13 +1,11 @@
 "use client";
 import {
-  Box,
   Button,
   Stack,
   styled,
   Typography,
   useTheme,
   alpha,
-  Avatar,
   ButtonProps,
 } from "@mui/material";
 import { animate, motion, useMotionValue } from "framer-motion";
@@ -40,8 +38,8 @@ const MainBanner = () => {
 
   const startCounting = () => {
     count.set(0);
-    animate(count, 1000, {
-      duration: 2,
+    animate(count, 10000, {
+      duration: 1.5,
       ease: "easeOut",
       onUpdate: (latest) => {
         setDisplay(Number(latest.toFixed(0)));
@@ -81,8 +79,8 @@ const MainBanner = () => {
         onMouseMove={handleMouseMove}
       >
         {/* <ModelCanvas mouse={mouse} /> */}
-        {/* <IconSwinger /> */}
-        {/* <Counter startCounting={startCounting} display={display} /> */}
+        <IconSwinger />
+        <Counter startCounting={startCounting} display={display} />
 
         <svg
           viewBox="0 0 450 450"

@@ -72,7 +72,7 @@ const Navbar = () => {
             style={{ paddingBottom: 3, marginLeft: -10 }}
           />
           <Stack justifyContent={"end"} pb={1}>
-            <Typography fontSize={20} fontWeight={700}>
+            <Typography fontSize={22} fontWeight={800}>
               خانواده هنری محراب
             </Typography>
             <Stack>

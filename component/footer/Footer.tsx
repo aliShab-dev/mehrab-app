@@ -42,7 +42,7 @@ const StyledButton = styled((props: ButtonProps) => (
 const Footer = () => {
   return (
     <Stack
-      component={'footer'}
+      component={"footer"}
       bgcolor={(theme) => theme.palette.primary.main}
       height={184}
       width={"100%"}
@@ -51,6 +51,7 @@ const Footer = () => {
       position={"relative"}
     >
       <Stack direction={"row"} mx={"auto"} gap={2.1} alignItems="center">
+        <StyledButton>لوکیشن</StyledButton>
         <StyledButton
           sx={{
             bgcolor: "#fff",
@@ -58,7 +59,6 @@ const Footer = () => {
         >
           تولیدات
         </StyledButton>
-        <StyledButton>لوکیشن</StyledButton>
         <StyledButton sx={{ mt: -12.5, px: 0, pr: 1, width: 100 }}>
           <Image src={"/logo.png"} alt="logo" width={80} height={130} />
         </StyledButton>
@@ -75,7 +75,7 @@ const Footer = () => {
       </Stack>
       <Stack mx={"auto"}>
         <Typography fontSize={13} color="secondary.dark">
-          حقوق مادی و معنوی سایت متعلق به طراح سایت کمیل عباس محفوظ است
+          حقوق مادی و معنوی سایت متعلق به خانواده هنری محراب می باشد.
         </Typography>
       </Stack>
 

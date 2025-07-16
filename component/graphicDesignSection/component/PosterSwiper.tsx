@@ -130,7 +130,7 @@ const PosterSwiper = () => {
   }, []);
 
   return (
-    <Stack width="100%" mt={-3} height={425} overflow={"visible"}>
+    <Stack width="100%" mt={-3} overflow={"visible"}>
       <MySwiperStyles />
 
       <IconButton
@@ -189,7 +189,7 @@ const PosterSwiper = () => {
         navigation
         modules={[Navigation]}
         className="custom-swiper"
-        style={{ paddingBottom: 80 }}
+        style={{ paddingBottom: 100 }}
       >
         {posterData[category].posterList.map((poster, index) => (
           <SwiperSlide
@@ -201,7 +201,7 @@ const PosterSwiper = () => {
               boxShadow: "0 2px 8px rgba(0,0,1,0.4)",
             }}
           >
-            <Stack p={1} pt={3} textAlign="start" height="100%" width="100%">
+            <Stack p={1} textAlign="start" height="100%" width="100%">
               {/* Aspect Ratio Container */}
               <Box
                 sx={{
@@ -247,6 +247,7 @@ const PosterSwiper = () => {
                   bgcolor="#fff"
                   p={0.9}
                   sx={{
+                    cursor: "pointer",
                     "&:hover": {
                       color: "#fff",
                       bgcolor: (theme) => theme.palette.secondary.main,
@@ -280,6 +281,8 @@ const PosterSwiper = () => {
             width={80}
             height={75}
             sx={{
+              zIndex: 200,
+              cursor: "pointer",
               transition: "color 0.3s ease, background 0.3s ease",
               boxShadow: (theme) =>
                 category == index

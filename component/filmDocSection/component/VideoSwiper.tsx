@@ -44,7 +44,7 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
 
   return (
-    <Stack width="100%" height={500} mt={3} position={"relative"} overflow={'clip'}>
+    <Stack width="100%" mt={3} position={"relative"}>
       {!isBeginning && (
         <IconButton
           onClick={() => swiperRef?.slidePrev()}
@@ -136,7 +136,6 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
         pagination={{ clickable: true }}
         modules={[Pagination]}
         className="mySwiper"
-        style={{ paddingBottom: 80 }}
         onSwiper={(swiper) => {
           setSwiperRef(swiper);
 
@@ -160,7 +159,7 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
           <SwiperSlide
             key={index}
             style={{
-              width: "55%",
+              width: "50%",
               borderRadius: 28,
               overflow: "clip",
             }}
@@ -170,13 +169,11 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
               bgcolor="secondary.main"
               width="100%"
               sx={{
-                aspectRatio: "1950 / 1080",
+                aspectRatio: "1920 / 1080",
                 "& video": {
                   objectFit: "cover",
                 },
               }}
-              justifyContent="center"
-              alignItems="center"
             >
               <ReactPlayer
                 url={video}

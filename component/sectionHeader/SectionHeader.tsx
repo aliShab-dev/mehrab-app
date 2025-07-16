@@ -45,7 +45,7 @@ const SectionHeader = ({ title, backIcon, frontIcon }: SectionHeaderType) => {
           />
         </Stack>
         <Stack>
-          <Typography component={"h2"} fontSize={26} fontWeight={600}>
+          <Typography component={"h2"} fontSize={26} fontWeight={800}>
             {title}
           </Typography>
         </Stack>

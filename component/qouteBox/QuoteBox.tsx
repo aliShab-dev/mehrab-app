@@ -35,81 +35,122 @@ const QuoteBox = () => {
   };
   return (
     <Stack
-      position={"relative"}
-      width={"50%"}
-      height={300}
-      mt={9}
-      mx={"auto"}
+      position="relative"
+      width={{ xs: "90%", sm: "80%", md: "70%", lg: '50%' }}
+      height={{xs: 'auto', sm: 300}}
+      mt={13}
+      mx="auto"
       py={2}
-      overflow={"visible"}
+      overflow="visible"
     >
       <Stack
-        position={"absolute"}
-        top={0}
-        border={(theme) => `1px solid ${theme.palette.secondary.main}`}
-        borderRadius={10}
-        width={"100%"}
-        height={"100%"}
-        alignItems={"center"}
+        sx={{
+          position: "absolute",
+          top: -90,
+          width: "100%",
+          height: "100%",
+          alignItems: "center",
+        }}
       >
-        <Image
-          src={"/logo.png"}
-          alt="logo"
-          width={140}
-          height={190}
-          style={{ marginTop: -85 }}
-        />
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="تب های اختیارات"
+          sx={{
+            // pr: 3,
+            position: "relative",
+            bottom: -30,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "canter",
+            width: "100%",
+            "&  .MuiTabs-list": {
+              justifyContent: "center",
+            },
+          }}
+          slotProps={{ indicator: { style: { display: "none" } } }}
+        >
+          {quotes.map((quote, index) => (
+            <Tab
+              key={index}
+              label={quote.title}
+              disableRipple
+              sx={{
+                fontSize: 20,
+                mx: 1,
+                px: 2,
+                py: 0.3,
+                mr: index == 2 ? 12 : 0,
+                borderRadius: 4,
+                bgcolor: (theme) => theme.palette.primary.main,
+                color: "white",
+                transition: "all 0.5s ease",
+                border: "1px solid transparent",
+                "&.Mui-selected": {
+                  borderColor: (theme) => theme.palette.secondary.main,
+                  backgroundColor: "#f9f9f9",
+                },
+              }}
+            />
+          ))}
+        </Tabs>
+      </Stack>
+      <Stack
+        position="absolute"
+        top={0}
+        width="100%"
+        height="100%"
+        mx={"auto"}
+        alignItems="center"
+      >
+        <Stack
+          width={"90%"}
+          borderRadius={10}
+          height={"100%"}
+          border={(theme) => `2px solid ${theme.palette.secondary.main}`}
+        >
+          <Image
+            src="/logo.png"
+            alt="logo"
+            width={140}
+            height={190}
+            style={{
+              position: "absolute",
+              top: -120,
+              left: "calc(50% - 15px)",
+              transform: "translateX(-50%)",
+              zIndex: 1,
+            }}
+          />
+        </Stack>
       </Stack>
 
       <Stack
-        mr={-4}
         borderRadius={10}
         bgcolor={"#fff"}
-        width={"108%"}
+        width={"100%"}
         height={"100%"}
-        px={5}
-        py={12}
+        px={8}
+        py={10}
         textAlign={"center"}
+        sx={{
+          boxShadow: (theme) =>
+            `2px 4px 0px 2px ${theme.palette.secondary.main},  -2px 8px 5px 1px rgba(0, 0, 0, .14)`,
+        }}
       >
         <Fade in={true} timeout={1000} key={value}>
-          <Typography fontSize={18} whiteSpace="pre-line" textAlign={"justify"}>
+          <Typography
+            fontSize={18}
+            whiteSpace="pre-line"
+            textAlign={"justify"}
+            sx={{
+              textAlignLast: "center",
+            }}
+          >
             {quotes[value]?.passage}
           </Typography>
         </Fade>
       </Stack>
-
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="تب های اختیارات"
-        sx={{ pr: 3, position: "relative", bottom: -30 }}
-        slotProps={{ indicator: { style: { display: "none" } } }} // hide the underline
-      >
-        {quotes.map((quote, index) => (
-          <Tab
-            key={index}
-            label={quote.title}
-            disableRipple
-            sx={{
-              fontSize: 20,
-              mx: 1,
-              px: 2,
-              py: .3,
-              borderRadius: 4,
-              bgcolor: theme => theme.palette.primary.main,
-              color: 'white',
-              transition: "all 0.5s ease",
-              border: "1px solid transparent",
-              "&.Mui-selected": {
-                // bgcolor: theme => theme.palette.secondary.main,
-                // color: 'white',
-                borderColor: (theme) => theme.palette.secondary.main,
-                backgroundColor: "#f9f9f9",
-              },
-            }}
-          />
-        ))}
-      </Tabs>
     </Stack>
   );
 };

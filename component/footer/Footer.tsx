@@ -1,13 +1,17 @@
 import {
   Button,
   ButtonProps,
+  ClickAwayListener,
   IconButton,
+  Paper,
+  Popper,
   Stack,
   styled,
   Typography,
 } from "@mui/material";
 import Image from "next/image";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import { useRef, useState } from "react";
 
 const contactUs = [
   "ایتا",
@@ -40,6 +44,16 @@ const StyledButton = styled((props: ButtonProps) => (
 }));
 
 const Footer = () => {
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleClickAway = () => {
+    setOpen(false);
+  };
   return (
     <Stack
       component={"footer"}
@@ -50,21 +64,62 @@ const Footer = () => {
       gap={2}
       position={"relative"}
     >
-      <Stack direction={"row"} mx={"auto"} gap={2.1} alignItems="center">
-        <StyledButton>لوکیشن</StyledButton>
-        <StyledButton
-          sx={{
-            bgcolor: "#fff",
-          }}
-        >
-          تولیدات
-        </StyledButton>
-        <StyledButton sx={{ mt: -12.5, px: 0, pr: 1, width: 100 }}>
-          <Image src={"/logo.png"} alt="logo" width={80} height={130} />
-        </StyledButton>
-        <StyledButton>ثبت سفارش</StyledButton>
-        <StyledButton>ارتباط با ما</StyledButton>
-      </Stack>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Stack direction={"row"} mx={"auto"} gap={2.1} alignItems="center">
+          <StyledButton ref={anchorRef} onClick={handleToggle}>
+            لوکیشن
+          </StyledButton>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            placement="bottom"
+            disablePortal
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 10],
+                },
+              },
+            ]}
+          >
+            <Paper
+              elevation={3}
+              sx={{
+                width: 250,
+                height: 150,
+                p: 1,
+                borderRadius: 2,
+                overflow: "hidden",
+                zIndex: 500,
+              }}
+            >
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!..." // Replace with your map embed URL
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                // allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </Paper>
+          </Popper>
+          <StyledButton
+            sx={{
+              bgcolor: "#fff",
+            }}
+          >
+            تولیدات
+          </StyledButton>
+
+          <StyledButton sx={{ mt: -12.5, px: 0, pr: 1, width: 100 }}>
+            <Image src={"/logo.png"} alt="logo" width={80} height={130} />
+          </StyledButton>
+          <StyledButton>ثبت سفارش</StyledButton>
+          <StyledButton>ارتباط با ما</StyledButton>
+        </Stack>
+      </ClickAwayListener>
 
       <Stack direction={"row"} mx={"auto"} gap={5} mt={0.5}>
         {contactUs.map((item) => (

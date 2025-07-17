@@ -32,7 +32,7 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
-            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.6),
             color: "primary.main",
             borderRadius: "50%",
             width: 40,
@@ -43,7 +43,13 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             },
           }}
         >
-          <ChevronRight sx={{ fontSize: 72 }} />
+          {/* <ChevronRight sx={{ fontSize: 72 }} /> */}
+          <Image
+            src="/arrow-right.png"
+            alt="arrow-right"
+            width={32}
+            height={32}
+          />
         </IconButton>
       )}
 
@@ -58,7 +64,7 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             top: "50%",
             transform: "translateY(-50%)",
             zIndex: 20,
-            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.6),
             color: "primary.main",
             borderRadius: "50%",
             width: 40,
@@ -69,7 +75,14 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             },
           }}
         >
-          <ChevronLeft sx={{ ml: -0.6, fontSize: 72 }} />
+          {/* <ChevronLeft sx={{ ml: -0.6, fontSize: 72 }} /> */}
+          <Image
+            src="/arrow-left.png"
+            alt="arrow-left"
+            width={32}
+            height={32}
+            style={{ transform: "translateX(-2px)" }}
+          />
         </IconButton>
       )}
       {!isBeginning && (

@@ -47,14 +47,6 @@ const MainBanner = () => {
     });
   };
 
-  const [mouse, setMouse] = useState<MouseType>({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const x = (e.clientX / window.innerWidth) * 2 - 1; // -1 to 1
-    const y = -((e.clientY / window.innerHeight) * 2 - 1); // invert Y
-    setMouse({ x, y });
-  };
-
   return (
     <motion.div
       animate={{ opacity: 1 }}
@@ -76,9 +68,7 @@ const MainBanner = () => {
           alignItems: "center",
           mb: 5,
         }}
-        onMouseMove={handleMouseMove}
       >
-        {/* <ModelCanvas mouse={mouse} /> */}
         <IconSwinger />
         <Counter startCounting={startCounting} display={display} />
 
@@ -101,7 +91,6 @@ const MainBanner = () => {
             </linearGradient>
           </defs>
           <motion.path
-            // onMouseMove={handleMouseMove}
             fill="url(#pathGradient)"
             stroke="url(#pathGradient)"
             strokeWidth={3}
@@ -155,7 +144,6 @@ const MainBanner = () => {
               variant="contained"
               endIcon={<TelegramIcon />}
             >
-              {" "}
               سفارش
             </StyledButton>
           </Stack>

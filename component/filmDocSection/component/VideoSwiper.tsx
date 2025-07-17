@@ -2,7 +2,7 @@
 
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { alpha, Box, IconButton, Stack, useTheme } from "@mui/material";
+import { alpha, Avatar, Box, IconButton, Stack, useTheme } from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../css/styles.css";
@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { Swiper as SwiperClass } from "swiper";
+import Image from "next/image";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const MySwiperStyles = () => {
@@ -46,54 +47,100 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
   return (
     <Stack width="100%" mt={3} position={"relative"}>
       {!isBeginning && (
+        // <IconButton
+        //   onClick={() => swiperRef?.slidePrev()}
+        //   size="large"
+        //   sx={{
+        //     position: "absolute",
+        //     p: 3,
+        //     right: 40,
+        //     top: "50%",
+        //     transform: "translateY(-50%)",
+        //     zIndex: 20,
+        //     bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
+        //     color: "white",
+        //     borderRadius: "50%",
+        //     width: 80,
+        //     height: 80,
+        //     "&:hover": {
+        //       bgcolor: (theme) => alpha(theme.palette.primary.main, 0.3),
+        //       color: "white",
+        //     },
+        //   }}
+        // >
+        //   <ChevronRight sx={{ fontSize: 100 }} />
+        // </IconButton>
         <IconButton
           onClick={() => swiperRef?.slidePrev()}
           size="large"
           sx={{
+            width: 60,
+            height: 60,
+            pl: 1.4,
             position: "absolute",
-            p: 3,
-            right: 40,
-            top: "50%",
-            transform: "translateY(-50%)",
-            zIndex: 20,
-            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
-            color: "white",
-            borderRadius: "50%",
-            width: 80,
-            height: 80,
-            "&:hover": {
-              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.3),
-              color: "white",
-            },
+            top: "40%",
+            right: 100,
+            // left: "calc(60% + 255px)",
+            zIndex: 100,
+            background: `linear-gradient(to bottom,#37E3C3, #049070)`,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
           }}
         >
-          <ChevronRight sx={{ fontSize: 100 }} />
+          <Image
+            src={"/Arrow-right.png"}
+            alt="'Arrow-left"
+            width={28}
+            height={28}
+          />
         </IconButton>
       )}
 
       {!isEnd && (
+        // <IconButton
+        //   onClick={() => swiperRef?.slideNext()}
+        //   size="large"
+        //   sx={{
+        //     position: "absolute",
+        //     p: 3,
+        //     left: 40,
+        //     top: "50%",
+        //     transform: "translateY(-50%)",
+        //     zIndex: 20,
+        //     bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
+        //     color: "white",
+        //     borderRadius: "50%",
+        //     width: 80,
+        //     height: 80,
+        //     "&:hover": {
+        //       bgcolor: (theme) => alpha(theme.palette.primary.main, 0.3),
+        //       color: "white",
+        //     },
+        //   }}
+        // >
+        //   <ChevronLeft sx={{ ml: -0.6, fontSize: 100 }} />
+        // </IconButton>
         <IconButton
           onClick={() => swiperRef?.slideNext()}
           size="large"
           sx={{
+            width: 60,
+            height: 60,
+            pl: 1.4,
             position: "absolute",
-            p: 3,
-            left: 40,
-            top: "50%",
-            transform: "translateY(-50%)",
-            zIndex: 20,
-            bgcolor: (theme) => alpha(theme.palette.background.paper, 0.0),
-            color: "white",
-            borderRadius: "50%",
-            width: 80,
-            height: 80,
-            "&:hover": {
-              bgcolor: (theme) => alpha(theme.palette.primary.main, 0.3),
-              color: "white",
-            },
+            top: "40%",
+            left: 80,
+            // left: "calc(60% + 255px)",
+            zIndex: 100,
+            background: `linear-gradient(to bottom,#37E3C3, #049070)`,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
           }}
         >
-          <ChevronLeft sx={{ ml: -0.6, fontSize: 100 }} />
+          <Image
+            src={"/Arrow-left.png"}
+            alt="'Arrow-left"
+            width={28}
+            height={28}
+          />
         </IconButton>
       )}
       {!isBeginning && (

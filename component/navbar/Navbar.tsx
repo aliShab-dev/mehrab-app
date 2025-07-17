@@ -42,7 +42,7 @@ const Navbar = () => {
 
   return (
     <Stack
-      component={'nav'}
+      component={"nav"}
       direction={"row"}
       justifyContent={"center"}
       sx={{
@@ -106,7 +106,7 @@ const Navbar = () => {
           <NavButton href="/" label="صفحه اصلی" />
           <NavButton href="/products" label="تولیدات" />
           <NavButton href="/about-us" label="داستان ما" />
-          <NavButton href="/contact" label="ارتباط با ما" />
+          {/* <NavButton href="/contact" label="ارتباط با ما" /> */}
           <NavButton href="/set-order" label="ثبت سفارش" />
         </Stack>
 

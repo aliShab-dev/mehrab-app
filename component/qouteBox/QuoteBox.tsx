@@ -36,8 +36,8 @@ const QuoteBox = () => {
   return (
     <Stack
       position="relative"
-      width={{ xs: "90%", sm: "80%", md: "70%", lg: '50%' }}
-      height={{xs: 'auto', sm: 300}}
+      width={{ xs: "90%", sm: "80%", md: "70%", lg: "55%" }}
+      height={{ xs: "auto", sm: 320 }}
       mt={13}
       mx="auto"
       py={2}
@@ -57,7 +57,6 @@ const QuoteBox = () => {
           onChange={handleChange}
           aria-label="تب های اختیارات"
           sx={{
-            // pr: 3,
             position: "relative",
             bottom: -30,
             display: "flex",
@@ -76,10 +75,11 @@ const QuoteBox = () => {
               label={quote.title}
               disableRipple
               sx={{
-                fontSize: 20,
+                fontSize: { xs: 12, sm: 14, md: 16, lg: 20 },
                 mx: 1,
                 px: 2,
                 py: 0.3,
+                minHeight: 41,
                 mr: index == 2 ? 12 : 0,
                 borderRadius: 4,
                 bgcolor: (theme) => theme.palette.primary.main,
@@ -140,7 +140,7 @@ const QuoteBox = () => {
       >
         <Fade in={true} timeout={1000} key={value}>
           <Typography
-            fontSize={18}
+            fontSize={{xs: 12, sm: 14, md: 18}}
             whiteSpace="pre-line"
             textAlign={"justify"}
             sx={{

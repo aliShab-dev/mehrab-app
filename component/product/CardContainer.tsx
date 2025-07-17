@@ -59,19 +59,25 @@ const CardContainerProduct = ({
               top: "50%",
               transform: "translateY(-50%)",
               zIndex: 20,
-              bgcolor: "background.paper",
-              color: 'primary.main',
+              bgcolor: "primary.main",
+              color: "primary.main",
               boxShadow: 2,
               borderRadius: "50%",
-              width: 40,
-              height: 40,
+              width: 48,
+              height: 48,
               "&:hover": {
                 bgcolor: "primary.main",
                 color: "white",
               },
             }}
           >
-            <ChevronRight fontSize="large"/>
+            {/* <ChevronRight fontSize="large" /> */}
+            <Image
+              src="/arrow-right.png"
+              alt="arrow-right"
+              width={32}
+              height={32}
+            />
           </IconButton>
         )}
 
@@ -84,19 +90,26 @@ const CardContainerProduct = ({
               top: "50%",
               transform: "translateY(-50%)",
               zIndex: 20,
-              bgcolor: "background.paper",
-              color: 'primary.main',
+              bgcolor: "primary.main",
+              color: "primary.main",
               boxShadow: 2,
               borderRadius: "50%",
-              width: 40,
-              height: 40,
+              width: 48,
+              height: 48,
               "&:hover": {
                 bgcolor: "primary.main",
                 color: "white",
               },
             }}
           >
-            <ChevronLeft fontSize="large" sx={{ml: -.2}}/>
+            {/* <ChevronLeft fontSize="large" sx={{ml: -.2}}/> */}
+            <Image
+              src="/arrow-left.png"
+              alt="arrow-left"
+              width={32}
+              height={32}
+              style={{ transform: "translateX(-2px)" }}
+            />
           </IconButton>
         )}
         {!isBeginning && (

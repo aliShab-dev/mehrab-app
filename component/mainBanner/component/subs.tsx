@@ -1,41 +1,52 @@
 "use client";
 
-import { Suspense, useRef, useState } from "react";
-import { OrbitControls, useGLTF } from "@react-three/drei";
+import { Suspense, useRef } from "react";
+import { useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { toPersianDigits } from "@/app/util/numberHandler";
-import { animate, motion, useMotionValue } from "framer-motion";
+import { motion } from "framer-motion";
 import { Avatar, Typography } from "@mui/material";
 
 const icons = [
-  { src: "/like.png", bottom: "40%", right: "8%", rotate: "-10  deg", factor: 1 },
   {
-    src: "/camera.png",
-    bottom: "20%",
-    right: "25%",
-    rotate: "10deg",
-    factor: -0.6,
-  },
-  {
-    src: "/palette.png",
-    bottom: "5%",
-    right: "46%",
-    rotate: "-20deg",
+    src: "/k-like.png",
+    bottom: "30%",
+    right: "8%",
+    rotate: "0",
     factor: 1,
+    size: 130,
   },
   {
-    src: "/clapboard.png",
-    bottom: "20%",
+    src: "/k-camera.png",
+    bottom: "10%",
+    right: "25%",
+    rotate: "0",
+    factor: -0.6,
+    size: 190,
+  },
+  {
+    src: "/k-palette.png",
+    bottom: "0%",
+    right: "46%",
+    rotate: "0",
+    factor: 1,
+    size: 170,
+  },
+  {
+    src: "/k-clapboard.png",
+    bottom: "15%",
     left: "25%",
-    rotate: "15deg",
+    rotate: "0",
     factor: 0.4,
+    size: 170,
   },
   {
-    src: "/video-camera.png",
-    bottom: "40%",
-    left: "10%",
-    rotate: "-10deg",
+    src: "/k-film-cam.png",
+    bottom: "25%",
+    left: "8%",
+    rotate: "0",
     factor: -1,
+    size: 220,
   },
 ];
 
@@ -101,10 +112,10 @@ export function IconSwinger() {
                 alt="Icon"
                 variant="square"
                 sx={{
-                  width: 100,
-                  height: 100,
+                  width: icon.size,
+                  height: icon.size,
                   transformStyle: "preserve-3d",
-                  transform: `rotate(${icon.rotate})`
+                  transform: `rotate(${icon.rotate})`,
                 }}
               />
             </motion.div>

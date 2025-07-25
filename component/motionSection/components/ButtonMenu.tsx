@@ -221,17 +221,22 @@ const ButtonMenu = () => {
                             : "grayscale(100%)",
                       }}
                     />
-                    {/* <Typography
-                      fontSize={13}
+                    <Typography
+                      fontSize={12}
                       sx={(theme) => ({
+                        position: 'absolute',
+                        bottom: -12, 
+                        right: 10,
+                        width: 65,
                         color:
                           subCat.id === selectedSubCat
                             ? theme.palette.secondary.main
                             : theme.palette.text.primary,
                       })}
+                      noWrap
                     >
                       {subCat.name}
-                    </Typography> */}
+                    </Typography>
                   </Stack>
                 </Button>
               ))}

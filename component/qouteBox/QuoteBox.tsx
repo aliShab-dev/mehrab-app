@@ -1,6 +1,6 @@
 "use client";
 
-import { Fade, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { alpha, Fade, Stack, Tab, Tabs, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -127,20 +127,20 @@ const QuoteBox = () => {
 
       <Stack
         borderRadius={10}
-        bgcolor={"#fff"}
         width={"100%"}
         height={"100%"}
         px={8}
         py={10}
         textAlign={"center"}
+        bgcolor={theme => alpha(theme.palette.svgColor.main, .4)}
         sx={{
           boxShadow: (theme) =>
-            `2px 4px 0px 2px ${theme.palette.secondary.main},  -2px 8px 5px 1px rgba(0, 0, 0, .14)`,
+            `2px 2px 6px 3px ${theme.palette.secondary.main}, -2px 8px 5px 1px rgba(0, 0, 0, .14)`,
         }}
       >
         <Fade in={true} timeout={1000} key={value}>
           <Typography
-            fontSize={{xs: 12, sm: 14, md: 18}}
+            fontSize={{ xs: 12, sm: 14, md: 18 }}
             whiteSpace="pre-line"
             textAlign={"justify"}
             sx={{

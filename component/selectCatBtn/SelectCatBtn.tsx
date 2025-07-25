@@ -85,7 +85,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   boxShadow: theme.shadows[2],
   margin: 0,
   fontSize: 14,
-  width: 180,
+  width: 158,
   display: "flex",
   gap: theme.spacing(1),
   justifyContent: "start",
@@ -157,9 +157,9 @@ const SelectedCatBtn = ({
   return (
     <Stack
       direction="row"
-      gap={3}
+      gap={2}
       width={"100%"}
-      justifyContent={"space-between"}
+      justifyContent={'center'}
     >
       <CustomButton
         disableRipple

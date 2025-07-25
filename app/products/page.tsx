@@ -11,8 +11,6 @@ import Pagination from "@/component/products/Pagination";
 import CardContainer from "@/component/products/CardContain";
 import { products } from "../lib/products";
 
-
-
 export default function ProductsPage() {
   const [loading, setLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
@@ -38,7 +36,7 @@ export default function ProductsPage() {
     <Stack width={"80%"} mx={"auto"} mt={5} mb={15}>
       <PageHeader Icon={BusinessCenterRoundedIcon} title="تولیدات ما" />
 
-      <Stack width={"50%"} mx={"auto"} mt={3}>
+      <Stack mx={"auto"} mt={3}>
         <SelectedCatBtn
           selectedLevel={selectedLevel}
           selectedSubCat={selectedSubCat}

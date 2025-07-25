@@ -122,7 +122,7 @@ const Footer = () => {
       pb={1.5}
     >
       <ClickAwayListener onClickAway={handleClose}>
-        <Stack direction={"row"} mx={"auto"} gap={2.1} alignItems="center">
+        <Stack direction={"row"} mx={"auto"} gap={4} alignItems="center">
           <StyledTooltip
             open={open}
             onClose={handleClose}
@@ -210,9 +210,9 @@ const Footer = () => {
             <Avatar
               src={item.icon}
               alt={item.name}
-              sx={{ width: 80, height: 50, cursor: "pointer" }}
+              sx={{ width: 60, height: 35  , cursor: "pointer" }}
             />
-            <Typography fontSize={12} color={"white"}>
+            <Typography fontSize={11} color={"white"}>
               {item.name}
             </Typography>
           </Stack>

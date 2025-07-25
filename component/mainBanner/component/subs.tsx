@@ -11,10 +11,10 @@ const icons = [
   {
     src: "/k-like.png",
     bottom: "30%",
-    right: "8%",
+    right: "10%",
     rotate: "0",
     factor: 1,
-    size: 130,
+    size: 150,
   },
   {
     src: "/k-camera.png",
@@ -22,7 +22,7 @@ const icons = [
     right: "25%",
     rotate: "0",
     factor: -0.6,
-    size: 190,
+    size: 205,
   },
   {
     src: "/k-palette.png",

@@ -52,13 +52,13 @@ const MainBanner = () => {
       animate={{ opacity: 1 }}
       initial={{ opacity: 0 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: 'easeOut' }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       style={{ width: "100%", height: "100%" }}
     >
       <Stack
         sx={{
           position: "relative",
-          width: "80%",
+          width: "75%",
           height: 500,
           mx: "auto",
           borderRadius: 2,
@@ -71,40 +71,19 @@ const MainBanner = () => {
       >
         <IconSwinger />
         <Counter startCounting={startCounting} display={display} />
-
-        <svg
-          viewBox="0 0 450 450"
-          width="100%"
-          height="100%"
-          style={{ overflow: "visible", transform: "translateY(30px)" }}
-        >
-          <defs>
-            <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop
-                offset="0%"
-                stopColor={alpha(theme.palette.primary.main, 0.3)}
-              />
-              <stop
-                offset="100%"
-                stopColor={alpha(theme.palette.secondary.main, 0.9)}
-              />
-            </linearGradient>
-          </defs>
-          <motion.path
-            fill="url(#pathGradient)"
-            stroke="url(#pathGradient)"
-            strokeWidth={3}
-            animate={{ d: svgPaths }}
-            transition={{
-              duration: 8,
-              repeat: Infinity,
-              repeatType: "reverse",
-              ease: "linear",
-            }}
-            transform="translate(200 200) scale(2, 1)"
-          />
-        </svg>
-
+        <img
+          src="/back-banner.png"
+          alt="background"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            zIndex: 1,
+          }}
+        />
         <Stack
           sx={{
             position: "absolute",

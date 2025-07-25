@@ -1,5 +1,22 @@
+"use client";
+
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+
+const orgList = [
+  { name: "لوگو خامنه ای دات آی آر", logo: "/khamenei.png" },
+  { name: "لوگو آستان حضرت معصومه", logo: "/holy-shrine.png" },
+  { name: "لوگوی دفتر تبلیغات", logo: "/hozeh.png" },
+  { name: "لوگو تقریب مذاهب", logo: "/mazaheb.png" },
+  { name: "لوگوی ارتش", logo: "/militry.png" },
+  { name: "لوگو فولاد مبارکه", logo: "/mobarake.png" },
+  { name: "لوگوی نهاد ریاست جمهوری", logo: "/president.png" },
+  { name: "لوگوی آستان قدس", logo: "/qods.png" },
+  { name: "لوگو شهرداری قم", logo: "/qom.png" },
+  { name: "لوگوی سپاه", logo: "/sepah.png" },
+];
 
 const Comunity = () => {
   return (
@@ -11,35 +28,58 @@ const Comunity = () => {
         </Typography>
       </Stack>
 
-      <Stack mx={"auto"} direction={"row"} gap={6}>
-        <Image
-          src="/comunity.png"
-          alt="comunity"
-          width={100}
-          height={100}
-          unoptimized
-        />
-        <Image
-          src="/comunity.png"
-          alt="comunity2"
-          width={100}
-          height={100}
-          unoptimized
-        />
-        <Image
-          src="/comunity.png"
-          alt="comunity3"
-          width={100}
-          height={100}
-          unoptimized
-        />
-        <Image
-          src="/comunity.png"
-          alt="comunity4"
-          width={100}
-          height={100}
-          unoptimized
-        />
+      <Stack width={"80%"} mx={"auto"} gap={6}>
+        <Swiper
+          slidesPerView={6}
+          spaceBetween={20}
+          loop={true}
+          speed={2000}
+          autoplay={{
+            delay: 0,
+            disableOnInteraction: false,
+          }}
+          allowTouchMove={false}
+          modules={[Autoplay]}
+          style={{ width: "100%" }}
+        >
+          {orgList.map((item) => (
+            <SwiperSlide>
+              <Image
+                src={item.logo}
+                alt={item.name}
+                width={100}
+                height={100}
+                unoptimized
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <Swiper
+          slidesPerView={6}
+          spaceBetween={20}
+          loop={true}
+          speed={2000}
+          autoplay={{
+            delay: 0,
+            reverseDirection: true,
+            disableOnInteraction: false,
+          }}
+          allowTouchMove={false}
+          modules={[Autoplay]}
+          style={{ width: "100%" }}
+        >
+          {orgList.map((item) => (
+            <SwiperSlide>
+              <Image
+                src={item.logo}
+                alt={item.name}
+                width={100}
+                height={100}
+                unoptimized
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </Stack>
     </Stack>
   );

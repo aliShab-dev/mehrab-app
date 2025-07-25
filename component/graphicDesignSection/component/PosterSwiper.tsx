@@ -266,7 +266,7 @@ const PosterSwiper = () => {
         position={"absolute"}
         bottom={-40}
         direction={"row-reverse"}
-        gap={2}
+        gap={2.3}
         width={"100%"}
         justifyContent={"center"}
       >

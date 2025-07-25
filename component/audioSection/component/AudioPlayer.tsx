@@ -1,69 +1,91 @@
 "use client";
 
-import { alpha, IconButton, Slider, Stack, Typography } from "@mui/material";
-import { MockData } from "../AudioSection";
+import {
+  alpha,
+  Box,
+  IconButton,
+  Slider,
+  Stack,
+  Typography,
+} from "@mui/material";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import { useEffect, useRef, useState } from "react";
+import ReactAudioPlayer from "react-audio-player";
 
-type AudioPlayerProps = {
-  selectedItem: MockData;
+interface AudioPlayerProps {
+  selectedItem: {
+    name: string;
+    author: string;
+    description: string;
+    src?: string;
+  };
+}
+
+const formatTime = (time: number) => {
+  if (!time) return "0:00";
+  const minutes = Math.floor(time / 60);
+  const seconds = Math.floor(time % 60);
+  return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
-  const audioRef = useRef<HTMLAudioElement>(null);
+const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
+  const audioRef = useRef<ReactAudioPlayer>(null);
   const [playing, setPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  // Update progress
   useEffect(() => {
-    const audio = audioRef.current;
+    const audio = audioRef.current?.audioEl.current;
     if (!audio) return;
 
     const updateProgress = () => setPosition(audio.currentTime);
-    const handleLoadedMetadata = () => setDuration(audio.duration);
+    const setMeta = () => setDuration(audio.duration);
 
     audio.addEventListener("timeupdate", updateProgress);
-    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("loadedmetadata", setMeta);
 
     return () => {
       audio.removeEventListener("timeupdate", updateProgress);
-      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("loadedmetadata", setMeta);
     };
   }, []);
 
-  const togglePlay = async () => {
-    const audio = audioRef.current;
+  const togglePlay = () => {
+    const audio = audioRef.current?.audioEl.current;
     if (!audio) return;
-
-    try {
-      if (!playing) {
-        await audio.play();
-        setPlaying(true);
-      } else {
-        audio.pause();
-        setPlaying(false);
-      }
-    } catch (error) {
-      console.error("Audio play error:", error);
+    if (playing) {
+      audio.pause();
+    } else {
+      audio.play();
     }
+    setPlaying(!playing);
   };
 
-  const handleSliderChange = (_: any, value: number | number[]) => {
-    const audio = audioRef.current;
-    if (!audio) return;
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = clickX / rect.width;
+    const newTime = duration * percentage;
 
-    const newTime = Array.isArray(value) ? value[0] : value;
+    const audio = audioRef.current?.audioEl.current;
+    if (audio) audio.currentTime = newTime;
     setPosition(newTime);
-    audio.currentTime = newTime;
   };
-
-  console.log(selectedItem.url);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    setIsClient(true); // triggers only on client
-  }, []);
+    const audio = audioRef.current?.audioEl.current;
+    if (audio) {
+      audio.pause();
+      audio.load();
+      setPlaying(false);
+      setPosition(0);
+      setDuration(0);
+    }
+  }, [selectedItem]);
+
   return (
     <Stack direction={"row"} width={"100%"} gap={3}>
       <Stack width={"50%"} mt={7.5} gap={0.5}>
@@ -78,29 +100,11 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
           pl={2}
           fontSize={14}
           color="#2156C9"
-          overflow={"hidden"}
           sx={{
             height: 100,
             overflowY: "auto",
-            overflowX: "clip",
             wordBreak: "break-word",
             whiteSpace: "pre-wrap",
-            "&::-webkit-scrollbar": {
-              width: "6px",
-            },
-            "&::-webkit-scrollbar-track": {
-              backgroundColor: "#E9E9E9",
-              background: `linear-gradient(to bottom, transparent 0%, #E9E9E9 0%, #E9E9E9 100%, transparent 100%)`,
-              borderRadius: 2,
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: (theme) => theme.palette.secondary.light,
-              width: "6px",
-              borderRadius: 2,
-            },
-            "&::-webkit-scrollbar-button": {
-              display: "none",
-            },
           }}
         >
           {selectedItem.description}
@@ -108,18 +112,18 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
       </Stack>
 
       <Stack width={"50%"} alignItems={"center"} px={3} gap={2.5}>
-        {isClient && (
-          <audio
-            ref={audioRef}
-            src={"/bensound-slowmotion.mp3"}
-            preload="auto"
-          />
-        )}
+        <ReactAudioPlayer
+          ref={audioRef}
+          src={selectedItem.src || "/bensound-slowmotion.mp3"}
+          preload="auto"
+          style={{ display: "none" }}
+        />
+
         <IconButton
           onClick={togglePlay}
           sx={{
-            width: 250,
-            height: 250,
+            width: 200,
+            height: 200,
             borderRadius: "50%",
             bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
             color: "#fff",
@@ -132,65 +136,43 @@ const AudioPLayer = ({ selectedItem }: AudioPlayerProps) => {
           }}
         >
           {playing ? (
-            <PauseRoundedIcon sx={{ fontSize: 180 }} />
+            <PauseRoundedIcon sx={{ fontSize: 140 }} />
           ) : (
-            <PlayArrowRoundedIcon sx={{ fontSize: 180 }} />
+            <PlayArrowRoundedIcon sx={{ fontSize: 140 }} />
           )}
         </IconButton>
 
-        <Stack width={"100%"}>
-          <Slider
-            aria-label="time-indicator"
-            size="small"
-            value={position}
-            min={0}
-            step={1}
-            max={duration}
-            onChange={handleSliderChange}
-            onChangeCommitted={(_, value) => {
-              const audio = audioRef.current;
-              if (!audio) return;
-              const newTime = Array.isArray(value) ? value[0] : value;
-              audio.currentTime = newTime;
-              setPosition(newTime);
+        <Box
+          sx={{
+            width: "100%",
+            height: 10,
+            bgcolor: "#ccc",
+            borderRadius: 5,
+            cursor: "pointer",
+            position: "relative",
+            overflow: "hidden",
+            direction: 'ltr'
+          }}
+          onClick={handleProgressClick}
+        >
+          <Box
+            sx={{
+              width: `${(position / duration) * 100}%`,
+              height: "100%",
+              bgcolor: "primary.main",
+              borderRadius: 5,
+              transition: "width 0.1s linear", // Smooth fill
             }}
-            sx={(theme) => ({
-              direction: "ltr",
-              height: 12,
-              color: theme.palette.primary.main,
-              "& .MuiSlider-track": {
-                backgroundColor: theme.palette.secondary.main,
-                border: "none",
-              },
-              "& .MuiSlider-rail": {
-                backgroundColor: theme.palette.primary.main,
-                opacity: 1,
-              },
-              "& .MuiSlider-thumb": {
-                width: 20,
-                height: 20,
-                mr: -3,
-                transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
-                "&::before": {
-                  boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
-                },
-                "&:hover, &.Mui-focusVisible": {
-                  boxShadow: `0px 0px 0px 8px rgb(0 0 0 / 16%)`,
-                  ...(theme.palette.mode === "dark" && {
-                    boxShadow: `0px 0px 0px 8px rgb(255 255 255 / 16%)`,
-                  }),
-                },
-                "&.Mui-active": {
-                  width: 20,
-                  height: 20,
-                },
-              },
-            })}
           />
+        </Box>
+
+        <Stack direction="row" justifyContent="space-between" width="100%">
+          <Typography variant="body2">{formatTime(duration)}</Typography>
+          <Typography variant="body2">{formatTime(position)}</Typography>
         </Stack>
       </Stack>
     </Stack>
   );
 };
 
-export default AudioPLayer;
+export default CustomAudioPlayer;

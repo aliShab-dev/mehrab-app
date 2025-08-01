@@ -35,8 +35,8 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.6),
             color: "primary.main",
             borderRadius: "50%",
-            width: 40,
-            height: 40,
+            width: 45,
+            height: 45,
             "&:hover": {
               bgcolor: "primary.main",
               color: "white",
@@ -47,8 +47,8 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
           <Image
             src="/arrow-right.png"
             alt="arrow-right"
-            width={32}
-            height={32}
+            width={24}
+            height={24}
           />
         </IconButton>
       )}
@@ -67,8 +67,8 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.6),
             color: "primary.main",
             borderRadius: "50%",
-            width: 40,
-            height: 40,
+            width: 45,
+            height: 45,
             "&:hover": {
               bgcolor: "primary.main",
               color: "white",
@@ -79,8 +79,8 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
           <Image
             src="/arrow-left.png"
             alt="arrow-left"
-            width={32}
-            height={32}
+            width={24}
+            height={24}
             style={{ transform: "translateX(-2px)" }}
           />
         </IconButton>

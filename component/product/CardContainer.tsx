@@ -63,20 +63,19 @@ const CardContainerProduct = ({
               color: "primary.main",
               boxShadow: 2,
               borderRadius: "50%",
-              width: 48,
-              height: 48,
+              width: 45,
+              height: 45,
               "&:hover": {
                 bgcolor: "primary.main",
                 color: "white",
               },
             }}
           >
-            {/* <ChevronRight fontSize="large" /> */}
             <Image
               src="/arrow-right.png"
               alt="arrow-right"
-              width={32}
-              height={32}
+              width={24}
+              height={24}
             />
           </IconButton>
         )}
@@ -94,8 +93,8 @@ const CardContainerProduct = ({
               color: "primary.main",
               boxShadow: 2,
               borderRadius: "50%",
-              width: 48,
-              height: 48,
+              width: 45,
+              height: 45,
               "&:hover": {
                 bgcolor: "primary.main",
                 color: "white",
@@ -106,8 +105,8 @@ const CardContainerProduct = ({
             <Image
               src="/arrow-left.png"
               alt="arrow-left"
-              width={32}
-              height={32}
+              width={24}
+              height={24}
               style={{ transform: "translateX(-2px)" }}
             />
           </IconButton>

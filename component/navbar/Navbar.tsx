@@ -139,7 +139,7 @@ const Navbar = () => {
           mr={7}
         >
           {ListNavButton.map((item) => (
-            <NavButton href={item.href} label={item.name} />
+            <NavButton key={item.name} href={item.href} label={item.name} />
           ))}
         </Stack>
 
@@ -224,7 +224,7 @@ const Navbar = () => {
               sx={{ p: 0 }}
             >
               {ListNavButton.map((item) => (
-                <NavButton href={item.href} label={item.name} />
+                <NavButton key={item.name} href={item.href} label={item.name} />
               ))}
               <Divider />
               <Stack

@@ -16,36 +16,38 @@
 
 @font-face {
   font-family: "Peyda";
-  src: url("/fonts/PEYDA-THIN.ttf") format("truetype");
+  src: url("/fonts/Peyda/PEYDA-THIN.ttf") format("truetype");
   font-weight: 100;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Peyda";
-  src: url("/fonts/PEYDA-EXTRALIGHT.ttf") format("truetype");
+  src: url("/fonts/Peyda/PEYDA-EXTRALIGHT.ttf") format("truetype");
   font-weight: 200;
 }
 
 @font-face {
   font-family: "Peyda";
-  src: url("/fonts/PEYDA-REGULAR.ttf") format("truetype");
+  src: url("/fonts/Peyda/PEYDA-REGULAR.ttf") format("truetype");
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Peyda";
-  src: url("/fonts/PEYDA-MEDIUM.ttf") format("truetype");
+  src: url("/fonts/Peyda/PEYDA-MEDIUM.ttf") format("truetype");
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Peyda";
-  src: url("/fonts/PEYDA-BOLD.ttf") format("truetype");
+  src: url("/fonts/Peyda/PEYDA-BOLD.ttf") format("truetype");
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Peyda";
-  src: url("/fonts/PEYDA-EXTRABOLD.ttf") format("truetype");
+  src: url("/fonts/Peyda/PEYDA-EXTRABOLD.ttf") format("truetype");
   font-weight: 800;
 }

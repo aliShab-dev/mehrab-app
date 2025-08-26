@@ -87,8 +87,8 @@ const Navbar = () => {
           <Box
             sx={{
               position: "relative",
-              width: { xs: 45, md: 50 },
-              height: { xs: 50, md: 65 },
+              width: 50,
+              height: 65,
               pb: 0.5,
               ml: -1,
             }}
@@ -100,7 +100,11 @@ const Navbar = () => {
               style={{ objectFit: "contain" }}
             />
           </Box>
-          <Stack justifyContent={"end"} pb={1}>
+          <Stack
+            justifyContent={"end"}
+            pb={1}
+            display={{ xs: "none", sm: "flex" }}
+          >
             <Typography fontSize={{ xs: 16, md: 22 }} fontWeight={800}>
               خانواده هنری محراب
             </Typography>
@@ -122,6 +126,7 @@ const Navbar = () => {
             orientation="vertical"
             flexItem
             sx={{
+              display: {xs: 'none', sm: 'block'},
               height: 42,
               borderColor: (theme) => alpha(theme.palette.secondary.main, 0.2),
               borderWidth: "1px",
@@ -143,7 +148,7 @@ const Navbar = () => {
           ))}
         </Stack>
 
-        <Stack direction="row" alignItems={"center"} gap={1.2} pl={3}>
+        <Stack direction="row" alignItems={"center"} gap={1.2} pl={0}>
           <Stack direction={"row"} height={40} gap={1} alignItems={"center"}>
             <Stack display={{ xs: "flex", lg: "none" }}>
               <IconButton color="primary" onClick={handleClickMenu}>
@@ -170,7 +175,7 @@ const Navbar = () => {
                   borderColor: (theme) =>
                     alpha(theme.palette.secondary.main, 0.2),
                   borderWidth: "1px",
-                  ml: 1,
+                  ml: 3,
                 }}
               />
               <Typography
@@ -191,8 +196,6 @@ const Navbar = () => {
                 borderColor: (theme) =>
                   alpha(theme.palette.secondary.main, 0.2),
                 borderWidth: "1px",
-                ml: -1,
-                mr: 1,
               }}
             />
             <IconButton

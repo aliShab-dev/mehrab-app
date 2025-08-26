@@ -12,17 +12,54 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import postNewAdmin from "../../service/postNewAdmin";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import SaveIcon from "@mui/icons-material/Save";
 
 const admins = [
-  { id: 1, name: "ادمین شماره یک", password: 1245, permission: [1, 3] },
-  { id: 2, name: "ادمین شماره دو", password: 1245, permission: [2] },
-  { id: 3, name: "ادمین شماره سه", password: 1245, permission: [3] },
-  { id: 4, name: "ادمین شماره 5", password: "1245", permission: [4, 1] },
-  { id: 6, name: "ادمین سس 5", password: "1245", permission: [4, 3, 2] },
-  { id: 5, name: "ادمین شماره 4", password: 1245, permission: [2] },
+  {
+    id: 1,
+    name: "ادمین شماره یک",
+    usreName: "slsjdfl",
+    password: 1245,
+    permission: [1, 3],
+  },
+  {
+    id: 2,
+    name: "ادمین شماره دو",
+    usreName: "cc",
+    password: 1245,
+    permission: [2],
+  },
+  {
+    id: 3,
+    name: "ادمین شماره سه",
+    usreName: "eee",
+    password: 1245,
+    permission: [3],
+  },
+  {
+    id: 4,
+    name: "ادمین شماره 5",
+    usreName: "ff",
+    password: "1245",
+    permission: [4, 1],
+  },
+  {
+    id: 6,
+    name: "ادمین سس 5",
+    usreName: "dd",
+    password: "1245",
+    permission: [4, 3, 2],
+  },
+  {
+    id: 5,
+    name: "ادمین شماره 4",
+    usreName: "ss",
+    password: 1245,
+    permission: [2],
+  },
 ];
 
 const permissionsList = [
@@ -36,9 +73,11 @@ const PermissionTabs = () => {
   const [selectedAdmin, setSelectedAdmin] = useState<number | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const [name, setName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string | number>("");
   const [adminPermission, setAdminPermission] = useState<number[]>([]);
   const [image, setImage] = useState<File | null>(null);
+  const [newAdminResponse, setNewAdminResponse] = useState(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -73,15 +112,29 @@ const PermissionTabs = () => {
       setName(admin.name);
       setPassword(admin.password);
       setAdminPermission(admin.permission);
+      setUserName(admin.usreName);
     }
   };
 
   const resetHandler = () => {
     setName("");
+    setUserName("");
     setPassword("");
     setAdminPermission([]);
     setImage(null);
   };
+
+  const handleSubmit = () => {
+    postNewAdmin({ userName, name, password })
+      .then((res) => setNewAdminResponse(res))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    if (newAdminResponse) {
+      console.log("Admin added successfully:", newAdminResponse);
+    }
+  }, [newAdminResponse]);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -128,7 +181,7 @@ const PermissionTabs = () => {
                 selectedAdmin !== null ? "translateX(-100%)" : "translateX(0)",
               sm: "translateX(0)",
             },
-            pointerEvents:  "auto",
+            pointerEvents: "auto",
             transition: "opacity 0.3s ease, transform 0.3s ease",
           }}
         >
@@ -213,10 +266,32 @@ const PermissionTabs = () => {
                   value={name}
                   onChange={(e) => setName(e.target.value.trimStart())}
                   variant="outlined"
-                  label={"نام کاربری"}
+                  label={"نام کاربر"}
                   type="text"
                   sx={{
-                    width: { xs: "100%", md: "50%" },
+                    width: { xs: "100%", md: "33%" },
+                    "& label": {
+                      right: 25,
+                      left: "auto",
+                      fontSize: 16,
+                    },
+
+                    "& legend": {
+                      right: 30,
+                      textAlign: "right",
+                      fontSize: 18,
+                    },
+                  }}
+                />
+                <TextField
+                  fullWidth
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value.trimStart())}
+                  variant="outlined"
+                  label={"شناسه کاربر"}
+                  type="text"
+                  sx={{
+                    width: { xs: "100%", md: "33%" },
                     "& label": {
                       right: 25,
                       left: "auto",
@@ -238,7 +313,7 @@ const PermissionTabs = () => {
                   label="رمز عبور"
                   type={"text"}
                   sx={{
-                    width: { xs: "100%", md: "50%" },
+                    width: { xs: "100%", md: "33%" },
                     "& label": {
                       right: 25,
                       left: "auto",
@@ -319,6 +394,7 @@ const PermissionTabs = () => {
               <Stack direction={"row"} gap={2} mt={{ xs: 0, md: 2 }}>
                 <Button
                   variant="contained"
+                  onClick={handleSubmit}
                   sx={{
                     color: "white",
                     gap: 2,
@@ -331,10 +407,7 @@ const PermissionTabs = () => {
                 </Button>
                 <Button
                   variant="outlined"
-                  onClick={() => {
-                    setSelectedAdmin(null);
-                    resetHandler();
-                  }}
+                  onClick={() => {}}
                   sx={{ gap: 2, fontSize: { xs: 14, sm: 18 }, width: "30%" }}
                 >
                   لغو

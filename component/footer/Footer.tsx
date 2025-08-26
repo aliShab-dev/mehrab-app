@@ -84,24 +84,27 @@ const StyledTooltip = styled((props: TooltipProps) => {
     color: "#fff",
   },
 }));
-
 const StyledButton = styled((props: ButtonProps) => (
   <Button disableRipple {...props} />
 ))(({ theme }) => ({
-  width: 110,
+  width: 60, // default, can be overridden
   backgroundColor: "#fff",
   color: "inherit",
-  fontSize: 18,
+  fontSize: 10,
+  fontWeight: 900,
   borderRadius: 14,
-  paddingTop: 5,
-  paddingBottom: 5,
-  paddingRight: 0,
-  paddingLeft: 0,
   transition: "box-shadow 0.3s ease",
   boxShadow: theme.shadows[1],
+
   "&:hover": {
     boxShadow: theme.shadows[3],
     color: theme.palette.primary.main,
+  },
+
+  [theme.breakpoints.up("md")]: {
+    width: 110,
+    fontSize: 18,
+    fontWeight: 500,
   },
 }));
 
@@ -122,7 +125,12 @@ const Footer = () => {
       pb={1.5}
     >
       <ClickAwayListener onClickAway={handleClose}>
-        <Stack direction={"row"} mx={"auto"} gap={4} alignItems="center">
+        <Stack
+          direction={"row"}
+          mx={"auto"}
+          gap={{ xs: 1, sm: 3, md: 4 }}
+          alignItems="center"
+        >
           <StyledTooltip
             open={open}
             onClose={handleClose}
@@ -165,9 +173,22 @@ const Footer = () => {
           <StyledButton
             component="a"
             href={"/"}
-            sx={{ mt: -12.5, px: 0, pr: 1, width: 100 }}
+            sx={{
+              position: { xs: "absolute", md: "relative" },
+              top: { xs: 20, md: 0 },
+              right: { xs: "calc(50% - 40px)", md: 0 },
+              mt: -12.5,
+              px: 0,
+              width: { xs: 80, md: 100 },
+              height: { xs: 100, md: 130 },
+            }}
           >
-            <Image src={"/logo.png"} alt="logo" width={90} height={130} />
+            <Image
+              src="/logo.png"
+              alt="logo"
+              fill
+              style={{ objectFit: "cover", marginRight: 2 }}
+            />
           </StyledButton>
           <StyledButton
             component="a"
@@ -186,7 +207,14 @@ const Footer = () => {
         </Stack>
       </ClickAwayListener>
 
-      <Stack direction={"row"} mx={"auto"} gap={5}>
+      <Stack
+        direction={"row"}
+        justifyContent={'center'}
+        mx={"auto"}
+        gap={{ xs: 2, md: 5 }}
+        width={"100%"}
+        flexWrap={"wrap"}
+      >
         {socialMedia.map((item) => (
           <Stack
             key={item.name}
@@ -210,15 +238,19 @@ const Footer = () => {
             <Avatar
               src={item.icon}
               alt={item.name}
-              sx={{ width: 60, height: 35  , cursor: "pointer" }}
+              sx={{
+                width: { xs: 50, md: 60 },
+                height: { xs: 30, md: 35 },
+                cursor: "pointer",
+              }}
             />
-            <Typography fontSize={11} color={"white"}>
+            <Typography fontSize={{ xs: 10, md: 11 }} color={"white"}>
               {item.name}
             </Typography>
           </Stack>
         ))}
       </Stack>
-      <Stack mx={"auto"}>
+      <Stack mx={"auto"} textAlign={'center'}>
         <Typography fontSize={13} color="secondary.dark">
           حقوق مادی و معنوی سایت متعلق به خانواده هنری محراب می باشد.
         </Typography>

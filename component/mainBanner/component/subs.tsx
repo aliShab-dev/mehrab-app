@@ -5,24 +5,24 @@ import { useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { toPersianDigits } from "@/app/util/numberHandler";
 import { motion } from "framer-motion";
-import { Avatar, Typography } from "@mui/material";
+import { Avatar, Stack, Typography } from "@mui/material";
 
 const icons = [
   {
     src: "/k-like.png",
-    bottom: "30%",
+    bottom: "25%",
     right: "10%",
     rotate: "0",
     factor: 1,
-    size: 150,
+    size: { xs: 50, sm: 100, md: 150 },
   },
   {
     src: "/k-camera.png",
-    bottom: "10%",
+    bottom: "6%",
     right: "25%",
     rotate: "0",
     factor: -0.6,
-    size: 205,
+    size: { xs: 100, sm: 150, md: 205 },
   },
   {
     src: "/k-palette.png",
@@ -30,23 +30,23 @@ const icons = [
     right: "46%",
     rotate: "0",
     factor: 1,
-    size: 170,
+    size: { xs: 80, sm: 120, md: 170 },
   },
   {
     src: "/k-clapboard.png",
-    bottom: "15%",
+    bottom: "10%",
     left: "25%",
     rotate: "0",
     factor: 0.4,
-    size: 170,
+    size: { xs: 80, sm: 110, md: 170 },
   },
   {
     src: "/k-film-cam.png",
-    bottom: "25%",
+    bottom: "18%",
     left: "8%",
     rotate: "0",
     factor: -1,
-    size: 220,
+    size: { xs: 110, sm: 150, md: 220 },
   },
 ];
 
@@ -60,7 +60,7 @@ export function IconSwinger() {
   const moveAmplitude = 3;
 
   return (
-    <>
+    <Stack display={{ xs: "none", sm: "flex" }}>
       {icons.map((icon, index) => {
         const baseRotate = parseFloat(icon.rotate);
 
@@ -122,7 +122,7 @@ export function IconSwinger() {
           </motion.div>
         );
       })}
-    </>
+    </Stack>
   );
 }
 
@@ -134,38 +134,44 @@ export function Counter({
   display: number;
 }) {
   return (
-    <motion.div
-      style={{
-        position: "absolute",
-        bottom: 40,
-        left: "10%",
-        background: "#FFCE5C",
-        padding: "10px 20px",
-        borderRadius: "50px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        flexDirection: "column",
-        gap: 0,
-        zIndex: 100,
-        boxShadow: "0px 4px 12px rgba(0, 0, 15, 0.4)",
-        cursor: "pointer",
-      }}
-      whileHover={{
-        scale: 1.05,
-        transition: { duration: 0.3 },
-      }}
-      initial={false}
-      onViewportEnter={startCounting}
-      viewport={{ once: false, amount: 0.3 }} // Triggers when 30% is visible
-    >
-      <Typography fontWeight={700} fontSize={24} lineHeight={0.9}>
-        {toPersianDigits(display.toString())}+
-      </Typography>
-      <Typography fontSize={20} lineHeight={0.9}>
-        دقیقه تولید ویدیوئی
-      </Typography>
-    </motion.div>
+    <Stack display={{xs: 'none', sm: 'flex'}}>
+      <motion.div
+        style={{
+          position: "absolute",
+          bottom: 60,
+          left: "5%",
+          background: "#FFCE5C",
+          padding: "10px 20px",
+          borderRadius: "50px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: 0,
+          zIndex: 100,
+          boxShadow: "0px 4px 12px rgba(0, 0, 15, 0.4)",
+          cursor: "pointer",
+        }}
+        whileHover={{
+          scale: 1.05,
+          transition: { duration: 0.3 },
+        }}
+        initial={false}
+        onViewportEnter={startCounting}
+        viewport={{ once: false, amount: 0.3 }} // Triggers when 30% is visible
+      >
+        <Typography
+          fontWeight={700}
+          fontSize={{ xs: 16, sm: 20, md: 24 }}
+          lineHeight={0.9}
+        >
+          {toPersianDigits(display.toString())}+
+        </Typography>
+        <Typography fontSize={{ xs: 12, sm: 16, md: 20 }} lineHeight={0.9}>
+          دقیقه تولید ویدیوئی
+        </Typography>
+      </motion.div>
+    </Stack>
   );
 }
 

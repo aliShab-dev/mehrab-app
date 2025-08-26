@@ -14,8 +14,13 @@ import {
 import Image from "next/image";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import postAdminLogin from "../service/postAdminLogin";
 
-const LoginPanel = () => {
+type LoginPanelProps = {
+  setIsValid: (value: boolean) => void;
+};
+
+const LoginPanel: React.FC<LoginPanelProps> = ({ setIsValid }) => {
   const theme = useTheme();
 
   const [name, setName] = useState("");
@@ -24,7 +29,12 @@ const LoginPanel = () => {
 
   const handleToggle = () => setShowPassword((prev) => !prev);
   const handleLogin = () => {
-    console.log("Logging in with:", { name, password });
+    postAdminLogin({ userName: name, password })
+      .then((res) => {
+        localStorage.setItem("token", res.token);
+        setIsValid(!!res?.token);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -193,8 +203,8 @@ const LoginPanel = () => {
       <Stack
         position={"relative"}
         bgcolor={"#F5F5F5"}
-        width={{xs: 300, sm: 400}}
-        height={{xs: 340, sm: 360}}
+        width={{ xs: 300, sm: 400 }}
+        height={{ xs: 340, sm: 360 }}
         mx={"auto"}
         zIndex={100}
         my={"auto"}

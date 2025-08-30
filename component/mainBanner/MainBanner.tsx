@@ -68,7 +68,7 @@ const MainBanner = () => {
       <Stack
         sx={{
           position: "relative",
-          width: { xs: "100%", md: "90%", lg: "80%" },
+          width: { xs: "100%", md: "90%", lg: "72%" },
           aspectRatio: "16 / 9",
           mx: "auto",
           borderRadius: 2,

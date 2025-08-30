@@ -14,7 +14,7 @@ const icons = [
     right: "5%",
     rotate: "0",
     factor: 1,
-    size: { xs: 50, sm: 100, md: 150, lg: 180},
+    size: { xs: 50, sm: 100, md: 150, lg: 180, xl: 190},
   },
   {
     src: "/k-camera.png",
@@ -22,7 +22,7 @@ const icons = [
     right: "22%",
     rotate: "0",
     factor: -0.6,
-    size: { xs: 100, sm: 150, md: 205, lg: 225 },
+    size: { xs: 100, sm: 150, md: 205, lg: 225, xl: 240 },
   },
   {
     src: "/k-palette.png",
@@ -38,7 +38,7 @@ const icons = [
     left: "22%",
     rotate: "0",
     factor: 0.4,
-    size: { xs: 80, sm: 110, md: 170, lg: 190 },
+    size: { xs: 80, sm: 110, md: 170, lg: 190, xl: 200 },
   },
   {
     src: "/k-film-cam.png",
@@ -46,7 +46,7 @@ const icons = [
     left: "4%",
     rotate: "0",
     factor: -1,
-    size: { xs: 110, sm: 150, md: 220, lg: 240 },
+    size: { xs: 110, sm: 150, md: 220, lg: 240, xl: 250 },
   },
 ];
 

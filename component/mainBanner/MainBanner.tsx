@@ -19,11 +19,11 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   gap: 5,
   padding: "3px 0px",
   paddingRight: 10,
-  fontSize: 10,
+  fontSize: 12,
   color: "white",
   background: `linear-gradient(to bottom, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
   "& .MuiButton-endIcon": {
-    fontSize: 18,
+    fontSize: 20,
     marginBottom: 1,
     "& svg": {
       fontSize: "inherit",
@@ -68,7 +68,7 @@ const MainBanner = () => {
       <Stack
         sx={{
           position: "relative",
-          width: { xs: "100%", md: "90%", lg: "72%" },
+          width: { xs: "100%", md: "90%", lg: "68%" },
           aspectRatio: "16 / 9",
           mx: "auto",
           borderRadius: 2,
@@ -77,6 +77,7 @@ const MainBanner = () => {
           justifyContent: "center",
           alignItems: "center",
           mb: 5,
+          mt: -6
         }}
       >
         <IconSwinger />
@@ -122,7 +123,7 @@ const MainBanner = () => {
           </Typography>
           <Typography
             display={{ xs: "none", sm: "block" }}
-            fontSize={{ xs: 10, sm: 14, md: 16 }}
+            fontSize={{ xs: 12, sm: 14, md: 16 }}
             width={{ xs: "80%", sm: "75%", md: "60%" }}
             textAlign={"center"}
           >

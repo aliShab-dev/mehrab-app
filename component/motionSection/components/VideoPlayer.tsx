@@ -1,5 +1,5 @@
 "use client";
-import { Box, Divider, Stack, Typography } from "@mui/material";
+import { Box, Divider, Stack, styled, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
@@ -7,16 +7,42 @@ type VideoPlayerType = {
   url: string;
 };
 
+const PrimaryText = styled(Typography)(({ theme }) => ({
+  fontWeight: 600,
+  color: "#8E8E8E",
+  fontSize: 14, // default
+  [theme.breakpoints.up("sm")]: {
+    fontSize: 16,
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: 18,
+  },
+  [theme.breakpoints.up("lg")]: {
+    fontSize: 25,
+  },
+}));
+
+const SecondaryText = styled(Typography)(({ theme }) => ({
+  fontSize: 16,
+  fontWeight: 300,
+  color: "#2156C9",
+  marginRight: -0.4,
+  width: "100%",
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
+}));
+
 const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
   return (
-    <Stack width={'100%'}>
+    <Stack width={"100%"}>
       <Box
         sx={{
           position: "relative",
           width: "100%",
           borderRadius: 5,
           backgroundColor: "#000",
-          overflow: 'hidden',
+          overflow: "hidden",
           aspectRatio: "1920/1080",
         }}
       >
@@ -33,7 +59,15 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
           }}
         />
       </Box>
-      <Stack direction={"row"} mt={4} justifyContent={"space-between"}>
+      <Stack
+        width="100%"
+        direction="row"
+        mt={4}
+        flexWrap="wrap"
+        columnGap={3}
+        rowGap={2}
+        justifyContent={{xs:"flex-start", md: 'space-between'}}
+      >
         <Stack direction={"row"} gap={2.5}>
           <Divider
             orientation="vertical"
@@ -45,17 +79,8 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
           />
 
           <Stack>
-            <Typography fontSize={25} fontWeight={600} color="#8E8E8E">
-              نام اثر
-            </Typography>
-            <Typography
-              mr={-0.4}
-              color="#2156C9"
-              fontSize={16}
-              fontWeight={300}
-            >
-              خانواده هنری محراب
-            </Typography>
+            <PrimaryText>نام اثر</PrimaryText>
+            <SecondaryText>خانواده هنری محراب</SecondaryText>
           </Stack>
         </Stack>
 
@@ -70,17 +95,8 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
           />
 
           <Stack>
-            <Typography fontSize={25} fontWeight={600} color="#8E8E8E">
-              لول کار
-            </Typography>
-            <Typography
-              mr={-0.4}
-              color="#2156C9"
-              fontSize={16}
-              fontWeight={300}
-            >
-              خانواده هنری محراب
-            </Typography>
+            <PrimaryText>لول کار</PrimaryText>
+            <SecondaryText>خانواده هنری محراب</SecondaryText>
           </Stack>
         </Stack>
 
@@ -95,17 +111,8 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
           />
 
           <Stack>
-            <Typography fontSize={25} fontWeight={600} color="#8E8E8E">
-              برای کجا بوده
-            </Typography>
-            <Typography
-              mr={-0.4}
-              color="#2156C9"
-              fontSize={16}
-              fontWeight={300}
-            >
-              خانواده هنری محراب
-            </Typography>
+            <PrimaryText>برای کجا بوده</PrimaryText>
+            <SecondaryText>خانواده هنری محراب</SecondaryText>
           </Stack>
         </Stack>
 
@@ -120,17 +127,8 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
           />
 
           <Stack>
-            <Typography fontSize={25} fontWeight={600} color="#8E8E8E">
-              تعداد قسمت‌ها
-            </Typography>
-            <Typography
-              mr={-0.4}
-              color="#2156C9"
-              fontSize={16}
-              fontWeight={300}
-            >
-              خانواده هنری محراب
-            </Typography>
+            <PrimaryText>تعداد قسمت‌ها</PrimaryText>
+            <SecondaryText>خانواده هنری محراب</SecondaryText>
           </Stack>
         </Stack>
       </Stack>

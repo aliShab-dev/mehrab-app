@@ -6,7 +6,7 @@ import VideoPlayer from "./components/VideoPlayer";
 
 const MotionSection = () => {
   return (
-    <Stack width={"80%"} mx="auto" gap={5}>
+    <Stack width={{xs: '95%', md: "80%"}} mx="auto" gap={5}>
       <SectionHeader
         backIcon={{
           alt: "motion-graphic-background-image",
@@ -16,12 +16,12 @@ const MotionSection = () => {
         title="برترین‌های موشن گرافیک"
       />
       <Stack
-        direction="row"
+        direction={{ xs: "column-reverse", md: "row" }}
         width="93.4%"
         height="100%"
-        mx={'auto'}
+        mx={"auto"}
         gap={4}
-        sx={{ aspectRatio: "1920/980" }}
+        sx={{ aspectRatio: {xs: 'nome', md: "1920/980"} }}
       >
         <ButtonMenu />
         <VideoPlayer url="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" />

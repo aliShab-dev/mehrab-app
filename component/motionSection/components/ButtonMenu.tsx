@@ -39,7 +39,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-  width: '100%',
+  width: "100%",
   padding: theme.spacing(1),
 }));
 
@@ -150,26 +150,31 @@ const ButtonMenu = () => {
 
   return (
     <Stack
-      width={320}
-      minWidth={320}
-      height="100%"
+      width={{ xs: "100%", md: 350 }}
+      // minWidth={320}
+      height={{ xs: 400, md: "100%" }}
       overflow="hidden"
-      sx={{
+      sx={(theme) => ({
         overflowY: "auto",
         direction: "ltr",
-        borderBottom: (theme) =>
-          `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+        borderBottom: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+        borderTop: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+        pt: 2,
+        [theme.breakpoints.up("lg")]: {
+          borderTop: "none",
+          pt: 0
+        },
         "&::-webkit-scrollbar": { width: "6px" },
         "&::-webkit-scrollbar-track": {
           background: `linear-gradient(to bottom, transparent 0%, #E9E9E9 0%, #E9E9E9 100%, transparent 100%)`,
           borderRadius: 2,
         },
         "&::-webkit-scrollbar-thumb": {
-          backgroundColor: (theme) => theme.palette.secondary.light,
+          backgroundColor: theme.palette.secondary.light,
           borderRadius: 2,
         },
         "&::-webkit-scrollbar-button": { display: "none" },
-      }}
+      })}
       pr={1}
     >
       {motionCats.map((cat, index) => (
@@ -187,7 +192,12 @@ const ButtonMenu = () => {
             <HeaderButton key={cat} expanded={expanded} name={cat} />
           </AccordionSummary>
           <AccordionDetails>
-            <Stack mt={0.6} direction={"row"} justifyContent={"space-between"} width={"90%"}>
+            <Stack
+              mt={0.6}
+              direction={"row"}
+              justifyContent={"space-between"}
+              width={"90%"}
+            >
               {subCat.map((subCat) => (
                 <Button
                   key={subCat.id}
@@ -224,8 +234,8 @@ const ButtonMenu = () => {
                     <Typography
                       fontSize={12}
                       sx={(theme) => ({
-                        position: 'absolute',
-                        bottom: -12, 
+                        position: "absolute",
+                        bottom: -12,
                         right: 10,
                         width: 65,
                         color:

@@ -7,7 +7,7 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React from "react";
-import { Button, Divider, Stack, Typography } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 const Accordion = styled((props: AccordionProps) => (
@@ -25,6 +25,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   paddingRight: 0,
   backgroundColor: "rgba(0, 0, 0, .00)",
   flexDirection: "row-reverse",
+  padding: 0,
   [`& .${accordionSummaryClasses.expandIconWrapper}.${accordionSummaryClasses.expanded}`]:
     {
       transform: "rotate(90deg)",
@@ -77,29 +78,55 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
       width={"100%"}
       alignItems={"center"}
       justifyContent={"start"}
-      gap={1.7}
+      gap={1.5}
     >
       <Stack position={"relative"}>
-        <Image
-          src={expanded == name ? "/selected-folder.png" : "/Folder.png"}
-          alt={expanded == name ? "selected-folder-icon" : "folder-icon"}
-          width={expanded == name ? 42 : 50}
-          height={expanded == name ? 42 : 50}
-        />
-        <Image
-          src={expanded == name ? "/selected-Union.png" : "/Union.png"}
-          alt={expanded == name ? "selected-Union-icon" : "Union-icon"}
-          width={23}
-          height={23}
-          style={{
-            position: "absolute",
-            top: expanded == name ? 13 : 16,
-            right: expanded == name ? 10 : 13,
+        <Box
+          sx={{
+            position: "relative",
+            width:
+              expanded === name
+                ? { xs: 35, sm: 45, md: 38, lg: 42 }
+                : { xs: 40, sm: 45, md: 45, lg: 52 },
+            height:
+              expanded === name
+                ? { xs: 36, sm: 40, md: 45, lg: 50 }
+                : { xs: 44, sm: 48, md: 50, lg: 50},
           }}
-        />
+        >
+          <Image
+            src={expanded === name ? "/selected-folder.png" : "/Folder.png"}
+            alt={expanded === name ? "selected-folder-icon" : "folder-icon"}
+            fill
+            style={{ objectFit: "contain" }}
+          />
+        </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            width: { xs: 20, sm: 25, md: 23, lg: 25 },
+            height: { xs: 20, sm: 22, md: 23, lg: 25 },
+            top:
+              expanded === name
+                ? { xs: 10, sm: 11, md: 13, lg: 15 }
+                : { xs: 14, sm: 15, md: 16, lg: 15 },
+            right:
+              expanded === name
+                ? { xs: 8, sm: 11, md: 8, lg: 10 }
+                : { xs: 11, sm: 12, md: 12, lg: 14 },
+          }}
+        >
+          <Image
+            src={expanded === name ? "/selected-Union.png" : "/Union.png"}
+            alt={expanded === name ? "selected-Union-icon" : "Union-icon"}
+            fill
+            style={{ objectFit: "contain" }}
+          />
+        </Box>
       </Stack>
       <Typography
-        fontSize={22}
+        fontSize={{ xs: 15, sm: 16, md: 18, lg: 20 }}
+        fontWeight={500}
         sx={(theme) => ({
           color:
             expanded === name
@@ -150,7 +177,7 @@ const ButtonMenu = () => {
 
   return (
     <Stack
-      width={{ xs: "100%", md: 350 }}
+      width={{ xs: "100%", md: 300 }}
       // minWidth={320}
       height={{ xs: 400, md: "100%" }}
       overflow="hidden"
@@ -162,7 +189,7 @@ const ButtonMenu = () => {
         pt: 2,
         [theme.breakpoints.up("lg")]: {
           borderTop: "none",
-          pt: 0
+          pt: 0,
         },
         "&::-webkit-scrollbar": { width: "6px" },
         "&::-webkit-scrollbar-track": {

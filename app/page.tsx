@@ -21,7 +21,7 @@ export default function Home() {
           <MotionSection />
         </section>
 
-        <section>
+        {/* <section>
           <FilmDocSection />
         </section>
 
@@ -35,7 +35,7 @@ export default function Home() {
        
         <section>
           <Comunity />
-        </section>
+        </section> */}
        
           <div style={{height: 100}}></div>
       </main>

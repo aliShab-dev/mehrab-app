@@ -11,19 +11,23 @@ const PrimaryText = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   color: "#8E8E8E",
   fontSize: 14, // default
+  width: "100%",
+  overflow: "hidden",
+  whiteSpace: "nowrap",
+  textOverflow: "ellipsis",
   [theme.breakpoints.up("sm")]: {
     fontSize: 16,
   },
   [theme.breakpoints.up("md")]: {
-    fontSize: 18,
+    fontSize: 16,
   },
   [theme.breakpoints.up("lg")]: {
-    fontSize: 25,
+    fontSize: 20,
   },
 }));
 
 const SecondaryText = styled(Typography)(({ theme }) => ({
-  fontSize: 16,
+  fontSize: 12,
   fontWeight: 300,
   color: "#2156C9",
   marginRight: -0.4,
@@ -31,6 +35,15 @@ const SecondaryText = styled(Typography)(({ theme }) => ({
   overflow: "hidden",
   whiteSpace: "nowrap",
   textOverflow: "ellipsis",
+  [theme.breakpoints.up("sm")]: {
+    fontSize: 12,
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: 14,
+  },
+  [theme.breakpoints.up("lg")]: {
+    fontSize: 14,
+  },
 }));
 
 const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
@@ -64,73 +77,41 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
         direction="row"
         mt={4}
         flexWrap="wrap"
-        columnGap={3}
+        columnGap={0}
         rowGap={2}
-        justifyContent={{xs:"flex-start", md: 'space-between'}}
+        justifyContent={{ xs: "flex-start", md: "space-between" }}
       >
-        <Stack direction={"row"} gap={2.5}>
-          <Divider
-            orientation="vertical"
+        {[
+          { title: "نام اثر", value: "خانواده هنری محراب" },
+          { title: "لول کار", value: "خانواده هنری محراب" },
+          { title: "برای کجا بوده", value: "خانواده هنری محراب" },
+          { title: "تعداد قسمت‌ها", value: "خانواده هنری محراب" },
+        ].map((item, i) => (
+          <Stack
+            key={i}
+            direction="row"
+            gap={1.5}
+            minWidth={0}
             sx={{
-              borderColor: (theme) => theme.palette.primary.main,
-              mt: 0,
-              height: "72%",
+              flexBasis: { xs: "50%", sm: "25%" }, // ✅ 50% on xs, 25% on sm+
+              flexGrow: 1,
             }}
-          />
+          >
+            <Divider
+              orientation="vertical"
+              sx={(theme) => ({
+                borderColor: theme.palette.primary.main,
+                mt: 0,
+                height: "72%",
+              })}
+            />
 
-          <Stack>
-            <PrimaryText>نام اثر</PrimaryText>
-            <SecondaryText>خانواده هنری محراب</SecondaryText>
+            <Stack width="100%" minWidth={0}>
+              <PrimaryText>{item.title}</PrimaryText>
+              <SecondaryText>{item.value}</SecondaryText>
+            </Stack>
           </Stack>
-        </Stack>
-
-        <Stack direction={"row"} gap={2.5}>
-          <Divider
-            orientation="vertical"
-            sx={{
-              borderColor: (theme) => theme.palette.primary.main,
-              mt: 0,
-              height: "72%",
-            }}
-          />
-
-          <Stack>
-            <PrimaryText>لول کار</PrimaryText>
-            <SecondaryText>خانواده هنری محراب</SecondaryText>
-          </Stack>
-        </Stack>
-
-        <Stack direction={"row"} gap={2.5}>
-          <Divider
-            orientation="vertical"
-            sx={{
-              borderColor: (theme) => theme.palette.primary.main,
-              mt: 0,
-              height: "72%",
-            }}
-          />
-
-          <Stack>
-            <PrimaryText>برای کجا بوده</PrimaryText>
-            <SecondaryText>خانواده هنری محراب</SecondaryText>
-          </Stack>
-        </Stack>
-
-        <Stack direction={"row"} gap={2.5}>
-          <Divider
-            orientation="vertical"
-            sx={{
-              borderColor: (theme) => theme.palette.primary.main,
-              mt: 0,
-              height: "72%",
-            }}
-          />
-
-          <Stack>
-            <PrimaryText>تعداد قسمت‌ها</PrimaryText>
-            <SecondaryText>خانواده هنری محراب</SecondaryText>
-          </Stack>
-        </Stack>
+        ))}
       </Stack>
     </Stack>
   );

@@ -1,6 +1,6 @@
 "use client";
-import { Stack, Typography } from "@mui/material";
-import Image, { StaticImageData } from "next/image";
+import { Stack, styled, Typography } from "@mui/material";
+import Image, { ImageProps, StaticImageData } from "next/image";
 
 type SectionHeaderType = {
   title: string;
@@ -19,33 +19,84 @@ type SectionHeaderType = {
   };
 };
 
+interface ResponsiveImageProps extends ImageProps {
+  customWidth?: number;
+  customHeight?: number;
+}
+
+const ResponsiveImage = styled(Image, {
+  shouldForwardProp: (prop) =>
+    prop !== "customWidth" && prop !== "customHeight",
+})<ResponsiveImageProps>(({ theme, customWidth, customHeight }) => ({
+  position: "absolute",
+  top: -35,
+  left: -10,
+  zIndex: 90,
+  width: customWidth ?? 70,
+  height: customHeight ?? "auto",
+
+  ...(customWidth == null && {
+    [theme.breakpoints.up("sm")]: {
+      width: 80,
+      top: -40,
+      left: -15,
+    },
+    [theme.breakpoints.up("md")]: {
+      width: 90,
+      top: -45,
+      left: -15,
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: 100,
+      top: -50,
+      left: -15,
+    },
+  }),
+}));
+
+export const ResponsiveFrontImage = styled(Image, {
+  shouldForwardProp: (prop) =>
+    prop !== "customWidth" && prop !== "customHeight",
+})<ResponsiveImageProps>(({ theme, customWidth, customHeight }) => ({
+  zIndex: 100,
+  width: customWidth ?? 30,
+  height: customHeight ?? "auto",
+
+  ...(customWidth == null && {
+    [theme.breakpoints.up("sm")]: { width: 30 },
+    [theme.breakpoints.up("md")]: { width: 35 },
+    [theme.breakpoints.up("lg")]: { width: 40 },
+  }),
+}));
+
 const SectionHeader = ({ title, backIcon, frontIcon }: SectionHeaderType) => {
   return (
-    <Stack mr={1.5} mt={-2.5}>
-      <Stack direction={"row"} gap={2.2}>
+    <Stack mr={{xs: 3.6, sm: 5, md: 1.5}} mt={-2.5}>
+      <Stack direction={"row"} gap={{ xs: 1, sm: 1.5, md: 2, lg: 2.2 }}>
         <Stack position={"relative"} mt={0.5}>
-          <Image
+          <ResponsiveImage
             alt={backIcon.alt}
             src={backIcon.src}
-            width={backIcon.width || 100}
-            height={backIcon.height || 100}
-            style={{
-              position: "absolute",
-              top: backIcon.position?.top || -50,
-              left: backIcon.position?.left || -10,
-              zIndex: 90,
-            }}
+            customWidth={backIcon.width}
+            customHeight={backIcon.height}
+            width={1000}
+            height={1000}
           />
-          <Image
+          <ResponsiveFrontImage
             alt={frontIcon.alt}
             src={frontIcon.src}
-            width={frontIcon.width || 44}
-            height={frontIcon.height || 44}
-            style={{ zIndex: 100 }}
+            customWidth={frontIcon.width}
+            customHeight={frontIcon.height}
+            width={1000}
+            height={1000}
           />
         </Stack>
         <Stack>
-          <Typography component={"h2"} fontSize={26} fontWeight={800}>
+          <Typography
+            component={"h2"}
+            fontSize={{ xs: 16, sm: 18, md: 20, lg: 26 }}
+            fontWeight={800}
+          >
             {title}
           </Typography>
         </Stack>

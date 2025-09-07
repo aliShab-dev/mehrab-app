@@ -6,11 +6,19 @@ import VideoPlayer from "./components/VideoPlayer";
 
 const MotionSection = () => {
   return (
-    <Stack width={{xs: '95%', md: "80%"}} mx="auto" gap={5}>
+    <Stack width={{ xs: "95%", md: "80%" }} mx="auto" gap={{ xs: 3, md: 5 }}>
       <SectionHeader
         backIcon={{
           alt: "motion-graphic-background-image",
           src: "/motion-back.png",
+          width: { xs: 60, sm: 70, md: 80, lg: 90 },
+          height: { xs: 60, sm: 70, md: 80, lg: 90 },
+          position: {
+            xs: { top: -28, left: -10 },
+            sm: { top: -32, left: -12 },
+            md: { top: -35, left: -12 },
+            lg: { top: -42, left: -14 },
+          },
         }}
         frontIcon={{ alt: "motion-graphic-image", src: "/camera-icon.png" }}
         title="برترین‌های موشن گرافیک"
@@ -21,7 +29,7 @@ const MotionSection = () => {
         height="100%"
         mx={"auto"}
         gap={4}
-        sx={{ aspectRatio: {xs: 'nome', md: "1920/980"} }}
+        sx={{ aspectRatio: { xs: "nome", md: "1920/980" } }}
       >
         <ButtonMenu />
         <VideoPlayer url="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" />

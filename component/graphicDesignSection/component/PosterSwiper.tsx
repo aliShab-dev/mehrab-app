@@ -1,6 +1,14 @@
 "use client";
 
-import { alpha, Box, IconButton, Stack, Typography } from "@mui/material";
+import {
+  alpha,
+  Box,
+  IconButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { Global } from "@emotion/react";
@@ -16,6 +24,18 @@ type Poster = {
   name: string;
   author: string;
   src: string;
+};
+
+type PosterCategory = {
+  catName: string;
+  posterList: Poster[];
+};
+
+type PosterButtonProps = {
+  item: PosterCategory;
+  index: number;
+  category: number;
+  setCategory: (index: number) => void;
 };
 
 const posterCats = [
@@ -65,13 +85,9 @@ const MySwiperStyles = () => (
       },
       ".custom-swiper .swiper-slide-next, .custom-swiper .swiper-slide-prev": {
         transform: "scale(0.9)",
-        marginLeft: "10px !important",
-        marginRight: "-30px !important",
         zIndex: 2,
       },
       ".custom-swiper .swiper-slide-active": {
-        marginLeft: "100px !important",
-        marginRight: 60,
         transform: "scale(1.1)",
         zIndex: 3,
       },
@@ -128,9 +144,11 @@ const PosterSwiper = () => {
       swiperInstance.navigation.update();
     }
   }, []);
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   return (
-    <Stack width="100%" mt={-3} overflow={"visible"}>
+    <Stack width="100%" overflow={"visible"} position={"relative"}>
       <MySwiperStyles />
 
       <IconButton
@@ -142,7 +160,7 @@ const PosterSwiper = () => {
           pl: 1.4,
           position: "absolute",
           top: "35%",
-          left: "calc(50% + 275px)",
+          left: { xs: "86%", sm: "calc(50% + 275px)" },
           zIndex: 10,
           background: `linear-gradient(to bottom,#37E3C3, #049070)`,
           boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -165,7 +183,7 @@ const PosterSwiper = () => {
           pr: 1.4,
           position: "absolute",
           top: "35%",
-          right: "calc(50% + 275px)",
+          right: { xs: "86%", sm: "calc(50% + 275px)" },
           zIndex: 10,
           background: `linear-gradient(to bottom,#37E3C3, #049070)`,
           boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -182,7 +200,6 @@ const PosterSwiper = () => {
       <Swiper
         ref={swiperRef}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        slidesPerView={3}
         spaceBetween={40}
         centeredSlides
         loop
@@ -190,6 +207,20 @@ const PosterSwiper = () => {
         modules={[Navigation]}
         className="custom-swiper"
         style={{ paddingBottom: 100 }}
+        breakpoints={{
+          0: {
+            slidesPerView: 1.18,
+            spaceBetween: 20,
+          },
+          600: {
+            slidesPerView: 1.5,
+            spaceBetween: 20,
+          },
+          900: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+          },
+        }}
       >
         {posterData[category].posterList.map((poster, index) => (
           <SwiperSlide
@@ -202,12 +233,11 @@ const PosterSwiper = () => {
             }}
           >
             <Stack p={1} textAlign="start" height="100%" width="100%">
-              {/* Aspect Ratio Container */}
               <Box
                 sx={{
                   position: "relative",
                   width: "100%",
-                  paddingTop: `${(1080 / 1950) * 100}%`, // ≈55.38%
+                  paddingTop: `${(1080 / 1950) * 100}%`,
                   borderRadius: 2,
                   overflow: "hidden",
                 }}
@@ -262,7 +292,7 @@ const PosterSwiper = () => {
         ))}
       </Swiper>
 
-      <Stack
+      {/* <Stack
         position={"absolute"}
         bottom={-40}
         direction={"row-reverse"}
@@ -302,9 +332,98 @@ const PosterSwiper = () => {
             </Typography>
           </Stack>
         ))}
-      </Stack>
+      </Stack> */}
+      {isMdUp ? (
+        <Stack
+          position="absolute"
+          bottom={-40}
+          direction="row-reverse"
+          gap={2.3}
+          width="100%"
+          justifyContent="center"
+        >
+          {posterData.map((item, index) => (
+            <PosterButton
+              key={item.catName}
+              item={item}
+              index={index}
+              category={category}
+              setCategory={setCategory}
+            />
+          ))}
+        </Stack>
+      ) : (
+        <Swiper
+          slidesPerView="auto"
+          spaceBetween={0}
+          centeredSlides={false}
+          style={{
+            position: "absolute",
+            bottom: -40,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "80%",
+            height: "auto",
+            padding: "20px 16px",
+          }}
+        >
+          {posterData.map((item, index) => (
+            <SwiperSlide
+              key={item.catName}
+              style={{ width: 80, height: "auto", background: "transparent" }}
+            >
+              <PosterButton
+                item={item}
+                index={index}
+                category={category}
+                setCategory={setCategory}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      )}
     </Stack>
   );
 };
+
+function PosterButton({
+  item,
+  index,
+  category,
+  setCategory,
+}: PosterButtonProps) {
+  return (
+    <Stack
+      component="button"
+      onClick={() => setCategory(index)}
+      border="none"
+      borderRadius={2}
+      p={0}
+      width={{ xs: 55, sm: 60, md: 70, lg: 80 }}
+      height={{ xs: 45, sm: 50, md: 60, lg: 75 }}
+      sx={(theme) => ({
+        zIndex: 200,
+        cursor: "pointer",
+        transition: "color 0.3s ease, background 0.3s ease",
+        boxShadow:
+          category === index
+            ? `0 2px 15px 10px ${alpha(theme.palette.primary.main, 0.5)}`
+            : 3,
+        color: category === index ? "#fff" : "inherit",
+        background:
+          category === index
+            ? `linear-gradient(to bottom,${theme.palette.primary.main}, ${alpha(
+                theme.palette.secondary.dark,
+                0.9
+              )})`
+            : `linear-gradient(to bottom,#FFFFFF, #D2D3F0)`,
+      })}
+    >
+      <Typography fontSize={{ xs: 10, md: 14 }} m="auto">
+        {item.catName}
+      </Typography>
+    </Stack>
+  );
+}
 
 export default PosterSwiper;

@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
@@ -88,27 +88,32 @@ const mockDataList: MockDataList = [
 const AudioSection = () => {
   const [selectedItem, setSelectedItem] = useState(mockDataList[0]);
   return (
-    <Stack height={"auto"} width={"100%"} mt={15} gap={5}>
-      <Stack width={"80%"} mx="auto">
+    <Stack height={"auto"} width={"100%"} mt={10} gap={5}>
+      <Stack width={{ xs: "95%", md: "80%" }} mx="auto">
         <SectionHeader
           backIcon={{
             alt: "pudcast-icon",
             src: "/VoiceBackIcon.png",
-            width: 120,
-            height: 120,
-            position: { left: -23, top: -63 },
+            width: { xs: 80, sm: 80, md: 90, lg: 110 },
+            height: { xs: 80, sm: 80, md: 90, lg: 110 },
+            position: {
+              xs: { top: -40, left: -15 },
+              sm: { top: -40, left: -15 },
+              md: { top: -40, left: -15 },
+              lg: { top: -50, left: -20 },
+            },
           }}
           frontIcon={{ alt: "voice-icon", src: "/Chart.png" }}
           title="برترین‌های صوت و نریشن"
         />
       </Stack>
       <Stack
-        direction={"row"}
-        gap={6}
-        width={"75%"}
-        height={350}
+        direction={{ xs: "column-reverse", md: "row" }}
+        gap={3}
+        width={{xs:'90%' , md: "75%"}}
+        height={"auto"}
         mx="auto"
-        px={11}
+        px={{ xs: 1.4, md: 2 }}
         sx={{
           borderRadius: 6,
           background: (theme) =>

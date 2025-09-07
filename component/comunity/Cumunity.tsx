@@ -28,7 +28,7 @@ const Comunity = () => {
         </Typography>
       </Stack>
 
-      <Stack width={"80%"} mx={"auto"} gap={6}>
+      <Stack width={{ xs: "90%", md: "75%" }} mx={"auto"} gap={6}>
         <Swiper
           slidesPerView={6}
           spaceBetween={20}
@@ -40,6 +40,20 @@ const Comunity = () => {
           }}
           allowTouchMove={false}
           modules={[Autoplay]}
+          breakpoints={{
+            0: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            600: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            },
+            900: {
+              slidesPerView: 6,
+              spaceBetween: 30,
+            },
+          }}
           style={{ width: "100%" }}
         >
           {orgList.map((item) => (
@@ -55,7 +69,6 @@ const Comunity = () => {
           ))}
         </Swiper>
         <Swiper
-          slidesPerView={6}
           spaceBetween={20}
           loop={true}
           speed={2000}
@@ -66,6 +79,20 @@ const Comunity = () => {
           }}
           allowTouchMove={false}
           modules={[Autoplay]}
+          breakpoints={{
+            0: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            600: {
+              slidesPerView: 4,
+              spaceBetween: 20,
+            },
+            900: {
+              slidesPerView: 6,
+              spaceBetween: 30,
+            },
+          }}
           style={{ width: "100%" }}
         >
           {orgList.map((item) => (

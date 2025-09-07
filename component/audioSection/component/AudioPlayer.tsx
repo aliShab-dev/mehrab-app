@@ -87,12 +87,30 @@ const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
   }, [selectedItem]);
 
   return (
-    <Stack direction={"row"} width={"100%"} gap={3}>
-      <Stack width={"50%"} mt={7.5} gap={0.5}>
-        <Typography fontSize={22} fontWeight={600}>
+    <Stack
+      direction={{ xs: "column-reverse", sm: "row" }}
+      width={"100%"}
+      gap={2}
+    >
+      <Stack
+        width={{ xs: "100%", sm: "50%" }}
+        mt={{ xs: 2, sm: 7.5 }}
+        gap={0.5}
+      >
+        <Typography
+          width={"100%"}
+          noWrap
+          fontSize={{ xs: 14, sm: 16, md: 18, lg: 20 }}
+          fontWeight={600}
+        >
           {selectedItem.name}
         </Typography>
-        <Typography fontSize={16} color={"#2156C9"}>
+        <Typography
+          width={"100%"}
+          noWrap
+          fontSize={{ xs: 12, sm: 14, md: 16 }}
+          color={"#2156C9"}
+        >
           {selectedItem.author}
         </Typography>
         <Typography
@@ -101,17 +119,19 @@ const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
           fontSize={14}
           color="#2156C9"
           sx={{
-            height: 100,
-            overflowY: "auto",
-            wordBreak: "break-word",
-            whiteSpace: "pre-wrap",
+            display: "-webkit-box",
+            WebkitLineClamp: 3, // number of lines before "..."
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "normal",
           }}
         >
           {selectedItem.description}
         </Typography>
       </Stack>
 
-      <Stack width={"50%"} alignItems={"center"} px={3} gap={2.5}>
+      <Stack width={{ xs: "100%", sm: "50%" }} alignItems={"center"} gap={2.5}>
         <ReactAudioPlayer
           ref={audioRef}
           src={selectedItem.src || "/bensound-slowmotion.mp3"}
@@ -151,7 +171,7 @@ const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
             cursor: "pointer",
             position: "relative",
             overflow: "hidden",
-            direction: 'ltr'
+            direction: "ltr",
           }}
           onClick={handleProgressClick}
         >

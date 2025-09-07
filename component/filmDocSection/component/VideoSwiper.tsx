@@ -70,12 +70,17 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
           onClick={() => swiperRef?.slidePrev()}
           size="large"
           sx={{
-            width: 43,
-            height: 43,
+            width: { xs: 32, sm: 43 },
+            height: { xs: 32, sm: 43 },
             pl: 1.4,
             position: "absolute",
-            top: "40%",
-            left: "calc(60% + 255px)",
+            top: { xs: "38%", sm: "40%" },
+            left: {
+              xs: "calc(85%)",
+              sm: "calc(80%)",
+              md: "calc(78%)",
+              lg: "calc(60% + 255px)",
+            },
             zIndex: 100,
             background: `linear-gradient(to bottom,#37E3C3, #049070)`,
             boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -95,12 +100,17 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
           onClick={() => swiperRef?.slideNext()}
           size="large"
           sx={{
-            width: 43,
-            height: 43,
+            width: { xs: 32, sm: 43 },
+            height: { xs: 32, sm: 43 },
             pl: 1.4,
             position: "absolute",
-            top: "40%",
-            right: "calc(60% + 255px)",
+            top: { xs: "38%", sm: "40%" },
+            right: {
+              xs: "calc(85%)",
+              sm: "calc(80%)",
+              md: "calc(78%)",
+              lg: "calc(60% + 255px)",
+            },
             zIndex: 100,
             background: `linear-gradient(to bottom,#37E3C3, #049070)`,
             boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
@@ -117,6 +127,7 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
       {!isBeginning && (
         <Box
           sx={{
+            display: { xs: "none", sm: "block" },
             position: "absolute",
             top: 0,
             right: 0,
@@ -133,6 +144,7 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
       {!isEnd && (
         <Box
           sx={{
+            display: { xs: "none", sm: "block" },
             position: "absolute",
             top: 0,
             left: 0,
@@ -171,6 +183,20 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
             setIsBeginning(swiper.isBeginning);
             setIsEnd(swiper.isEnd);
           });
+        }}
+        breakpoints={{
+          0: {
+            slidesPerView: 1.1,
+            spaceBetween: 10,
+          },
+          600: {
+            slidesPerView: 1.8,
+            spaceBetween: 30,
+          },
+          900: {
+            slidesPerView: 2,
+            spaceBetween: 60,
+          },
         }}
       >
         {videoList.map((video, index) => (

@@ -87,7 +87,7 @@ const StyledTooltip = styled((props: TooltipProps) => {
 const StyledButton = styled((props: ButtonProps) => (
   <Button disableRipple {...props} />
 ))(({ theme }) => ({
-  width: 60, // default, can be overridden
+  width: 60,
   backgroundColor: "#fff",
   color: "inherit",
   fontSize: 10,
@@ -209,7 +209,7 @@ const Footer = () => {
 
       <Stack
         direction={"row"}
-        justifyContent={'center'}
+        justifyContent={"center"}
         mx={"auto"}
         gap={{ xs: 2, md: 5 }}
         width={"100%"}
@@ -250,13 +250,19 @@ const Footer = () => {
           </Stack>
         ))}
       </Stack>
-      <Stack mx={"auto"} textAlign={'center'}>
+      <Stack mx={"auto"} textAlign={"center"}>
         <Typography fontSize={13} color="secondary.dark">
           حقوق مادی و معنوی سایت متعلق به خانواده هنری محراب می باشد.
         </Typography>
       </Stack>
 
       <IconButton
+        onClick={() =>
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth", // ✅ smooth scrolling
+          })
+        }
         sx={{
           position: "absolute",
           top: -18,

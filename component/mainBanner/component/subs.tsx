@@ -10,23 +10,23 @@ import { Avatar, Stack, Typography } from "@mui/material";
 const icons = [
   {
     src: "/k-like.png",
-    bottom: "26%",
-    right: "5%",
+    bottom: "22%",
+    right: "2%",
     rotate: "0",
     factor: 1,
     size: { xs: 50, sm: 100, md: 150, lg: 180, xl: 190},
   },
   {
     src: "/k-camera.png",
-    bottom: "8%",
-    right: "22%",
+    bottom: "2%",
+    right: "18%",
     rotate: "0",
     factor: -0.6,
     size: { xs: 100, sm: 150, md: 205, lg: 225, xl: 240 },
   },
   {
     src: "/k-palette.png",
-    bottom: "3%",
+    bottom: "-5%",
     right: "42%",
     rotate: "0",
     factor: 1,
@@ -34,7 +34,7 @@ const icons = [
   },
   {
     src: "/k-clapboard.png",
-    bottom: "12%",
+    bottom: "7%",
     left: "22%",
     rotate: "0",
     factor: 0.4,
@@ -42,8 +42,8 @@ const icons = [
   },
   {
     src: "/k-film-cam.png",
-    bottom: "20%",
-    left: "4%",
+    bottom: "16%",
+    left: "-0%",
     rotate: "0",
     factor: -1,
     size: { xs: 110, sm: 150, md: 220, lg: 240, xl: 250 },
@@ -138,7 +138,7 @@ export function Counter({
       <motion.div
         style={{
           position: "absolute",
-          bottom: 60,
+          bottom: '8%',
           left: "5%",
           background: "#FFCE5C",
           padding: "10px 20px",
@@ -162,12 +162,12 @@ export function Counter({
       >
         <Typography
           fontWeight={700}
-          fontSize={{ xs: 16, sm: 20, md: 24 }}
+          fontSize={{ xs: 16, sm: 18, md: 20, lg: 24 }}
           lineHeight={0.9}
         >
           {toPersianDigits(display.toString())}+
         </Typography>
-        <Typography fontSize={{ xs: 12, sm: 16, md: 20 }} lineHeight={0.9}>
+        <Typography fontSize={{ xs: 12, sm: 16, md: 18, lg: 20 }} lineHeight={0.9}>
           دقیقه تولید ویدیوئی
         </Typography>
       </motion.div>

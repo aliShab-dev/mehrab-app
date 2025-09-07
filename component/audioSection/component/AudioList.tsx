@@ -15,12 +15,14 @@ const AudioList = ({
   setSelectedItem: Dispatch<SetStateAction<MockData>>;
 }) => {
   return (
-    <Stack position={"relative"} width={290} mr={-5}>
+    <Stack position={"relative"} maxWidth={{ xs: "auto", md: 260 }}>
       <Stack
+        width={"100%"}
         gap={3}
         mt={7.5}
         height={250}
         overflow={"hidden"}
+        pr={1.5}
         sx={{
           overflowY: "auto",
           direction: "ltr",
@@ -33,7 +35,7 @@ const AudioList = ({
             borderRadius: 2,
           },
           "&::-webkit-scrollbar-thumb": {
-            backgroundColor: theme => theme.palette.secondary.light,
+            backgroundColor: (theme) => theme.palette.secondary.light,
             width: "6px",
             borderRadius: 2,
           },
@@ -48,7 +50,8 @@ const AudioList = ({
             component={"button"}
             bgcolor={selectedItem.id == item.id ? "primary.main" : "#fff"}
             onClick={() => setSelectedItem(item)}
-            width={185}
+            // width={185}
+            width={{ xs: "100%", md: 240 }}
             height={40}
             direction={"row"}
             alignItems={"center"}
@@ -77,17 +80,17 @@ const AudioList = ({
                 }}
               />
             </Stack>
-            <Stack textAlign={"start"}>
+            <Stack textAlign={"start"} width={"calc(100% - 32px)"}>
               <Typography
                 fontSize={12}
                 fontWeight={600}
-                width={140}
+                width={"100%"}
                 noWrap
                 sx={{ color: selectedItem.id == item.id ? "#fff" : "inherit" }}
               >
                 {item.name}
               </Typography>
-              <Typography width={140} noWrap fontSize={10} color="#2156C9">
+              <Typography noWrap fontSize={10} width={"100%"} color="#2156C9">
                 {item.author}
               </Typography>
             </Stack>
@@ -104,8 +107,8 @@ const AudioList = ({
         sx={{
           zIndex: 1,
           pointerEvents: "none",
-          background:
-            theme => `linear-gradient(to bottom,rgba(248, 249, 255, .0), ${theme.palette.navbarColor.main})`,
+          background: (theme) =>
+            `linear-gradient(to bottom,rgba(248, 249, 255, .0), ${theme.palette.navbarColor.main})`,
         }}
       ></Box>
     </Stack>

@@ -7,35 +7,40 @@ import PosterSwiper from "./component/PosterSwiper";
 const GraphicDesignSection = () => {
   const theme = useTheme();
   return (
-    <Stack width={"100%"} height={"auto"} mt={15} gap={5}>
-      <Stack width={"80%"} mx="auto">
+    <Stack width={"100%"} height={"auto"} mt={12}>
+      <Stack  width={{ xs: "90%", md: "80%" }}  mx="auto">
         <SectionHeader
           backIcon={{
             src: "/Paper.png",
             alt: "graphic-design-icon",
-            width: 110,
-            height: 110,
-            position: { left: -20, top: 0 },
+            width: { xs: 80, sm: 90, md: 100, lg: 110 },
+            height: { xs: 80, sm: 90, md: 100, lg: 110 },
+            position: {
+              xs: { top: -40, left: -12 },
+              sm: { top: -40, left: -10 },
+              md: { top: -45, left: -12 },
+              lg: { top: -55, left: -18 },
+            },
           }}
           frontIcon={{
             src: "/Edit Square.png",
             alt: "graphic-design-icon",
-            width: 35,
-            height: 35,
           }}
           title="گرافیک دیزاین"
         />
       </Stack>
 
-      <Stack width="98.9vw" mt={10} position="relative">
+      <Stack
+        width="100%"
+        mt={{xs: 0, sm: -6}}
+        position="relative"
+      >
         <Box
           component="svg"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1440 320"
           preserveAspectRatio="none"
           sx={{
-            position: "absolute",
-            top: "-70%",
             left: 0,
             width: "100%",
             height: "100%",
@@ -57,7 +62,7 @@ const GraphicDesignSection = () => {
             bgcolor: theme.palette.svgColor.main,
             position: "relative",
             zIndex: 100,
-            mt: 3,
+            mt: -0.5,
           }}
         >
           <PosterSwiper />

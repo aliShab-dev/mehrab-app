@@ -1,6 +1,5 @@
 // "use client";
-import { useContext } from "react";
-import { ThemeContext } from "./ThemeContext";
+
 import MainBanner from "@/component/mainBanner/MainBanner";
 import MotionSection from "@/component/motionSection/MotionSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
@@ -9,7 +8,6 @@ import GraphicDesignSection from "@/component/graphicDesignSection/GraphicDesign
 import Comunity from "@/component/comunity/Cumunity";
 
 export default function Home() {
-  // const context = useContext(ThemeContext);
   return (
     <div>
       <main>
@@ -21,7 +19,7 @@ export default function Home() {
           <MotionSection />
         </section>
 
-        {/* <section>
+        <section>
           <FilmDocSection />
         </section>
 
@@ -32,12 +30,12 @@ export default function Home() {
         <section>
           <GraphicDesignSection />
         </section>
-       
+
         <section>
           <Comunity />
-        </section> */}
-       
-          <div style={{height: 100}}></div>
+        </section>
+
+        <div style={{ height: 100 }}></div>
       </main>
     </div>
   );

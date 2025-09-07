@@ -84,15 +84,15 @@ const CustomButton = styled(Button)(({ theme }) => ({
   borderRadius: 10,
   boxShadow: theme.shadows[2],
   margin: 0,
-  fontSize: 14,
-  width: 158,
+  fontSize: 10,
+  width: 120,
   display: "flex",
   gap: theme.spacing(1),
   justifyContent: "start",
   position: "relative",
   color: theme.palette.text.primary,
   "& .MuiSvgIcon-root": {
-    fontSize: 22,
+    fontSize: 14,
   },
   "& .arrow": {
     position: "absolute",
@@ -101,6 +101,21 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
   "&:hover": {
     boxShadow: theme.shadows[4],
+  },
+
+  [theme.breakpoints.up("sm")]: {
+    fontSize: 12,
+    width: 140,
+    "& .MuiSvgIcon-root": {
+      fontSize: 14,
+    },
+  },
+  [theme.breakpoints.up("md")]: {
+    width: 158,
+    fontSize: 14,
+    "& .MuiSvgIcon-root": {
+      fontSize: 22,
+    },
   },
 }));
 
@@ -157,9 +172,10 @@ const SelectedCatBtn = ({
   return (
     <Stack
       direction="row"
-      gap={2}
+      gap={{ xs: 1.2, sm: 2 }}
       width={"100%"}
-      justifyContent={'center'}
+      justifyContent={"center"}
+      flexWrap={"wrap"}
     >
       <CustomButton
         disableRipple
@@ -186,9 +202,7 @@ const SelectedCatBtn = ({
         disabled={!selectedCategory}
       >
         <DashboardRoundedIcon />
-        <Typography fontSize={14} textAlign={"start"} width={"100%"} noWrap>
-          {selectedSubCat ?? "سبک"}
-        </Typography>
+        {selectedSubCat ?? "سبک"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 
@@ -201,6 +215,7 @@ const SelectedCatBtn = ({
           : "مرتب‌سازی"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
+
       <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {menuType === "category" &&
           categories.map((cat) => (

@@ -45,6 +45,7 @@ const QuoteBox = () => {
     >
       <Stack
         sx={{
+          display: { xs: 'none', md: 'flex' },
           position: "absolute",
           top: -90,
           width: "100%",
@@ -95,6 +96,7 @@ const QuoteBox = () => {
           ))}
         </Tabs>
       </Stack>
+      {/* FIXME: move the tabs in XS and SM to buttom and make it scrollable */}
       <Stack
         position="absolute"
         top={0}
@@ -140,7 +142,7 @@ const QuoteBox = () => {
       >
         <Fade in={true} timeout={1000} key={value}>
           <Typography
-            fontSize={{ xs: 12, sm: 14, md: 18 }}
+            fontSize={{ xs: 13, sm: 14, md: 18 }}
             whiteSpace="pre-line"
             textAlign={"justify"}
             sx={{

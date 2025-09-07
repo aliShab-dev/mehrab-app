@@ -13,7 +13,11 @@ const aboutUs = () => {
       </Stack>
       <QuoteBox />
       <Stack width={"87%"} mx={"auto"} gap={1.5} height={420} mt={8}>
-        <Typography fontSize={28} fontWeight={700} color={"secondary"}>
+        <Typography
+          fontSize={{ xs: 22, sm: 26, md: 28 }}
+          fontWeight={700}
+          color={"secondary"}
+        >
           پرسنل تخصصی محراب
         </Typography>
 

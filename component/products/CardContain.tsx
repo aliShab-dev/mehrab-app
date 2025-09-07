@@ -52,7 +52,7 @@ const CardContainer = ({
       animate="visible"
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+        gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))",
         gap: "24px 12px",
         marginTop: "40px",
         marginBottom: "20px",

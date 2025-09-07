@@ -1,5 +1,3 @@
-// "use client";
-
 import MainBanner from "@/component/mainBanner/MainBanner";
 import MotionSection from "@/component/motionSection/MotionSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";

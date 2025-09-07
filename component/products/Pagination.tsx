@@ -52,7 +52,7 @@ const Pagination = ({
             disableRipple
             sx={{
               borderRadius: 5,
-              fontSize: 20,
+              fontSize: { xs: 16, sm: 18, md: 20 },
               pb: 1,
               pt: 0.5,
               lineHeight: 1.2,
@@ -115,8 +115,8 @@ const Pagination = ({
                     alignItems: "center",
                     justifyContent: "center",
                     borderRadius: "50%",
-
                     color: page === index + 1 ? "secondary.main" : "#ccc",
+                    fontSizeq: { xs: 14, sm: 16, md: 18 },
                     fontWeight: page === index + 1 ? "bold" : "normal",
                     cursor: "pointer",
                     transition: "all 0.3s ease",

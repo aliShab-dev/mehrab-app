@@ -13,8 +13,6 @@ type ProductPageProps = {
   };
 };
 
-
-
 const staff = [
   {
     name: "کمیل عباس زاهدی",
@@ -52,12 +50,21 @@ const ProductPage = async ({ params }: ProductPageProps) => {
   const product = products.find((p) => p.id == params.productId);
   if (!product) return notFound();
   return (
-    <Stack width={"75%"} mt={5} mx={"auto"} mb={15}>
+    <Stack
+      width={{ xs: "90%", md: "75%" }}
+      mt={{ xs: 1, md: 5 }}
+      mx={"auto"}
+      mb={15}
+    >
       <DissplayBox product={product} />
       <Stack mt={3} gap={1.5}>
         <Stack direction={"row"}>
           <Stack width={"100%"}>
-            <Typography component={"h1"} fontSize={36} fontWeight={700}>
+            <Typography
+              component={"h1"}
+              fontSize={{ xs: 16, sm: 18, md: 24, lg: 36 }}
+              fontWeight={700}
+            >
               {product.name}
             </Typography>
           </Stack>
@@ -71,51 +78,68 @@ const ProductPage = async ({ params }: ProductPageProps) => {
           >
             <Stack textAlign={"center"}>
               <Typography
-                fontSize={20}
+                fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}
                 color="textPrimary"
                 fontWeight={700}
                 lineHeight={1.1}
               >
                 1:35:40
               </Typography>
-              <Typography fontSize={18} color="textSecondary" lineHeight={1.1}>
+              <Typography
+                fontSize={{ xs: 11, sm: 12, md: 14, lg: 18 }}
+                color="textSecondary"
+                lineHeight={1.1}
+              >
                 زمان کار
               </Typography>
             </Stack>
             <Stack textAlign={"center"}>
               <Typography
-                fontSize={20}
+                fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}
                 color="textPrimary"
                 fontWeight={700}
                 lineHeight={1.1}
               >
                 1
               </Typography>
-              <Typography fontSize={18} color="textSecondary" lineHeight={1.1}>
+              <Typography
+                fontSize={{ xs: 11, sm: 12, md: 14, lg: 18 }}
+                color="textSecondary"
+                lineHeight={1.1}
+              >
                 قسمت
               </Typography>
             </Stack>
           </Stack>
         </Stack>
         <Stack>
-          <Typography fontSize={20}>{`به سفارش ${product.author}`}</Typography>
+          <Typography
+            fontSize={{ xs: 12, sm: 14, md: 18, lg: 20 }}
+          >{`به سفارش ${product.author}`}</Typography>
         </Stack>
         <Stack width={60}>
           <Box
             bgcolor={"#FFE95C"}
             width={"auto"}
-            px={1}
+            px={{ xs: 0.8, md: 1 }}
             py={0.6}
             textAlign={"center"}
             borderRadius={3}
           >
-            <Typography fontSize={12} fontWeight={700} color="secondary.dark">
+            <Typography
+              fontSize={{ xs: 10, md: 12 }}
+              fontWeight={700}
+              color="secondary.dark"
+            >
               سطح 1
             </Typography>
           </Box>
         </Stack>
         <Stack mt={2}>
-          <Typography fontSize={18} color="textSecondary">
+          <Typography
+            fontSize={{ xs: 13, sm: 15, md: 18 }}
+            color="textSecondary"
+          >
             محتوای کار از جمله متن، چگونه رسیدن به ایده، رنگبندی،و...
           </Typography>
         </Stack>
@@ -124,9 +148,9 @@ const ProductPage = async ({ params }: ProductPageProps) => {
             <StarRoundedIcon
               sx={{
                 position: "absolute",
-                top: -15,
-                right: -10,
-                fontSize: 70,
+                top: { xs: -10, sm: -10, md: -15 },
+                right: { xs: 5, sm: 0, md: -10 },
+                fontSize: { xs: 55, sm: 60, md: 70 },
                 color: "primary.main",
                 opacity: 0.6,
                 rotate: "-10deg",
@@ -135,9 +159,9 @@ const ProductPage = async ({ params }: ProductPageProps) => {
             />
             <GroupsRoundedIcon
               sx={{
-                fontSize: 35,
+                fontSize: { xs: 28, sm: 35 },
                 position: "absolute",
-                bottom: 0,
+                bottom: { xs: 5, sm: 0 },
                 left: -5,
                 color: "secondary.dark",
                 zIndex: 20,
@@ -145,15 +169,18 @@ const ProductPage = async ({ params }: ProductPageProps) => {
             />
           </Stack>
           <Stack>
-            <Typography fontSize={32} fontWeight={700}>
+            <Typography
+              fontSize={{ xs: 20, sm: 24, md: 28, lg: 32 }}
+              fontWeight={700}
+            >
               عوامل
             </Typography>
           </Stack>
         </Stack>
 
         <Staff staff={staff} />
-        <CardContainerProduct label="دیگر قسمت‌ها" cardData={relatedProduct}/>
-        <CardContainerProduct label="نمونه‌های دیگر" cardData={restEpisod}/>
+        <CardContainerProduct label="دیگر قسمت‌ها" cardData={relatedProduct} />
+        <CardContainerProduct label="نمونه‌های دیگر" cardData={restEpisod} />
       </Stack>
     </Stack>
   );

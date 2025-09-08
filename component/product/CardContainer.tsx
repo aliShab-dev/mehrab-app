@@ -47,7 +47,9 @@ const CardContainerProduct = ({
   return (
     <Stack gap={1} mt={6}>
       <Stack>
-        <Typography fontSize={26}>{label}</Typography>
+        <Typography fontSize={{ xs: 16, sm: 18, md: 26 }} fontWeight={600}>
+          {label}
+        </Typography>
       </Stack>
       <Box position="relative" dir="rtl" sx={{ overflow: "hidden" }}>
         {!isBeginning && (
@@ -63,8 +65,8 @@ const CardContainerProduct = ({
               color: "primary.main",
               boxShadow: 2,
               borderRadius: "50%",
-              width: 45,
-              height: 45,
+              width: { xs: 36, md: 45 },
+              height: { xs: 36, md: 45 },
               "&:hover": {
                 bgcolor: "primary.main",
                 color: "white",
@@ -93,8 +95,8 @@ const CardContainerProduct = ({
               color: "primary.main",
               boxShadow: 2,
               borderRadius: "50%",
-              width: 45,
-              height: 45,
+              width: { xs: 36, md: 45 },
+              height: { xs: 36, md: 45 },
               "&:hover": {
                 bgcolor: "primary.main",
                 color: "white",
@@ -117,7 +119,7 @@ const CardContainerProduct = ({
               position: "absolute",
               top: 0,
               right: 0,
-              width: 60,
+              width: { xs: 30, md: 60 },
               height: "100%",
               zIndex: 10,
               background: (theme) =>
@@ -133,7 +135,7 @@ const CardContainerProduct = ({
               position: "absolute",
               top: 0,
               left: 0,
-              width: 60,
+              width: { xs: 30, md: 60 },
               height: "100%",
               zIndex: 10,
               background: (theme) =>
@@ -170,13 +172,9 @@ const CardContainerProduct = ({
               swiper.on("reachEnd", () => setIsEnd(true));
               swiper.on("fromEdge", updateEdges);
             }}
-            style={{
-              paddingRight: 20,
-              paddingLeft: 20,
-            }}
           >
             {cardData.map((data) => (
-              <SwiperSlide key={data.name} style={{ width: 250 }}>
+              <SwiperSlide key={data.name} style={{ width: "auto" }}>
                 <motion.div
                   variants={cardVariants}
                   transition={{ duration: 0.5, ease: "easeOut" }}
@@ -190,7 +188,7 @@ const CardContainerProduct = ({
                     flexDirection={"column"}
                     component={"a"}
                     sx={{
-                      width: 280,
+                      width: { xs: 200, md: 250 },
                       borderRadius: 3,
                       backgroundImage: (theme) =>
                         `linear-gradient(to bottom, ${theme.palette.secondary.light}, ${theme.palette.secondary.dark})`,
@@ -238,13 +236,18 @@ const CardContainerProduct = ({
                     </Box>
 
                     <Box mt={1} position={"relative"}>
-                      <Typography width={220} color="#fff" fontSize={20} noWrap>
-                        {data.name}
+                      <Typography
+                        width={"calc(100% - 55px)"}
+                        color="#fff"
+                        fontSize={{ xs: 14, md: 20 }}
+                        noWrap
+                      >
+                        {data.name} asdkfssss
                       </Typography>
                       <Typography
                         width={"100%"}
                         color="#FFCE5C"
-                        fontSize={14}
+                        fontSize={{ xs: 12, md: 14 }}
                         noWrap
                       >
                         {data.author}
@@ -267,8 +270,8 @@ const CardContainerProduct = ({
                           position: "absolute",
                           top: 1,
                           left: 5,
-                          width: 50,
-                          height: 25,
+                          width: { xs: 45, ms: 50 },
+                          height: { xs: 20, md: 25 },
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -276,7 +279,10 @@ const CardContainerProduct = ({
                           borderRadius: 3,
                         }}
                       >
-                        <Typography fontSize={12} color="secondary.dark">
+                        <Typography
+                          fontSize={{ xs: 10, md: 12 }}
+                          color="secondary.dark"
+                        >
                           سطح 1
                         </Typography>
                       </Box>

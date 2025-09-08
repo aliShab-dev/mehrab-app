@@ -24,10 +24,8 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
       {!isBeginning && (
         <IconButton
           onClick={() => swiperRef?.slidePrev()}
-          size="large"
           sx={{
             position: "absolute",
-            p: 3,
             right: 0,
             top: "50%",
             transform: "translateY(-50%)",
@@ -35,8 +33,9 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.6),
             color: "primary.main",
             borderRadius: "50%",
-            width: 45,
-            height: 45,
+            width: { xs: 36, md: 45 },
+            height: { xs: 36, md: 45 },
+            p: { xs: 1, md: 3 },
             "&:hover": {
               bgcolor: "primary.main",
               color: "white",
@@ -56,10 +55,8 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
       {!isEnd && (
         <IconButton
           onClick={() => swiperRef?.slideNext()}
-          size="large"
           sx={{
             position: "absolute",
-            p: 3,
             left: 0,
             top: "50%",
             transform: "translateY(-50%)",
@@ -67,8 +64,9 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.6),
             color: "primary.main",
             borderRadius: "50%",
-            width: 45,
-            height: 45,
+            width: { xs: 36, md: 45 },
+            height: { xs: 36, md: 45 },
+            p: { xs: 1, md: 3 },
             "&:hover": {
               bgcolor: "primary.main",
               color: "white",
@@ -91,7 +89,7 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             position: "absolute",
             top: 0,
             right: 0,
-            width: 60,
+            width: { xs: 45, md: 60 },
             height: "100%",
             zIndex: 10,
             background: (theme) =>
@@ -107,7 +105,7 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             position: "absolute",
             top: 0,
             left: 0,
-            width: 60,
+            width: { xs: 45, md: 60 },
             height: "100%",
             zIndex: 10,
             background: (theme) =>
@@ -139,12 +137,20 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
               setIsEnd(swiper.isEnd);
             });
           }}
+          breakpoints={{
+            0: {
+              slidesPerView: 2.2,
+            },
+            600: {
+              slidesPerView: 4,
+            },
+          }}
         >
           {staff.map((s) => (
             <SwiperSlide key={s.name} style={{ width: 200 }}>
               <Box
                 sx={{
-                  width: "`00%",
+                  width: "100%",
                   borderRadius: 3,
                   aspectRatio: "4/5",
                   position: "relative",
@@ -169,10 +175,12 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
               >
                 <Image src={s.src} alt="personel" fill />
                 <Stack className="staff-desc">
-                  <Typography fontSize={16} fontWeight={700}>
+                  <Typography fontSize={{ xs: 12, md: 16 }} fontWeight={700}>
                     {s.name}
                   </Typography>
-                  <Typography fontSize={14}>{s.position}</Typography>
+                  <Typography fontSize={{ xs: 12, md: 14 }}>
+                    {s.position}
+                  </Typography>
                 </Stack>
               </Box>
             </SwiperSlide>

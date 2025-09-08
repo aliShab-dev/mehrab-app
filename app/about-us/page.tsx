@@ -7,7 +7,7 @@ import { usersStaff } from "../lib/users";
 
 const aboutUs = () => {
   return (
-    <Stack width={"100%"} gap={3} mt={6} mb={10}>
+    <Stack width={"100%"} gap={3} mt={{xs: 1, md: 4}} mb={10}>
       <Stack width="100%" pr={0}>
         <PageHeader Icon={SmsRoundedIcon} title="داستان ما" />
       </Stack>

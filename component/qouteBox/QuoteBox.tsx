@@ -1,8 +1,18 @@
 "use client";
 
-import { alpha, Fade, Stack, Tab, Tabs, Typography } from "@mui/material";
+import {
+  alpha,
+  Fade,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 
 const quotes = [
   {
@@ -33,11 +43,28 @@ const QuoteBox = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  const nextItem = () => {
+    if (value == quotes.length - 1) {
+      setValue(0);
+    } else {
+      setValue(value + 1);
+    }
+  };
+
+  const prevItem = () => {
+    if (value == 0) {
+      setValue(quotes.length - 1);
+    } else {
+      setValue(value - 1);
+    }
+  };
+
   return (
     <Stack
       position="relative"
       width={{ xs: "90%", sm: "80%", md: "70%", lg: "55%" }}
-      height={{ xs: "auto", sm: 320 }}
+      height={{ xs: "auto", sm: "auto" }}
       mt={13}
       mx="auto"
       py={2}
@@ -45,7 +72,7 @@ const QuoteBox = () => {
     >
       <Stack
         sx={{
-          display: { xs: 'none', md: 'flex' },
+          display: { xs: "none", md: "flex" },
           position: "absolute",
           top: -90,
           width: "100%",
@@ -76,7 +103,7 @@ const QuoteBox = () => {
               label={quote.title}
               disableRipple
               sx={{
-                fontSize: { xs: 12, sm: 14, md: 16, lg: 20 },
+                fontSize: { xs: 12, sm: 14, md: 16, lg: 18 },
                 mx: 1,
                 px: 2,
                 py: 0.3,
@@ -96,7 +123,44 @@ const QuoteBox = () => {
           ))}
         </Tabs>
       </Stack>
-      {/* FIXME: move the tabs in XS and SM to buttom and make it scrollable */}
+
+      <Stack
+        direction={"row"}
+        zIndex={100}
+        position={"absolute"}
+        bottom={40}
+        width={"100%"}
+        justifyContent={"center"}
+        display={{ xs: "flex", md: "none" }}
+        gap={1}
+      >
+        <IconButton onClick={nextItem}>
+          <NavigateNextIcon />
+        </IconButton>
+        <Stack
+          sx={{
+            px: 2,
+            borderRadius: 4,
+            color: (theme) => theme.palette.primary.main,
+            border: "1px solid transparent",
+            borderColor: (theme) => theme.palette.secondary.main,
+            backgroundColor: "#f9f9f9",
+          }}
+        >
+          <Typography
+            sx={{
+              my: "auto",
+              fontSize: { xs: 12, sm: 14, md: 16, lg: 20 },
+            }}
+          >
+            {quotes[value]?.title}
+          </Typography>
+        </Stack>
+        <IconButton onClick={prevItem}>
+          <NavigateBeforeIcon />
+        </IconButton>
+      </Stack>
+
       <Stack
         position="absolute"
         top={0}
@@ -134,7 +198,7 @@ const QuoteBox = () => {
         px={8}
         py={10}
         textAlign={"center"}
-        bgcolor={theme => alpha(theme.palette.svgColor.main, .4)}
+        bgcolor={(theme) => alpha(theme.palette.svgColor.main, 0.4)}
         sx={{
           boxShadow: (theme) =>
             `2px 2px 6px 3px ${theme.palette.secondary.main}, -2px 8px 5px 1px rgba(0, 0, 0, .14)`,

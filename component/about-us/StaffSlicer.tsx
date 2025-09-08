@@ -2,17 +2,10 @@
 
 import { Box, IconButton, Stack, Typography, alpha } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useRef, useState } from "react";
-import type { Swiper as SwiperType } from "swiper";
+import { useState } from "react";
 import Image from "next/image";
 import "swiper/css";
-import {
-  animate,
-  useMotionValue,
-  useMotionValueEvent,
-  motion,
-  MotionValue,
-} from "framer-motion";
+import { useMotionValue } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { Swiper as SwiperClass } from "swiper";
 
@@ -163,7 +156,7 @@ export default function UserImageCarousel({
                 sx={{
                   position: "relative",
                   width: "100%",
-                  minHeight: 350,
+                  minHeight: { xs: 300, md: 350 },
                   ...(isSelected ? { aspectRatio: "4 / 5" } : { height: 350 }),
                   borderRadius: 3,
                   overflow: "hidden",

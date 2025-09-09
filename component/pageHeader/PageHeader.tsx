@@ -16,8 +16,17 @@ const PageHeader = ({ title, Icon }: PageHeaderType) => {
       justifyContent={"center"}
       alignItems={"center"}
     >
-      <Icon color={"secondary"} sx={{ mt: 0.5 }} />
-      <Typography component={"h1"} fontSize={30}>
+      <Icon
+        color={"secondary"}
+        sx={{
+          mt: { xs: -0.5, md: -0.8 },
+          fontSize: { xs: 28, sm: 30, md: 36, lg: 45 },
+        }}
+      />
+      <Typography
+        component={"h1"}
+        fontSize={{ xs: 18, sm: 20, md: 26, lg: 30 }}
+      >
         {title}
       </Typography>
     </Stack>

@@ -45,9 +45,8 @@ const CustomButton = styled(Button)(({ theme }) => ({
   borderRadius: 10,
   boxShadow: `0px 5px 10px -5px ${theme.palette.secondary.main}`,
   margin: 0,
-  fontSize: 20,
   padding: theme.spacing(1, 7),
-  width: 280,
+  // width: 280,
   display: "flex",
   position: "relative",
   color: theme.palette.text.primary,
@@ -57,6 +56,21 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
   "&:hover": {
     boxShadow: `0px 5px 14px -3px ${theme.palette.secondary.main}`,
+  },
+  [theme.breakpoints.up("xs")]: {
+    fontSize: 12,
+    width: "100%",
+    minWidth: 200,
+  },
+  [theme.breakpoints.up("sm")]: {
+    fontSize: 14,
+    width: "100%",
+    minWidth: 200,
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: 20,
+    width: "auto",
+    minWidth: 200,
   },
 }));
 
@@ -77,23 +91,33 @@ const CustomAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
   border: `1px solid ${theme.palette.secondary.main}`,
   backgroundImage: `linear-gradient(to bottom, #ffffff, #EBECFF)`,
   padding: theme.spacing(1, 3),
-  paddingRight: 50,
   margin: 0,
   "&.Mui-expanded": {
     backgroundImage: `linear-gradient(to bottom, #ffffff, #EBECFF)`,
     boxShadow: `0px 4px 0px -0px ${theme.palette.secondary.main},  0px 8px 5px 1px rgba(0, 0, 0, .14)`,
     padding: theme.spacing(0, 3),
-    paddingRight: 50,
     minHeight: "auto",
     margin: 0,
     marginBottom: 10,
+  },
+  [theme.breakpoints.up("sm")]: {
+    paddingRight: 30,
+    "&.Mui-expanded": {
+      paddingRight: 10,
+    },
+  },
+  [theme.breakpoints.up("md")]: {
+    paddingRight: 50,
+    "&.Mui-expanded": {
+      paddingRight: 50,
+    },
   },
 }));
 
 const TextBox: FC<TextBoxProps> = ({ label, text, setText }) => (
   <Stack
     sx={{
-      px: 1,
+      pl: 0.6,
       py: 1,
       gap: 0.5,
       width: {
@@ -104,7 +128,9 @@ const TextBox: FC<TextBoxProps> = ({ label, text, setText }) => (
       },
     }}
   >
-    <Typography variant="subtitle2">{label}:</Typography>{" "}
+    <Typography fontSize={{ xs: 13, sm: 15, md: 17 }} variant="subtitle2">
+      {label}:
+    </Typography>{" "}
     <TextField
       variant="outlined"
       fullWidth
@@ -293,22 +319,25 @@ const SetOrder = () => {
     setSelectedLevel(level);
     handleClose();
   };
-
   return (
-    <Stack width={"80%"} mx={"auto"}>
+    <Stack width={{ xs: "85%", md: "80%" }} mx={"auto"}>
       <Stack
         component={"section"}
-        direction={"row"}
-        mt={15}
+        direction={{ xs: "column", lg: "row" }}
+        mt={{ xs: 5, md: 15 }}
+        gap={{ xs: 6, md: 5 }}
         justifyContent={"space-between"}
       >
-        <Stack gap={5} width={600}>
-          <Stack gap={3}>
-            <Typography fontSize={26} fontWeight={700}>
+        <Stack gap={{ xs: 2, md: 5 }} width={{ xs: "100%", lg: "60%" }}>
+          <Stack gap={{ xs: 1, md: 3 }} width="100%">
+            <Typography
+              fontSize={{ xs: 14, sm: 16, md: 20, lg: 24 }}
+              fontWeight={700}
+            >
               توضیح کوتاه درمورد سفارش
             </Typography>
             <Typography
-              fontSize={18}
+              fontSize={{ xs: 12, sm: 14, md: 16, lg: 18 }}
               width={"100%"}
               flexWrap={"wrap"}
               textAlign={"justify"}
@@ -320,32 +349,38 @@ const SetOrder = () => {
               تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد.
             </Typography>
           </Stack>
-          <Stack gap={3}>
-            <Typography fontSize={26} fontWeight={700}>
+          <Stack gap={{ xs: 1, md: 3 }}>
+            <Typography
+              fontSize={{ xs: 14, sm: 16, md: 20, lg: 24 }}
+              fontWeight={700}
+            >
               دانلود پی دی اف مقررات و قیمت ها
             </Typography>
             <Typography
-              fontSize={18}
-              width={600}
+              fontSize={{ xs: 12, sm: 14, md: 16, lg: 18 }}
+              width={"100%"}
               flexWrap={"wrap"}
               textAlign={"justify"}
             >
               لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و
               بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود..
             </Typography>
+
             <Stack
               sx={{
+                mt: { xs: 3, lg: 1 },
                 position: "relative",
                 bgcolor: (theme) => alpha(theme.palette.svgColor.main, 0.4),
                 borderRadius: 3,
                 width: "100%",
-                height: 120,
+                height: "auto",
                 textAlign: "center",
+                p: 3,
               }}
             >
               <Typography
                 color="secondary.dark"
-                fontSize={28}
+                fontSize={{ xs: 14, sm: 16, md: 28 }}
                 sx={{ my: "auto", ml: 6 }}
               >
                 دانلود پی دی اف مقررات و قیمت ها
@@ -358,8 +393,8 @@ const SetOrder = () => {
                   left: 1,
                   color: (theme) => theme.palette.primary.main,
                   rotate: "-20deg",
-                  width: 75,
-                  height: 110,
+                  width: { xs: 55, sm: 60, md: 65, lg: 72 },
+                  height: { xs: 80, sm: 100, md: 105 },
                   borderRadius: 4,
                   display: "flex",
                   justifyContent: "center",
@@ -375,12 +410,14 @@ const SetOrder = () => {
                   },
                 }}
               >
-                <DownloadRoundedIcon sx={{ fontSize: 92 }} />
+                <DownloadRoundedIcon
+                  sx={{ fontSize: { xs: 72, sm: 80, md: 92 } }}
+                />
               </Box>
             </Stack>
           </Stack>
         </Stack>
-        <Stack gap={2} width={450}>
+        <Stack gap={2} width={{ xs: "100%", lg: "40%" }}>
           {accordionItems.map(({ id, title, content }) => (
             <CustomAccordion
               key={id}
@@ -388,10 +425,12 @@ const SetOrder = () => {
               onChange={handleChange(id)}
             >
               <CustomAccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>{title}</Typography>
+                <Typography fontSize={{ xs: 13, sm: 16, md: 18 }}>
+                  {title}
+                </Typography>
               </CustomAccordionSummary>
               <AccordionDetails>
-                <Typography fontSize={14} fontWeight={300}>
+                <Typography fontSize={{ xs: 12, md: 14 }} fontWeight={300}>
                   {content}
                 </Typography>
               </AccordionDetails>
@@ -403,37 +442,50 @@ const SetOrder = () => {
       <Stack
         direction={"row"}
         width={"100%"}
-        mt={15}
-        justifyContent={"space-between"}
+        mt={{ xs: 8, md: 15 }}
+        gap={1}
+        justifyContent={{ xs: "space-evenly", md: "space-between" }}
+        flexWrap="wrap"
       >
         {listOfIcons.map((item) => (
           <Stack
             key={item.title}
-            justifyContent={"center"}
-            alignItems={"center"}
+            justifyContent="center"
+            alignItems="center"
             gap={1}
           >
-            <Image
-              src={item.src}
-              alt={item.title}
-              width={110}
-              height={110}
-              style={{ objectFit: "contain" }}
-            />
-            <Typography>{item.title}</Typography>
+            <Box
+              width={{ xs: 60, sm: 72, md: 90, lg: 110 }}
+              height={{ xs: 60, sm: 72, md: 90, lg: 110 }}
+              position={"relative"}
+            >
+              <Image
+                src={item.src}
+                alt={item.title}
+                fill
+                style={{ objectFit: "contain" }}
+              />
+            </Box>
+            <Typography fontSize={{ xs: 12, md: 16 }}>{item.title}</Typography>
           </Stack>
         ))}
       </Stack>
 
-      <Stack mt={15} width={"70%"} mx={"auto"} mb={20}>
+      <Stack
+        mt={{ xs: 8, md: 15 }}
+        width={{ xs: "100%", sm: "85%", md: "78%" }}
+        mx={"auto"}
+        mb={20}
+      >
         <PageHeader Icon={DescriptionRoundedIcon} title="فرم سفارش دادن" />
         <Stack mb={3} gap={1}>
           <Typography>انتخاب کنید:</Typography>
           <Stack
             direction="row"
-            gap={3}
+            gap={1}
             width={"100%"}
             justifyContent={"space-between"}
+            flexWrap={"wrap"}
           >
             <CustomButton onClick={(e) => handleOpenMenu(e, "category")}>
               {selectedCategory ? selectedCategory.name : "دسته بندی"}
@@ -452,7 +504,11 @@ const SetOrder = () => {
               onClick={(e) => handleOpenMenu(e, "subCat")}
               disabled={!selectedCategory}
             >
-              <Typography fontSize={20} width={"100%"} noWrap>
+              <Typography
+                fontSize={{ xs: 12, sm: 14, md: 20 }}
+                width={"100%"}
+                noWrap
+              >
                 {selectedSubCat ?? "سبک"}
               </Typography>
               <ExpandMoreIcon />
@@ -621,6 +677,12 @@ const SetOrder = () => {
               control={<Checkbox defaultChecked />}
               label="قوانین را مطالعه کرده ام و پذیرفته ام"
               sx={{ mr: -1.8 }}
+              slotProps={{
+                typography: {
+                  fontSize: { xs: 13, sm: 16, md: 18 },
+                  fontWeight: 500,
+                },
+              }}
             />
             <Button
               variant="contained"

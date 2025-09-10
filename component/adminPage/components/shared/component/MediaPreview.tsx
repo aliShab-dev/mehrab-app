@@ -12,9 +12,10 @@ interface MediaPreviewProps {
 }
 
 const MediaPreview = ({ productImage, mediaType }: MediaPreviewProps) => {
+  const BASE_URL = "http://10.133.56.89:8000";
   const objectUrl = useMemo(() => {
-    if (productImage) {
-      return URL.createObjectURL(productImage);
+    if (productImage && typeof productImage === "string") {
+      return `${BASE_URL}${productImage}`;
     }
     return null;
   }, [productImage]);

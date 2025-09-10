@@ -13,9 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import postNewAdmin from "../../service/postNewAdmin";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import SaveIcon from "@mui/icons-material/Save";
+import { createNewAdmin } from "../../service/postNewAmin";
+import { useRouter } from "next/router";
 
 const admins = [
   {
@@ -125,8 +126,14 @@ const PermissionTabs = () => {
   };
 
   const handleSubmit = () => {
-    postNewAdmin({ userName, name, password })
-      .then((res) => setNewAdminResponse(res))
+    createNewAdmin({
+      userName,
+      name,
+      password,
+      role: "Admin",
+      isUserAcitve: true,
+    })
+      .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
 

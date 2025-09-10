@@ -4,6 +4,7 @@ import {
   Avatar,
   Box,
   Button,
+  duration,
   FormControl,
   FormHelperText,
   IconButton,
@@ -14,18 +15,40 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AddProduct from "../shared/AddProduct";
-import { Dayjs } from "dayjs";
+import {
+  createProduct,
+  getProductsByCatId,
+  updateProduct,
+} from "../../service/postProduct";
+import getCategories from "../../service/getCat";
+
+import dayjs, { Dayjs } from "dayjs";
 
 export type Product = {
+  id: number;
   name: string;
   description: string;
-  image: File | null;
+  file: File | null;
+  company: string;
+  poster: File | null;
+  episode: number;
   staff: { name: string; role: string; image: File | null }[];
   level: string;
   category: string;
+  sub_category: string;
+  duration: string;
+};
+
+type Subcategory = {
+  id: number;
+  created_at: string;
+  name: string;
+  category: string;
+  category_id: number;
+  is_active: boolean;
 };
 
 const productsWithCat = [
@@ -55,10 +78,14 @@ const subCat = [
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const MotionGraphy = () => {
+  const BASE_URL = "http://10.133.56.89:8000";
+
+  const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
   const [age, setAge] = useState(subCat[0]);
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
   const [description, setDescription] = useState("");
   const [cat, setCat] = useState(subCat[0]);
   const [level, setLevel] = useState("سطح 1");
@@ -97,7 +124,6 @@ const MotionGraphy = () => {
   const handleEpisod = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
 
-    // Allow only empty or numeric values
     if (newValue === "" || /^\d+$/.test(newValue)) {
       setEpisod(newValue === "" ? "" : Number(newValue));
     }
@@ -119,25 +145,57 @@ const MotionGraphy = () => {
   };
 
   const submitProduct = () => {
-    setProducts((prev) => {
-      const newProduct = {
+    if (typeof isEditing === "number") {
+      console.log(isEditing)
+      updateProduct({
+        id: isEditing,
         name,
         description,
-        image: productImage,
         staff: staffArray,
-        category: cat,
-        level,
-      };
-
-      if (typeof isEditing === "number") {
-        const updated = [...prev];
-        updated[isEditing] = newProduct;
-        return updated;
-      } else {
-        return [...prev, newProduct];
-      }
-    });
+        category: subcategories[0].category_id,
+        duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+        episode: episod,
+        company: company,
+        sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+        file: productImage,
+        poster,
+        level: parseInt(level.replace(/[^\d]/g, ""), 10),
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    } else {
+      createProduct({
+        name,
+        description,
+        staff: staffArray,
+        category: subcategories[0].category_id,
+        duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+        episode: episod,
+        company: company,
+        sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+        file: productImage,
+        poster,
+        level: parseInt(level.replace(/[^\d]/g, ""), 10),
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
   };
+
+  useEffect(() => {
+    getCategories()
+      .then((res: Subcategory[]) => {
+        setSubCategoies(res.filter((subCat) => subCat.category_id === 5));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (subcategories) console.log(subcategories);
+    getProductsByCatId(subcategories.find((subCat) => subCat.name == age)?.id)
+      .then((res) => setProducts(res))
+      .catch((err) => console.log(err));
+  }, [age, subcategories]);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -160,7 +218,9 @@ const MotionGraphy = () => {
         }}
       >
         <AddProduct
-          mediaType="image"
+          company={company}
+          setCompany={setCompany}
+          mediaType="video"
           poster={poster}
           setPoster={setPoster}
           buttonRef={buttonRef}
@@ -291,7 +351,7 @@ const MotionGraphy = () => {
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
                 <Avatar
-                  src={product.image ? URL.createObjectURL(product.image) : ""}
+                  src={product.poster ? `${BASE_URL}${product.poster}` : ""}
                   alt="poster"
                   variant="rounded"
                   sx={{
@@ -313,13 +373,21 @@ const MotionGraphy = () => {
                   </Typography>
                   <IconButton
                     onClick={() => {
-                      setIsEditing(index);
+                      setIsEditing(product.id);
                       setOpen(true);
-                      setProductImage(product.image);
+                      setSelectedTime(
+                        product.duration
+                          ? dayjs(`1970-01-01 ${product.duration}`)
+                          : null
+                      );
+                      setEpisod(product.episode);
+                      setProductImage(product.file);
                       setName(product.name);
                       setDescription(product.description);
-                      setLevel(product.level);
+                      setLevel(`سطح ${product.level}`);
+                      setPoster(product.poster);
                       setCat(age);
+                      setCompany(product.company);
                       setStaffArray(product.staff);
                     }}
                     size="small"

@@ -34,6 +34,8 @@ export const StyledTextField = ({ ...props }) => (
 );
 
 interface InputFieldProps {
+  company: string;
+  setCompany: (company: string) => void;
   name: string;
   setName: (value: string) => void;
   description: string;
@@ -72,6 +74,8 @@ interface InputFieldProps {
 }
 
 const InputField = ({
+  company,
+  setCompany,
   name,
   setName,
   description,
@@ -119,6 +123,25 @@ const InputField = ({
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setName(e.target.value)
         }
+      />
+      <StyledTextField
+        label="نام مالک کار"
+        value={company}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setCompany(e.target.value)
+        }
+        multiline
+        minRows={1}
+        maxRows={3}
+        fullWidth
+        sx={{
+          textarea: {
+            resize: "vertical",
+            maxHeight: 100,
+            minHeight: 50,
+            overflow: "auto",
+          },
+        }}
       />
       <StyledTextField
         label="توضیحات"

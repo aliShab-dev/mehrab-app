@@ -39,6 +39,7 @@ const SelectStaff = ({
   setStaffRole,
   setIsAddStaff,
 }: SelectStaffProps) => {
+  const BASE_URL = "http://10.133.56.89:8000";
   return (
     <Stack
       position={"relative"}
@@ -92,7 +93,7 @@ const SelectStaff = ({
               {staffImage ? (
                 <Box
                   component="img"
-                  src={URL.createObjectURL(staffImage)}
+                  src={staffImage ? `${BASE_URL}${staffImage}` : ""}
                   alt="Preview"
                   sx={{
                     width: 120,
@@ -210,7 +211,7 @@ const SelectStaff = ({
             overflow={"auto"}
             sx={{ overflowX: "auto", overflowY: "hidden", gap: 1 }}
           >
-            {staffArray.map((staff) => (
+            {/* {staffArray.map((staff) => (
               <Tooltip key={staff.name} title={staff.name}>
                 <Stack textAlign={"center"} width={62} position={"relative"}>
                   <IconButton
@@ -243,7 +244,7 @@ const SelectStaff = ({
                   </Typography>
                 </Stack>
               </Tooltip>
-            ))}
+            ))} */}
           </Stack>
           <Stack>
             <Button

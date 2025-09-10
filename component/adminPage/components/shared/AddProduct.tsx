@@ -7,6 +7,8 @@ import InputField from "./component/InputField";
 import { Dayjs } from "dayjs";
 
 interface DisplayProductInterface {
+  company: string;
+  setCompany: (company: string) => void;
   productImage: File | null;
   setProductImage: (file: File | null) => void;
   name: string;
@@ -59,6 +61,8 @@ interface DisplayProductInterface {
 }
 
 const AddProduct = ({
+  company,
+  setCompany,
   productImage,
   setProductImage,
   name,
@@ -145,6 +149,8 @@ const AddProduct = ({
         />
 
         <InputField
+          company={company}
+          setCompany={setCompany}
           poster={poster}
           setPoster={setPoster}
           buttonRef={buttonRef}

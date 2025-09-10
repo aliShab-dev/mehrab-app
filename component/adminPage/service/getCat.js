@@ -1,16 +1,12 @@
-const postAdminLogin = async ({ userName, password }) => {
+const getCategories = async () => {
   try {
     const response = await fetch(
-      "http://10.133.56.89:8000/admin_login/",
+      "http://10.133.56.89:8000/api/subcategories/",
       {
-        method: "POST",
+        method: "get",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: userName,
-          password,
-        }),
       }
     );
 
@@ -26,4 +22,4 @@ const postAdminLogin = async ({ userName, password }) => {
   }
 };
 
-export default postAdminLogin;
+export default getCategories;

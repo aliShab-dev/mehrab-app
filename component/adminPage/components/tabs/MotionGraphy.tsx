@@ -80,6 +80,7 @@ const levels = ["سطح 1", "سطح 2", "سطح 3"];
 const MotionGraphy = () => {
   const BASE_URL = "http://10.133.56.89:8000";
 
+  const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
   const [age, setAge] = useState(subCat[0]);
   const [isEditing, setIsEditing] = useState<number | null>(null);
@@ -108,6 +109,18 @@ const MotionGraphy = () => {
   const [openTimer, setOpenTimer] = useState(false);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
   const [episod, setEpisod] = useState<number | "">("");
+
+  const resetInputs = () => {
+    setName("");
+    setDescription("");
+    setStaffArray([]);
+    setSelectedTime(null);
+    setEpisod("");
+    setCompany("");
+    setProductImage(null);
+    setPoster(null);
+    setLevel("سطح 1");
+  };
 
   const handleButtonClick = () => {
     setOpenTimer(true);
@@ -145,41 +158,44 @@ const MotionGraphy = () => {
   };
 
   const submitProduct = () => {
-    if (typeof isEditing === "number") {
-      console.log(isEditing)
-      updateProduct({
-        id: isEditing,
-        name,
-        description,
-        staff: staffArray,
-        category: subcategories[0].category_id,
-        duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
-        episode: episod,
-        company: company,
-        sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
-        file: productImage,
-        poster,
-        level: parseInt(level.replace(/[^\d]/g, ""), 10),
+    // if (typeof isEditing === "number") {
+    //   //FIXME: need to work on
+    //   updateProduct({
+    //     id: isEditing,
+    //     name,
+    //     description,
+    //     staff: staffArray,
+    //     category: subcategories[0].category_id,
+    //     duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+    //     episode: episod,
+    //     company: company,
+    //     sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+    //     file: productImage,
+    //     poster,
+    //     level: parseInt(level.replace(/[^\d]/g, ""), 10),
+    //   })
+    //     .then((res) => console.log(res))
+    //     .catch((err) => console.log(err));
+    // } else {
+    createProduct({
+      name,
+      description,
+      staff: staffArray,
+      category: subcategories[0].category_id,
+      duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+      episode: episod,
+      company: company,
+      sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+      file: productImage,
+      poster,
+      level: parseInt(level.replace(/[^\d]/g, ""), 10),
+    })
+      .then((res) => {
+        resetInputs();
+        setNewResponse(true);
       })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    } else {
-      createProduct({
-        name,
-        description,
-        staff: staffArray,
-        category: subcategories[0].category_id,
-        duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
-        episode: episod,
-        company: company,
-        sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
-        file: productImage,
-        poster,
-        level: parseInt(level.replace(/[^\d]/g, ""), 10),
-      })
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
-    }
+      .catch((err) => console.log(err));
+    // }
   };
 
   useEffect(() => {
@@ -191,11 +207,14 @@ const MotionGraphy = () => {
   }, []);
 
   useEffect(() => {
-    if (subcategories) console.log(subcategories);
-    getProductsByCatId(subcategories.find((subCat) => subCat.name == age)?.id)
-      .then((res) => setProducts(res))
-      .catch((err) => console.log(err));
-  }, [age, subcategories]);
+    const subCatId = subcategories.find((subCat) => subCat.name == age)?.id;
+    if (subCatId) {
+      setNewResponse(false);
+      getProductsByCatId(subcategories.find((subCat) => subCat.name == age)?.id)
+        .then((res) => setProducts(res))
+        .catch((err) => console.log(err));
+    }
+  }, [age, subcategories, newResponse]);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -218,6 +237,7 @@ const MotionGraphy = () => {
         }}
       >
         <AddProduct
+          resetInputs={resetInputs}
           company={company}
           setCompany={setCompany}
           mediaType="video"
@@ -347,6 +367,7 @@ const MotionGraphy = () => {
             gap={3}
             direction={"row"}
             sx={{ overflowX: "hidden", overflowY: "auto" }}
+            flexWrap={"wrap"}
           >
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
@@ -380,15 +401,15 @@ const MotionGraphy = () => {
                           ? dayjs(`1970-01-01 ${product.duration}`)
                           : null
                       );
-                      setEpisod(product.episode);
+                      setEpisod(product.episode ?? "");
                       setProductImage(product.file);
-                      setName(product.name);
-                      setDescription(product.description);
+                      setName(product.name ?? "");
+                      setDescription(product.description ?? "");
                       setLevel(`سطح ${product.level}`);
                       setPoster(product.poster);
                       setCat(age);
-                      setCompany(product.company);
-                      setStaffArray(product.staff);
+                      setCompany(product.company ?? "");
+                      setStaffArray(product.staff ?? []);
                     }}
                     size="small"
                   >

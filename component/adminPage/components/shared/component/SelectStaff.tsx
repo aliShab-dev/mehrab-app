@@ -211,7 +211,7 @@ const SelectStaff = ({
             overflow={"auto"}
             sx={{ overflowX: "auto", overflowY: "hidden", gap: 1 }}
           >
-            {/* {staffArray.map((staff) => (
+            {staffArray && staffArray.length && staffArray.map((staff) => (
               <Tooltip key={staff.name} title={staff.name}>
                 <Stack textAlign={"center"} width={62} position={"relative"}>
                   <IconButton
@@ -244,7 +244,7 @@ const SelectStaff = ({
                   </Typography>
                 </Stack>
               </Tooltip>
-            ))} */}
+            ))}
           </Stack>
           <Stack>
             <Button

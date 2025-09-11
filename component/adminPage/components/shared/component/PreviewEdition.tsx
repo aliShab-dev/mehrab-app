@@ -8,8 +8,11 @@ import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import MediaPreview from "./MediaPreview";
 import { useRef } from "react";
+import { Dayjs } from "dayjs";
 
 interface PreviewEditionInterface {
+  selectedTime: Dayjs | null;
+  isEditing: null | number;
   productImage: File | null;
   setProductImage: (file: File | null) => void;
   name: string;
@@ -31,9 +34,11 @@ interface PreviewEditionInterface {
   setIsAddStaff: (isAdd: boolean) => void;
   submitProduct: () => void;
   mediaType: "audio" | "video" | "image";
+  resetInputs: () => void
 }
 
 const PreviewEdition = ({
+  selectedTime,
   productImage,
   setProductImage,
   name,
@@ -45,6 +50,7 @@ const PreviewEdition = ({
   cat,
   setCat,
   setStaffArray,
+  isEditing,
   setIsEditing,
   setOpen,
   age,
@@ -53,6 +59,7 @@ const PreviewEdition = ({
   setIsAddStaff,
   submitProduct,
   mediaType,
+  resetInputs
 }: PreviewEditionInterface) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleDownload = () => {
@@ -80,31 +87,25 @@ const PreviewEdition = ({
   const discardFn = () => {
     setProducts(products.filter((product, i) => product.name !== name));
     setOpen(false);
-    setName("");
-    setDescription("");
-    setLevel("");
-    setCat(age);
-    setProductImage(null);
-    setStaffArray([]);
+    resetInputs
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const cancelFn = () => {
     setOpen(false);
-    setName("");
-    setDescription("");
-    setLevel("");
-    setCat(age);
-    setProductImage(null);
-    setStaffArray([]);
-    setIsAddStaff(false);
     setIsEditing(null);
+    setIsAddStaff(false);
+    resetInputs();
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
     <Stack justifyContent={"space-around"}>
-      <MediaPreview productImage={productImage} mediaType={mediaType} />
+      <MediaPreview
+        productImage={productImage}
+        mediaType={mediaType}
+        isEditing={isEditing}
+      />
 
       <Stack direction={"row"} justifyContent={"space-around"}>
         <Button
@@ -145,7 +146,14 @@ const PreviewEdition = ({
           لغو
         </Button>
         <Button
-          disabled={!name || !description || !level || !cat || !productImage}
+          disabled={
+            !name ||
+            !description ||
+            !level ||
+            !cat ||
+            !productImage ||
+            (mediaType !== 'image' && !selectedTime)
+          }
           onClick={() => {
             submitProduct();
             setOpen(false);

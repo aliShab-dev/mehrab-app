@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Product } from "./MotionGraphy";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import {
   Avatar,
   Box,
@@ -17,6 +17,17 @@ import {
 } from "@mui/material";
 import AddProduct from "../shared/AddProduct";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { createProduct, getProductsByCatId } from "../../service/postProduct";
+import getCategories from "../../service/getCat";
+
+type Subcategory = {
+  id: number;
+  created_at: string;
+  name: string;
+  category: string;
+  category_id: number;
+  is_active: boolean;
+};
 
 const productsWithCat = [
   { id: 1, name: "نریشن", products: [] },
@@ -28,10 +39,15 @@ const subCat = ["نریشن", "صوت"];
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const Audio = () => {
+  const BASE_URL = "http://10.133.56.89:8000";
+
+  const [newResponse, setNewResponse] = useState<boolean>(false);
+  const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
   const [age, setAge] = useState(subCat[0]);
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
   const [description, setDescription] = useState("");
   const [cat, setCat] = useState(subCat[0]);
   const [level, setLevel] = useState("سطح 1");
@@ -55,6 +71,18 @@ const Audio = () => {
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
   const [episod, setEpisod] = useState<number | "">("");
 
+  const resetInputs = () => {
+    setName("");
+    setDescription("");
+    setStaffArray([]);
+    setSelectedTime(null);
+    setEpisod("");
+    setCompany("");
+    setProductImage(null);
+    setPoster(null);
+    setLevel("سطح 1");
+  };
+
   const handleButtonClick = () => {
     setOpenTimer(true);
   };
@@ -70,7 +98,6 @@ const Audio = () => {
   const handleEpisod = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
 
-    // Allow only empty or numeric values
     if (newValue === "" || /^\d+$/.test(newValue)) {
       setEpisod(newValue === "" ? "" : Number(newValue));
     }
@@ -92,31 +119,70 @@ const Audio = () => {
   };
 
   const submitProduct = () => {
-    setProducts((prev) => {
-      const newProduct = {
-        name,
-        description,
-        image: productImage,
-        staff: staffArray,
-        category: cat,
-        level,
-      };
+    // if (typeof isEditing === "number") {
+    //   //FIXME: need to work on
+    //   updateProduct({
+    //     id: isEditing,
+    //     name,
+    //     description,
+    //     staff: staffArray,
+    //     category: subcategories[0].category_id,
+    //     duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+    //     episode: episod,
+    //     company: company,
+    //     sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+    //     file: productImage,
+    //     poster,
+    //     level: parseInt(level.replace(/[^\d]/g, ""), 10),
+    //   })
+    //     .then((res) => console.log(res))
+    //     .catch((err) => console.log(err));
+    // } else {
 
-      if (typeof isEditing === "number") {
-        const updated = [...prev];
-        updated[isEditing] = newProduct;
-        return updated;
-      } else {
-        return [...prev, newProduct];
-      }
-    });
+    createProduct({
+      name,
+      description,
+      staff: staffArray,
+      category: subcategories[0].category_id,
+      duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+      episode: episod,
+      company: company,
+      sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+      file: productImage,
+      poster,
+      level: parseInt(level.replace(/[^\d]/g, ""), 10),
+    })
+      .then((res) => {
+        resetInputs();
+        setNewResponse(true);
+      })
+      .catch((err) => console.log(err));
+    // }
   };
+
+  useEffect(() => {
+    getCategories()
+      .then((res: Subcategory[]) => {
+        setSubCategoies(res.filter((subCat) => subCat.category_id === 7));
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    const subCatId = subcategories.find((subCat) => subCat.name == age)?.id;
+    if (subCatId) {
+      setNewResponse(false);
+      getProductsByCatId(subcategories.find((subCat) => subCat.name == age)?.id)
+        .then((res) => setProducts(res))
+        .catch((err) => console.log(err));
+    }
+  }, [age, subcategories, newResponse]);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>
         <Typography component={"h2"} fontSize={18} pr={1}>
-          صوت و نریشن: 
+          صوت و نریشن:
         </Typography>
       </Stack>
 
@@ -133,6 +199,9 @@ const Audio = () => {
         }}
       >
         <AddProduct
+          resetInputs={resetInputs}
+          company={company}
+          setCompany={setCompany}
           mediaType="audio"
           poster={poster}
           setPoster={setPoster}
@@ -264,7 +333,7 @@ const Audio = () => {
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
                 <Avatar
-                  src={product.image ? URL.createObjectURL(product.image) : ""}
+                  src={product.poster ? `${BASE_URL}${product.poster}` : ""}
                   alt="poster"
                   variant="rounded"
                   sx={{
@@ -286,14 +355,22 @@ const Audio = () => {
                   </Typography>
                   <IconButton
                     onClick={() => {
-                      setIsEditing(index);
+                      setIsEditing(product.id);
                       setOpen(true);
-                      setProductImage(product.image);
-                      setName(product.name);
-                      setDescription(product.description);
-                      setLevel(product.level);
+                      setSelectedTime(
+                        product.duration
+                          ? dayjs(`1970-01-01 ${product.duration}`)
+                          : null
+                      );
+                      setEpisod(product.episode?? '');
+                      setProductImage(product.file);
+                      setName(product.name?? '');
+                      setDescription(product.description?? '');
+                      setLevel(`سطح ${product.level}`);
+                      setPoster(product.poster);
                       setCat(age);
-                      setStaffArray(product.staff);
+                      setCompany(product.company?? '');
+                      setStaffArray(product.staff?? []);
                     }}
                     size="small"
                   >

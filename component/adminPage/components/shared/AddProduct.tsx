@@ -58,6 +58,7 @@ interface DisplayProductInterface {
   poster: File | null;
   setPoster: (file: File | null) => void;
   mediaType: "audio" | "video" | "image";
+  resetInputs: () => void;
 }
 
 const AddProduct = ({
@@ -109,6 +110,7 @@ const AddProduct = ({
   poster,
   setPoster,
   mediaType,
+  resetInputs,
 }: DisplayProductInterface) => {
   return (
     <Stack
@@ -127,6 +129,9 @@ const AddProduct = ({
     >
       <Stack direction="row" width="100%" height="100%" gap={2}>
         <PreviewEdition
+          resetInputs={resetInputs}
+          selectedTime={selectedTime}
+          isEditing={isEditing}
           mediaType={mediaType}
           productImage={productImage}
           setProductImage={setProductImage}

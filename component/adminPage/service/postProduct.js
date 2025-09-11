@@ -12,29 +12,32 @@ const createProduct = async ({
   file,
 }) => {
   const token = localStorage.getItem("token");
-
-  const data = {
-    name,
-    description,
-    staff: staff_data,
-    category: category.toString(),
-    duration,
-    episode: episode.toString(),
-    company: company ? company.toString() : undefined,
-    sub_category: sub_category.toString(),
-    level: level.toString(),
-  };
+  const BASE_URL = "http://10.133.56.89:8000"; // Define your base URL
+  const API_URL = `${BASE_URL}/api/products/`;
 
   const formData = new FormData();
-  formData.append("data", JSON.stringify(data));
-  if (poster) formData.append("poster", poster);
-  if (file) formData.append("file", file);
+  formData.append("name", name);
+  formData.append("description", description);
+  formData.append("company", company || ""); 
+  formData.append("category", category);
+  formData.append("sub_category", sub_category);
+  formData.append("duration", duration);
+  formData.append("episode", episode);
+  formData.append("staff_data", JSON.stringify(staff_data || [])); 
+  formData.append("level", level.toString()); 
+
+  if (poster instanceof File) {
+    formData.append("poster", poster);
+  }
+  if (file instanceof File) {
+    formData.append("file", file);
+  }
 
   try {
-    const response = await fetch("http://10.133.56.89:8000/api/products/", {
+    const response = await fetch(API_URL, {
       method: "POST",
       headers: {
-        Authorization: `Token ${token}`,
+        Authorization: `Token ${token}`, // Use Bearer to match backend
       },
       body: formData,
     });
@@ -86,13 +89,16 @@ const updateProduct = async ({
   if (file) formData.append("file", file);
 
   try {
-    const response = await fetch(`http://10.133.56.89:8000/api/products/${id}`, {
-      method: "PATCH",
-      headers: {
-        // Authorization: `Token ${token}`,
-      },
-      body: formData,
-    });
+    const response = await fetch(
+      `http://10.133.56.89:8000/api/products/${id}`,
+      {
+        method: "PATCH",
+        headers: {
+          // Authorization: `Token ${token}`,
+        },
+        body: formData,
+      }
+    );
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -111,7 +117,7 @@ const getProductsByCatId = async (cat) => {
 
   try {
     const response = await fetch(
-      `http://10.133.56.89:8000/api/subcategories/${cat}/get_products`,
+      `http://10.133.56.89:8000/api/subcategories/${cat}/get_products/`,
       {
         method: "get",
         headers: {

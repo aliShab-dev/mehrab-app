@@ -7,18 +7,26 @@ import { useEffect, useMemo } from "react";
 
 type MediaType = "image" | "video" | "audio";
 interface MediaPreviewProps {
+  isEditing: number | null;
   productImage: File | null;
   mediaType: MediaType;
 }
 
-const MediaPreview = ({ productImage, mediaType }: MediaPreviewProps) => {
+const MediaPreview = ({
+  productImage,
+  mediaType,
+  isEditing,
+}: MediaPreviewProps) => {
   const BASE_URL = "http://10.133.56.89:8000";
-  const objectUrl = useMemo(() => {
-    if (productImage && typeof productImage === "string") {
-      return `${BASE_URL}${productImage}`;
-    }
-    return null;
-  }, [productImage]);
+const objectUrl = useMemo(() => {
+  if (typeof isEditing === "number" && typeof productImage === "string") {
+    return `${BASE_URL}${productImage}`;
+  }
+  else if (isEditing === null && productImage instanceof File) {
+    return URL.createObjectURL(productImage);
+  }
+  return null;
+}, [productImage, isEditing]);
 
   useEffect(() => {
     return () => {

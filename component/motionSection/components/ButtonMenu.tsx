@@ -1,4 +1,5 @@
 "use client";
+
 import { alpha, styled } from "@mui/material/styles";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
 import MuiAccordionSummary, {
@@ -9,6 +10,9 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React from "react";
 import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import Image from "next/image";
+import { number } from "framer-motion";
+import { Categories } from "@/app/page";
+import { Product } from "./ClientContainer";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -91,7 +95,7 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
             height:
               expanded === name
                 ? { xs: 36, sm: 40, md: 45, lg: 50 }
-                : { xs: 44, sm: 48, md: 50, lg: 50},
+                : { xs: 44, sm: 48, md: 50, lg: 50 },
           }}
         >
           <Image
@@ -159,26 +163,28 @@ const subCat: SubCat[] = [
   { id: 3, name: "نمونه کار سوم" },
 ];
 
-const ButtonMenu = () => {
-  const [expanded, setExpanded] = React.useState<string | false>("کلاژ موشن");
-  const [selectedSubCat, setSelectedSubCat] = React.useState<number>(1);
+interface ButtonMenuProps {
+  productById: Product[];
+  categories: Categories;
+  expanded: string | false;
+  selectedSubCat: number;
+  handleChange: (
+    panel: string
+  ) => (event: React.SyntheticEvent, expanded: boolean) => void;
+  handleSubCatChange: (id: number) => void;
+}
 
-  const handleChange = (panel: string) => (event: React.SyntheticEvent) => {
-    if (panel == expanded) {
-      setExpanded(false);
-    } else {
-      setExpanded(panel);
-    }
-  };
-
-  const handleSubCatChange = (id: number) => {
-    setSelectedSubCat(id);
-  };
-
+const ButtonMenu: React.FC<ButtonMenuProps> = ({
+  productById,
+  categories,
+  expanded,
+  selectedSubCat,
+  handleChange,
+  handleSubCatChange,
+}) => {
   return (
     <Stack
       width={{ xs: "100%", md: 300 }}
-      // minWidth={320}
       height={{ xs: 400, md: "100%" }}
       overflow="hidden"
       sx={(theme) => ({
@@ -225,7 +231,7 @@ const ButtonMenu = () => {
               justifyContent={"space-between"}
               width={"90%"}
             >
-              {subCat.map((subCat) => (
+              {productById.slice(0, 3).map((subCat) => (
                 <Button
                   key={subCat.id}
                   fullWidth
@@ -245,7 +251,7 @@ const ButtonMenu = () => {
                   >
                     <Image
                       src="/banner.png"
-                      alt={`${subCat.id}-${subCat.name}`}
+                      alt={`${subCat.id}-${subCat.file}`}
                       fill
                       style={{
                         width: "100%",
@@ -259,12 +265,12 @@ const ButtonMenu = () => {
                       }}
                     />
                     <Typography
-                      fontSize={12}
+                      fontSize={11}
                       sx={(theme) => ({
                         position: "absolute",
                         bottom: -12,
-                        right: 10,
-                        width: 65,
+                        right: 5,
+                        width: 55,
                         color:
                           subCat.id === selectedSubCat
                             ? theme.palette.secondary.main

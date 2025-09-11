@@ -1,10 +1,13 @@
-"use client";
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
-import ButtonMenu from "./components/ButtonMenu";
-import VideoPlayer from "./components/VideoPlayer";
+import { Categories } from "@/app/page";
+import ClientContainer from "./components/ClientContainer";
 
-const MotionSection = () => {
+interface MotionSectionProps {
+  categories: Categories;
+}
+
+const MotionSection: React.FC<MotionSectionProps> = ({categories}) => {
   return (
     <Stack width={{ xs: "95%", md: "80%" }} mx="auto" gap={{ xs: 3, md: 5 }}>
       <SectionHeader
@@ -23,17 +26,8 @@ const MotionSection = () => {
         frontIcon={{ alt: "motion-graphic-image", src: "/camera-icon.png" }}
         title="برترین‌های موشن گرافیک"
       />
-      <Stack
-        direction={{ xs: "column-reverse", md: "row" }}
-        width="93.4%"
-        height="100%"
-        mx={"auto"}
-        gap={4}
-        sx={{ aspectRatio: { xs: "nome", md: "1920/980" } }}
-      >
-        <ButtonMenu />
-        <VideoPlayer url="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4" />
-      </Stack>
+      <ClientContainer categories={categories}/>
+      
     </Stack>
   );
 };

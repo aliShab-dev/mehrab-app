@@ -1,10 +1,13 @@
 "use client";
+
 import { Box, Divider, Stack, styled, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
+import { Product } from "./ClientContainer";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 type VideoPlayerType = {
   url: string;
+  selectedProduct: Product | undefined;
 };
 
 const PrimaryText = styled(Typography)(({ theme }) => ({
@@ -46,7 +49,11 @@ const SecondaryText = styled(Typography)(({ theme }) => ({
   },
 }));
 
-const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
+const VideoPlayerComponent = ({
+  url: videoUrl,
+  selectedProduct,
+}: VideoPlayerType) => {
+  const BASE_URL = "http://10.133.56.89:8000";
   return (
     <Stack width={"100%"}>
       <Box
@@ -60,7 +67,7 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
         }}
       >
         <ReactPlayer
-          url={videoUrl}
+          src={selectedProduct ? `${BASE_URL}${selectedProduct.file}` : ""}
           controls
           playing
           width="100%"
@@ -82,10 +89,24 @@ const VideoPlayerComponent = ({ url: videoUrl }: VideoPlayerType) => {
         justifyContent={{ xs: "flex-start", md: "space-between" }}
       >
         {[
-          { title: "نام اثر", value: "خانواده هنری محراب" },
-          { title: "لول کار", value: "خانواده هنری محراب" },
-          { title: "برای کجا بوده", value: "خانواده هنری محراب" },
-          { title: "تعداد قسمت‌ها", value: "خانواده هنری محراب" },
+          {
+            title: "نام اثر",
+            value: selectedProduct ? selectedProduct.name : "",
+          },
+          {
+            title: "لول کار",
+            value: selectedProduct ? `سطح ${selectedProduct.level}` : "",
+          },
+          {
+            title: "برای کجا بوده",
+            value: selectedProduct ? selectedProduct.company : "",
+          },
+          {
+            title: "تعداد قسمت‌ها",
+            value: selectedProduct
+              ? selectedProduct.episode ?? "تک قسمت"
+              : "تک قسمت",
+          },
         ].map((item, i) => (
           <Stack
             key={i}

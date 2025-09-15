@@ -39,7 +39,7 @@ const SelectStaff = ({
   setStaffRole,
   setIsAddStaff,
 }: SelectStaffProps) => {
-  const BASE_URL = "http://127.0.0.1:8000";
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   return (
     <Stack
       position={"relative"}
@@ -211,40 +211,44 @@ const SelectStaff = ({
             overflow={"auto"}
             sx={{ overflowX: "auto", overflowY: "hidden", gap: 1 }}
           >
-            {staffArray && staffArray.length && staffArray.map((staff) => (
-              <Tooltip key={staff.name} title={staff.name}>
-                <Stack textAlign={"center"} width={62} position={"relative"}>
-                  <IconButton
-                    size="small"
-                    color="error"
-                    onClick={() => handleDeleteStaff(staff.name)}
-                    sx={{
-                      position: "absolute",
-                      top: 40,
-                      left: -5,
-                      zIndex: 100,
-                    }}
-                  >
-                    <DeleteForeverIcon fontSize="small" />
-                  </IconButton>
-                  <Avatar
-                    src={
-                      staff.image ? URL.createObjectURL(staff.image) : undefined
-                    }
-                    alt={staff.name}
-                    sx={{ width: 62, height: 62 }}
-                  />
-                  <Typography
-                    variant="body2"
-                    fontSize={10}
-                    width={"100%"}
-                    noWrap
-                  >
-                    {staff.name}
-                  </Typography>
-                </Stack>
-              </Tooltip>
-            ))}
+            {staffArray &&
+              staffArray.length &&
+              staffArray.map((staff) => (
+                <Tooltip key={staff.name} title={staff.name}>
+                  <Stack textAlign={"center"} width={62} position={"relative"}>
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => handleDeleteStaff(staff.name)}
+                      sx={{
+                        position: "absolute",
+                        top: 40,
+                        left: -5,
+                        zIndex: 100,
+                      }}
+                    >
+                      <DeleteForeverIcon fontSize="small" />
+                    </IconButton>
+                    <Avatar
+                      src={
+                        staff.image
+                          ? URL.createObjectURL(staff.image)
+                          : undefined
+                      }
+                      alt={staff.name}
+                      sx={{ width: 62, height: 62 }}
+                    />
+                    <Typography
+                      variant="body2"
+                      fontSize={10}
+                      width={"100%"}
+                      noWrap
+                    >
+                      {staff.name}
+                    </Typography>
+                  </Stack>
+                </Tooltip>
+              ))}
           </Stack>
           <Stack>
             <Button

@@ -78,7 +78,7 @@ const subCat = [
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const MotionGraphy = () => {
-  const BASE_URL = "http://127.0.0.1:8000";
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);

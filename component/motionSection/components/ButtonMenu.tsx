@@ -164,7 +164,7 @@ const motionCats = [
 ];
 
 interface ButtonMenuProps {
-  BASE_URL: string;
+  BASE_URL: string | undefined;
   productById: Product[];
   categories: Categories;
   expanded: string | false;

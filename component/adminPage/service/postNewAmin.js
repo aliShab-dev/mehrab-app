@@ -8,11 +8,12 @@ const createNewAdmin = async ({
   const token = localStorage.getItem("token");
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Token ${token}`, 
+    Authorization: `Token ${token}`,
   };
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/User_Service/", {
+    const response = await fetch(`${BASE_URL}/User_Service/`, {
       method: "POST",
       headers,
       body: JSON.stringify({
@@ -41,7 +42,7 @@ const updateAdmin = async ({
   name,
 }) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/user_service/", {
+    const response = await fetch(`${BASE_URL}/user_service/`, {
       method: "patch",
       headers: headers,
       body: JSON.stringify({
@@ -73,7 +74,7 @@ const deleteAdmin = async ({
   name,
 }) => {
   try {
-    const response = await fetch("http://127.0.0.1:8000/user_service/", {
+    const response = await fetch(`${BASE_URL}/user_service/`, {
       method: "delete",
       headers: headers,
       body: JSON.stringify({

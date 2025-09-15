@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { Product } from "./MotionGraphy";
@@ -41,7 +41,7 @@ const subCat = ["نریشن", "صوت"];
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const Audio = () => {
-  const BASE_URL = "http://127.0.0.1:8000";
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
@@ -364,15 +364,15 @@ const Audio = () => {
                           ? dayjs(`1970-01-01 ${product.duration}`)
                           : null
                       );
-                      setEpisod(product.episode?? '');
+                      setEpisod(product.episode ?? "");
                       setProductImage(product.file);
-                      setName(product.name?? '');
-                      setDescription(product.description?? '');
+                      setName(product.name ?? "");
+                      setDescription(product.description ?? "");
                       setLevel(`سطح ${product.level}`);
                       setPoster(product.poster);
                       setCat(age);
-                      setCompany(product.company?? '');
-                      setStaffArray(product.staff?? []);
+                      setCompany(product.company ?? "");
+                      setStaffArray(product.staff ?? []);
                     }}
                     size="small"
                   >

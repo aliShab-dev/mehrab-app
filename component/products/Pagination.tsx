@@ -74,6 +74,7 @@ const Pagination = ({
               direction={"row"}
               gap={1}
               sx={{
+                justifyContent: 'center',
                 position: "relative",
                 borderRadius: 5,
                 px: 2,

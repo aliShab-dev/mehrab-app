@@ -1,3 +1,5 @@
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 const createProduct = async ({
   name,
   description,
@@ -11,9 +13,8 @@ const createProduct = async ({
   poster,
   file,
 }) => {
-  const token = localStorage.getItem("token");
-  const BASE_URL = "http://127.0.0.1:8000"; // Define your base URL
   const API_URL = `${BASE_URL}/api/products/`;
+  const token = localStorage.getItem("token");
 
   const formData = new FormData();
   formData.append("name", name);
@@ -89,11 +90,8 @@ const updateProduct = async ({
   if (file) formData.append("file", file);
 
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/products/${id}`, {
       method: "PATCH",
-      headers: {
-        // Authorization: `Token ${token}`,
-      },
       body: formData,
     });
 
@@ -112,7 +110,7 @@ const updateProduct = async ({
 const getProductsByCatId = async (cat) => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/api/subcategories/${cat}/get_products/`,
+      `${BASE_URL}/api/subcategories/${cat}/get_products/`,
       {
         method: "get",
       }
@@ -132,7 +130,7 @@ const getProductsByCatId = async (cat) => {
 const getProductsByCategoryId = async (cat) => {
   try {
     const response = await fetch(
-      `http://127.0.0.1:8000/api/categories/${cat}/get_products/`,
+      `${BASE_URL}/api/categories/${cat}/get_products/`,
       {
         method: "get",
       }
@@ -150,4 +148,9 @@ const getProductsByCategoryId = async (cat) => {
   }
 };
 
-export { createProduct, getProductsByCatId, updateProduct, getProductsByCategoryId };
+export {
+  createProduct,
+  getProductsByCatId,
+  updateProduct,
+  getProductsByCategoryId,
+};

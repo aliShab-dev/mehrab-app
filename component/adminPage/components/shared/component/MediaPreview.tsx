@@ -17,16 +17,15 @@ const MediaPreview = ({
   mediaType,
   isEditing,
 }: MediaPreviewProps) => {
-  const BASE_URL = "http://127.0.0.1:8000";
-const objectUrl = useMemo(() => {
-  if (typeof isEditing === "number" && typeof productImage === "string") {
-    return `${BASE_URL}${productImage}`;
-  }
-  else if (isEditing === null && productImage instanceof File) {
-    return URL.createObjectURL(productImage);
-  }
-  return null;
-}, [productImage, isEditing]);
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const objectUrl = useMemo(() => {
+    if (typeof isEditing === "number" && typeof productImage === "string") {
+      return `${BASE_URL}${productImage}`;
+    } else if (isEditing === null && productImage instanceof File) {
+      return URL.createObjectURL(productImage);
+    }
+    return null;
+  }, [productImage, isEditing]);
 
   useEffect(() => {
     return () => {

@@ -29,7 +29,7 @@ export interface Product {
 }
 
 const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
-  const BASE_URL = "http://127.0.0.1:8000";
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   const [expanded, setExpanded] = useState<string | false>("کلاژ موشن");
   const [selectedSubCat, setSelectedSubCat] = useState<number>(1);

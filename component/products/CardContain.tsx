@@ -1,21 +1,14 @@
-'use client'
+"use client";
 
 import { alpha, Box, Skeleton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-type CardType = {
-  id: string;
-  src: string;
-  name: string;
-  author: string;
-  category: string;
-};
+import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 
 type CardContainer = {
-  currentItems: CardType[];
-  allItems: CardType[];
+  currentItems: Product[];
+  allItems: Product[];
   page: number;
   loading: boolean;
   showAll: boolean;
@@ -43,7 +36,9 @@ const CardContainer = ({
   showAll,
   allItems,
 }: CardContainer) => {
-  const router = useRouter()
+  const router = useRouter();
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   return (
     <motion.div
       key={showAll ? "all" : `page-${page}`}
@@ -105,7 +100,7 @@ const CardContainer = ({
             >
               <Box
                 flexDirection={"column"}
-                component={'a'}
+                component={"a"}
                 onClick={() => router.push(`/products/${product.id}`)}
                 sx={{
                   width: 280,
@@ -143,7 +138,7 @@ const CardContainer = ({
                   }}
                 >
                   <Image
-                    src={product.src}
+                    src={product.poster ? `${BASE_URL}${product.poster}`: `${BASE_URL}${product.file}`}
                     alt="image"
                     fill
                     className="zoom-image"
@@ -165,7 +160,7 @@ const CardContainer = ({
                     fontSize={14}
                     noWrap
                   >
-                    {product.author}
+                    {product.company}
                   </Typography>
                   <Typography
                     fontSize={12}
@@ -194,7 +189,7 @@ const CardContainer = ({
                     }}
                   >
                     <Typography fontSize={12} color="secondary.dark">
-                      سطح 1
+                      سطح {product.level}
                     </Typography>
                   </Box>
                 </Box>

@@ -22,6 +22,7 @@ const PageHeader = ({ title, Icon }: PageHeaderType) => {
           mt: { xs: -0.5, md: -0.8 },
           fontSize: { xs: 28, sm: 30, md: 36, lg: 45 },
         }}
+        aria-label={`Icon for ${title}`}
       />
       <Typography
         component={"h1"}

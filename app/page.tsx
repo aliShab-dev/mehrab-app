@@ -29,7 +29,7 @@ async function fetchCategoriesData() {
   }
 }
 
-function transformCategories(
+export function transformCategories(
   subCategories: {
     id: number;
     name: string;

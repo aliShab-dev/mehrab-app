@@ -1,25 +1,21 @@
-import {
-  alpha,
-  Button,
-  Menu,
-  MenuItem,
-  Stack,
-  styled,
-  Typography,
-} from "@mui/material";
+import { alpha, Button, Menu, MenuItem, Stack, styled } from "@mui/material";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
+import { Categories, Category, SubCategory } from "@/app/page";
 
-export type Category = {
-  name: string;
-  subCat: string[];
-  level: number[];
-};
-
+interface SelectCatBtnProps {
+  categories: Categories;
+  selectedCategory: Category | null;
+  setSelectedCategory: React.Dispatch<React.SetStateAction<Category | null>>;
+  selectedSubCat: SubCategory | null;
+  setSelectedSubCat: React.Dispatch<React.SetStateAction<SubCategory | null>>;
+  selectedLevel: number | null;
+  setSelectedLevel: React.Dispatch<React.SetStateAction<number | null>>;
+}
 type MenuType = "category" | "subCat" | "level" | "sort";
 
 export type TextBoxProps = {
@@ -28,55 +24,15 @@ export type TextBoxProps = {
   setText: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const categories = [
-  {
-    name: "موشن گرافی",
-    subCat: [
-      "کلاژ موشن",
-      "کمیک موشن",
-      "هندموشن",
-      "فلت موشن",
-      "اینفوموشن",
-      "رئال موشن",
-      " لوگوموشن",
-      "پوستر موشن",
-      " استوری موشن",
-    ],
-    level: [1, 2, 3],
-  },
-  {
-    name: "فیلم و مستند",
-    subCat: [
-      "ویدیو کامنت ضبطی",
-      "مستند کوتاه",
-      "کلیپ",
-      "مصاحبه",
-      "تیزر گزارشی",
-    ],
-    level: [1, 2, 3],
-  },
-  {
-    name: "صوت و نریشن",
-    subCat: ["نریشن", "صوت"],
-    level: [1, 2, 3],
-  },
-  {
-    name: "گرافیک دیزاین",
-    subCat: [
-      "هویت بصری",
-      "لوگو",
-      "اینفوگرافیک",
-      "پوستر",
-      "تایپوگرافی",
-      "جلد کتاب",
-    ],
-    level: [1, 2, 3],
-  },
-];
-
 const sortOptions = [
   { label: "جدیدترین", value: "latest" },
   { label: "قدیمی‌ترین", value: "oldest" },
+];
+
+const levelOptions = [
+  { id: 1, name: "سطح 1" },
+  { id: 2, name: "سطح 2" },
+  { id: 3, name: "سطح 3" },
 ];
 
 const CustomButton = styled(Button)(({ theme }) => ({
@@ -119,23 +75,15 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-type CatButton = {
-  selectedCategory: Category | null;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<Category | null>>;
-  selectedSubCat: string | null;
-  setSelectedSubCat: React.Dispatch<React.SetStateAction<string | null>>;
-  selectedLevel: number | null;
-  setSelectedLevel: React.Dispatch<React.SetStateAction<number | null>>;
-};
-
-const SelectedCatBtn = ({
+const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
+  categories,
   selectedLevel,
   selectedSubCat,
   selectedCategory,
   setSelectedLevel,
   setSelectedSubCat,
   setSelectedCategory,
-}: CatButton) => {
+}) => {
   const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuType, setMenuType] = useState("");
@@ -160,7 +108,7 @@ const SelectedCatBtn = ({
     handleClose();
   };
 
-  const handleSelectSubCat = (subCat: string) => {
+  const handleSelectSubCat = (subCat: SubCategory) => {
     setSelectedSubCat(subCat);
     handleClose();
   };
@@ -182,7 +130,7 @@ const SelectedCatBtn = ({
         onClick={(e) => handleOpenMenu(e, "category")}
       >
         <CategoryRoundedIcon />
-        {selectedCategory ? selectedCategory.name : "دسته بندی"}
+        {selectedCategory ? selectedCategory.categoryName : "دسته بندی"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 
@@ -202,7 +150,7 @@ const SelectedCatBtn = ({
         disabled={!selectedCategory}
       >
         <DashboardRoundedIcon />
-        {selectedSubCat ?? "سبک"}
+        {selectedSubCat?.subCatName ?? "سبک"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 
@@ -220,8 +168,8 @@ const SelectedCatBtn = ({
         {menuType === "category" &&
           categories.map((cat) => (
             <MenuItem
-              key={cat.name}
-              selected={selectedCategory?.name === cat.name}
+              key={cat.categoryName}
+              selected={selectedCategory?.categoryId === cat.categoryId}
               onClick={() => handleSelectCategory(cat)}
               sx={{
                 mx: 0.5,
@@ -233,15 +181,15 @@ const SelectedCatBtn = ({
                 },
               }}
             >
-              {cat.name}
+              {cat.categoryName}
             </MenuItem>
           ))}
 
         {menuType === "subCat" &&
-          selectedCategory?.subCat.map((style) => (
+          selectedCategory?.subCatList.map((style) => (
             <MenuItem
-              key={style}
-              selected={selectedSubCat === style}
+              key={style.subCatId}
+              selected={selectedSubCat?.subCatId === style.subCatId}
               onClick={() => {
                 handleSelectSubCat(style);
               }}
@@ -255,17 +203,17 @@ const SelectedCatBtn = ({
                 },
               }}
             >
-              {style}
+              {style.subCatName}
             </MenuItem>
           ))}
 
         {menuType === "level" &&
-          selectedCategory?.level.map((level) => (
+          levelOptions.map((level) => (
             <MenuItem
-              key={level}
-              selected={selectedLevel == level}
+              key={level.id}
+              selected={selectedLevel == level.id}
               onClick={() => {
-                handleSelectLevel(level);
+                handleSelectLevel(level.id);
               }}
               sx={{
                 mx: 0.5,
@@ -277,7 +225,7 @@ const SelectedCatBtn = ({
                 },
               }}
             >
-              سطح {level}
+              {level.name}
             </MenuItem>
           ))}
         {menuType === "sort" &&

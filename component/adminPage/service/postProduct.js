@@ -12,19 +12,19 @@ const createProduct = async ({
   file,
 }) => {
   const token = localStorage.getItem("token");
-  const BASE_URL = "http://10.133.56.89:8000"; // Define your base URL
+  const BASE_URL = "http://127.0.0.1:8000"; // Define your base URL
   const API_URL = `${BASE_URL}/api/products/`;
 
   const formData = new FormData();
   formData.append("name", name);
   formData.append("description", description);
-  formData.append("company", company || ""); 
+  formData.append("company", company || "");
   formData.append("category", category);
   formData.append("sub_category", sub_category);
   formData.append("duration", duration);
   formData.append("episode", episode);
-  formData.append("staff_data", JSON.stringify(staff_data || [])); 
-  formData.append("level", level.toString()); 
+  formData.append("staff_data", JSON.stringify(staff_data || []));
+  formData.append("level", level.toString());
 
   if (poster instanceof File) {
     formData.append("poster", poster);
@@ -89,16 +89,13 @@ const updateProduct = async ({
   if (file) formData.append("file", file);
 
   try {
-    const response = await fetch(
-      `http://10.133.56.89:8000/api/products/${id}`,
-      {
-        method: "PATCH",
-        headers: {
-          // Authorization: `Token ${token}`,
-        },
-        body: formData,
-      }
-    );
+    const response = await fetch(`http://127.0.0.1:8000/api/products/${id}`, {
+      method: "PATCH",
+      headers: {
+        // Authorization: `Token ${token}`,
+      },
+      body: formData,
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -113,16 +110,31 @@ const updateProduct = async ({
 };
 
 const getProductsByCatId = async (cat) => {
-  const token = localStorage.getItem("token");
-
   try {
     const response = await fetch(
-      `http://10.133.56.89:8000/api/subcategories/${cat}/get_products/`,
+      `http://127.0.0.1:8000/api/subcategories/${cat}/get_products/`,
       {
         method: "get",
-        headers: {
-          Authorization: `Token ${token}`,
-        },
+      }
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error("Post new product failed:", err);
+    throw err;
+  }
+};
+const getProductsByCategoryId = async (cat) => {
+  try {
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/categories/${cat}/get_products/`,
+      {
+        method: "get",
       }
     );
 
@@ -138,4 +150,4 @@ const getProductsByCatId = async (cat) => {
   }
 };
 
-export { createProduct, getProductsByCatId, updateProduct };
+export { createProduct, getProductsByCatId, updateProduct, getProductsByCategoryId };

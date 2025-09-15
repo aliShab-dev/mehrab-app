@@ -1,7 +1,7 @@
 const getCategories = async () => {
   try {
     const response = await fetch(
-      "http://10.133.56.89:8000/api/subcategories/",
+      "http://127.0.0.1:8000/api/subcategories/",
       {
         method: "get",
         headers: {

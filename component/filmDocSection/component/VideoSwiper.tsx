@@ -2,7 +2,7 @@
 
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Box, IconButton, Stack, useTheme } from "@mui/material";
+import { Box, IconButton, Skeleton, Stack, useTheme } from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../css/styles.css";
@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import type { Swiper as SwiperClass } from "swiper";
 import Image from "next/image";
+import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const MySwiperStyles = () => {
@@ -58,7 +59,8 @@ const MySwiperStyles = () => {
   );
 };
 
-const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
+const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
@@ -168,15 +170,12 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
         className="mySwiper"
         onSwiper={(swiper) => {
           setSwiperRef(swiper);
-
           setIsBeginning(swiper.isBeginning);
           setIsEnd(swiper.isEnd);
-
           swiper.on("slideChange", () => {
             setIsBeginning(swiper.isBeginning);
             setIsEnd(swiper.isEnd);
           });
-
           swiper.on("reachBeginning", () => setIsBeginning(true));
           swiper.on("reachEnd", () => setIsEnd(true));
           swiper.on("fromEdge", () => {
@@ -199,41 +198,69 @@ const VideoSwiper = ({ videoList }: { videoList: string[] | [] }) => {
           },
         }}
       >
-        {videoList.map((video, index) => (
-          <SwiperSlide
-            key={index}
-            style={{
-              width: "50%",
-              borderRadius: 28,
-              overflow: "clip",
-            }}
-          >
-            <Stack
-              position="relative"
-              bgcolor="secondary.main"
-              width="100%"
-              sx={{
-                aspectRatio: "1920 / 1080",
-                "& video": {
-                  objectFit: "cover",
-                },
-              }}
-            >
-              <ReactPlayer
-                url={video}
-                controls
-                playing
-                width="100%"
-                height="100%"
+        {videoList.length === 0
+          ? Array.from({ length: 5 }).map((_, index) => (
+              <SwiperSlide
+                key={`skeleton-${index}`}
                 style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
+                  width: "50%",
+                  borderRadius: 28,
+                  overflow: "clip",
                 }}
-              />
-            </Stack>
-          </SwiperSlide>
-        ))}
+              >
+                <Stack
+                  position="relative"
+                  bgcolor="secondary.main"
+                  width="100%"
+                  sx={{
+                    aspectRatio: "1920 / 1080",
+                  }}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width="100%"
+                    height="100%"
+                  />
+                </Stack>
+              </SwiperSlide>
+            ))
+          : videoList.map((video, index) => (
+              <SwiperSlide
+                key={index}
+                style={{
+                  width: "50%",
+                  borderRadius: 28,
+                  overflow: "clip",
+                }}
+              >
+                <Stack
+                  position="relative"
+                  bgcolor="secondary.main"
+                  width="100%"
+                  sx={{
+                    aspectRatio: "1920 / 1080",
+                    "& video": {
+                      objectFit: "cover",
+                    },
+                  }}
+                >
+                  <ReactPlayer
+                    url={`${BASE_URL}${video.file}`}
+                    light={`${BASE_URL}${video.poster}`}
+                    controls
+                    playing
+                    width="100%"
+                    height="100%"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                    }}
+                    onError={(e) => console.error("ReactPlayer Error:", e)}
+                  />
+                </Stack>
+              </SwiperSlide>
+            ))}
       </Swiper>
     </Stack>
   );

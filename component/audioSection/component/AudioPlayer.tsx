@@ -4,22 +4,18 @@ import {
   alpha,
   Box,
   IconButton,
-  Slider,
   Stack,
   Typography,
+  Skeleton,
 } from "@mui/material";
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
 import { useEffect, useRef, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
+import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 
 interface AudioPlayerProps {
-  selectedItem: {
-    name: string;
-    author: string;
-    description: string;
-    src?: string;
-  };
+  selectedItem: Product | null;
 }
 
 const formatTime = (time: number) => {
@@ -29,13 +25,16 @@ const formatTime = (time: number) => {
   return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
 };
 
-const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
+const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
   const audioRef = useRef<ReactAudioPlayer>(null);
   const [playing, setPlaying] = useState(false);
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // Update progress
+  const isSelectedItemEmpty =
+    !selectedItem || Object.keys(selectedItem).length === 0;
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
+
   useEffect(() => {
     const audio = audioRef.current?.audioEl.current;
     if (!audio) return;
@@ -52,29 +51,6 @@ const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
     };
   }, []);
 
-  const togglePlay = () => {
-    const audio = audioRef.current?.audioEl.current;
-    if (!audio) return;
-    if (playing) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setPlaying(!playing);
-  };
-
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const bar = e.currentTarget;
-    const rect = bar.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percentage = clickX / rect.width;
-    const newTime = duration * percentage;
-
-    const audio = audioRef.current?.audioEl.current;
-    if (audio) audio.currentTime = newTime;
-    setPosition(newTime);
-  };
-
   useEffect(() => {
     const audio = audioRef.current?.audioEl.current;
     if (audio) {
@@ -86,55 +62,123 @@ const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
     }
   }, [selectedItem]);
 
+  const togglePlay = () => {
+    const audio = audioRef.current?.audioEl.current;
+    if (!audio) return;
+    if (playing) {
+      audio.pause();
+    } else {
+      audio.play().catch((error) => console.error("Playback failed:", error));
+    }
+    setPlaying(!playing);
+  };
+
+  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const audio = audioRef.current?.audioEl.current;
+    if (!audio || audio.readyState < 2 || isNaN(duration)) {
+      console.warn("Cannot seek: Audio not ready", {
+        readyState: audio?.readyState,
+        duration,
+      });
+      return;
+    }
+
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(1, clickX / rect.width));
+    const newTime = duration * percentage;
+
+    const wasPlaying = playing;
+    audio.pause();
+    audio.currentTime = newTime;
+    setPosition(newTime);
+    if (wasPlaying) {
+      audio
+        .play()
+        .catch((error) => console.error("Resume after seek failed:", error));
+    }
+  };
+
   return (
     <Stack
       direction={{ xs: "column-reverse", sm: "row" }}
-      width={"100%"}
+      width="100%"
       gap={2}
+      sx={{ padding: 2 }}
     >
+      {/* Left Stack: Track Information */}
       <Stack
         width={{ xs: "100%", sm: "50%" }}
         mt={{ xs: 2, sm: 7.5 }}
         gap={0.5}
       >
-        <Typography
-          width={"100%"}
-          noWrap
-          fontSize={{ xs: 14, sm: 16, md: 18, lg: 20 }}
-          fontWeight={600}
-        >
-          {selectedItem.name}
-        </Typography>
-        <Typography
-          width={"100%"}
-          noWrap
-          fontSize={{ xs: 12, sm: 14, md: 16 }}
-          color={"#2156C9"}
-        >
-          {selectedItem.author}
-        </Typography>
-        <Typography
-          mt={1.5}
-          pl={2}
-          fontSize={14}
-          color="#2156C9"
-          sx={{
-            display: "-webkit-box",
-            WebkitLineClamp: 3, // number of lines before "..."
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "normal",
-          }}
-        >
-          {selectedItem.description}
-        </Typography>
+        {isSelectedItemEmpty ? (
+          // Skeleton state
+          <>
+            <Skeleton
+              variant="text"
+              width="60%"
+              sx={{ fontSize: { xs: 14, sm: 16, md: 18, lg: 20 } }}
+            />
+            <Skeleton
+              variant="text"
+              width="40%"
+              sx={{ fontSize: { xs: 12, sm: 14, md: 16 } }}
+            />
+            <Skeleton
+              variant="rectangular"
+              width="80%"
+              height={60}
+              sx={{ mt: 1.5, pl: 2, borderRadius: 1 }}
+            />
+          </>
+        ) : (
+          <>
+            <Typography
+              width="100%"
+              noWrap
+              fontSize={{ xs: 14, sm: 16, md: 18, lg: 20 }}
+              fontWeight={600}
+            >
+              {selectedItem.name || "Unnamed Track"}
+            </Typography>
+            <Typography
+              width="100%"
+              noWrap
+              fontSize={{ xs: 12, sm: 14, md: 16 }}
+              color="#2156C9"
+            >
+              {selectedItem.company || "Unknown Company"}
+            </Typography>
+            <Typography
+              mt={1.5}
+              pl={2}
+              fontSize={14}
+              color="#2156C9"
+              sx={{
+                display: "-webkit-box",
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: "vertical",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "normal",
+              }}
+            >
+              {selectedItem.description || "No description available"}
+            </Typography>
+          </>
+        )}
       </Stack>
 
-      <Stack width={{ xs: "100%", sm: "50%" }} alignItems={"center"} gap={2.5}>
+      <Stack width={{ xs: "100%", sm: "50%" }} alignItems="center" gap={2.5}>
         <ReactAudioPlayer
           ref={audioRef}
-          src={selectedItem.src || "/bensound-slowmotion.mp3"}
+          src={
+            selectedItem?.file
+              ? `${BASE_URL}${selectedItem.file}`
+              : "/bensound-slowmotion.mp3"
+          }
           preload="auto"
           style={{ display: "none" }}
         />
@@ -177,22 +221,22 @@ const CustomAudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
         >
           <Box
             sx={{
-              width: `${(position / duration) * 100}%`,
+              width: duration ? `${(position / duration) * 100}%` : "0%",
               height: "100%",
               bgcolor: "primary.main",
               borderRadius: 5,
-              transition: "width 0.1s linear", // Smooth fill
+              transition: "width 0.1s linear",
             }}
           />
         </Box>
 
         <Stack direction="row" justifyContent="space-between" width="100%">
-          <Typography variant="body2">{formatTime(duration)}</Typography>
           <Typography variant="body2">{formatTime(position)}</Typography>
+          <Typography variant="body2">{formatTime(duration)}</Typography>
         </Stack>
       </Stack>
     </Stack>
   );
 };
 
-export default CustomAudioPlayer;
+export default AudioPlayer;

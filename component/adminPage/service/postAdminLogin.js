@@ -1,7 +1,7 @@
 const postAdminLogin = async ({ userName, password }) => {
   try {
     const response = await fetch(
-      "http://10.133.56.89:8000/admin_login/",
+      "http://127.0.0.1:8000/admin_login/",
       {
         method: "POST",
         headers: {

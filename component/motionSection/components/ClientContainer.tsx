@@ -29,6 +29,8 @@ export interface Product {
 }
 
 const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
+  const BASE_URL = "http://127.0.0.1:8000";
+
   const [expanded, setExpanded] = useState<string | false>("کلاژ موشن");
   const [selectedSubCat, setSelectedSubCat] = useState<number>(1);
   const [productById, setProductById] = useState<Product[]>([]);
@@ -48,11 +50,12 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   const handleSubCatChange = (id: number) => {
     setSelectedSubCat(id);
   };
+
   useEffect(() => {
     setProductById([]);
     getProductsByCatId(
       categories
-        .find((cat) => cat.categoryId == 5)
+        .find((cat) => cat.categoryId == 1)
         ?.subCatList.find((subCat) => subCat.subCatName == expanded)?.subCatId
     )
       .then((res) => {
@@ -72,6 +75,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
       sx={{ aspectRatio: { xs: "nome", md: "1920/980" } }}
     >
       <ButtonMenu
+        BASE_URL={BASE_URL}
         productById={productById}
         categories={categories}
         expanded={expanded}
@@ -80,8 +84,11 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
         selectedSubCat={selectedSubCat}
       />
       <VideoPlayer
+        posterUrl={
+          selectedProduct ? `${BASE_URL}${selectedProduct.poster}` : ""
+        }
         selectedProduct={selectedProduct}
-        url="https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4"
+        url={selectedProduct ? `${BASE_URL}${selectedProduct.file}` : ""}
       />
     </Stack>
   );

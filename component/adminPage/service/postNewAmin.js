@@ -12,7 +12,7 @@ const createNewAdmin = async ({
   };
 
   try {
-    const response = await fetch("http://10.133.56.89:8000/User_Service/", {
+    const response = await fetch("http://127.0.0.1:8000/User_Service/", {
       method: "POST",
       headers,
       body: JSON.stringify({
@@ -41,7 +41,7 @@ const updateAdmin = async ({
   name,
 }) => {
   try {
-    const response = await fetch("http://10.133.56.89:8000/user_service/", {
+    const response = await fetch("http://127.0.0.1:8000/user_service/", {
       method: "patch",
       headers: headers,
       body: JSON.stringify({
@@ -73,7 +73,7 @@ const deleteAdmin = async ({
   name,
 }) => {
   try {
-    const response = await fetch("http://10.133.56.89:8000/user_service/", {
+    const response = await fetch("http://127.0.0.1:8000/user_service/", {
       method: "delete",
       headers: headers,
       body: JSON.stringify({

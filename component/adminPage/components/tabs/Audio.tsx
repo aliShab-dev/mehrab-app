@@ -1,3 +1,5 @@
+'use client'
+
 import { useEffect, useRef, useState } from "react";
 import { Product } from "./MotionGraphy";
 import dayjs, { Dayjs } from "dayjs";
@@ -39,7 +41,7 @@ const subCat = ["نریشن", "صوت"];
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const Audio = () => {
-  const BASE_URL = "http://10.133.56.89:8000";
+  const BASE_URL = "http://127.0.0.1:8000";
 
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
@@ -163,7 +165,7 @@ const Audio = () => {
   useEffect(() => {
     getCategories()
       .then((res: Subcategory[]) => {
-        setSubCategoies(res.filter((subCat) => subCat.category_id === 7));
+        setSubCategoies(res.filter((subCat) => subCat.category_id === 3));
       })
       .catch((err) => console.log(err));
   }, []);

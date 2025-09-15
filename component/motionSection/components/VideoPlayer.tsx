@@ -8,6 +8,7 @@ const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 type VideoPlayerType = {
   url: string;
   selectedProduct: Product | undefined;
+  posterUrl: string;
 };
 
 const PrimaryText = styled(Typography)(({ theme }) => ({
@@ -52,8 +53,8 @@ const SecondaryText = styled(Typography)(({ theme }) => ({
 const VideoPlayerComponent = ({
   url: videoUrl,
   selectedProduct,
+  posterUrl,
 }: VideoPlayerType) => {
-  const BASE_URL = "http://10.133.56.89:8000";
   return (
     <Stack width={"100%"}>
       <Box
@@ -67,7 +68,9 @@ const VideoPlayerComponent = ({
         }}
       >
         <ReactPlayer
-          src={selectedProduct ? `${BASE_URL}${selectedProduct.file}` : ""}
+          url={videoUrl}
+          // src={videoUrl}
+          light={posterUrl}
           controls
           playing
           width="100%"
@@ -91,15 +94,15 @@ const VideoPlayerComponent = ({
         {[
           {
             title: "نام اثر",
-            value: selectedProduct ? selectedProduct.name : "",
+            value: selectedProduct ? selectedProduct.name : "---",
           },
           {
             title: "لول کار",
-            value: selectedProduct ? `سطح ${selectedProduct.level}` : "",
+            value: selectedProduct ? `سطح ${selectedProduct.level}` : "---",
           },
           {
             title: "برای کجا بوده",
-            value: selectedProduct ? selectedProduct.company : "",
+            value: selectedProduct ? selectedProduct.company : "---",
           },
           {
             title: "تعداد قسمت‌ها",
@@ -114,7 +117,7 @@ const VideoPlayerComponent = ({
             gap={1.5}
             minWidth={0}
             sx={{
-              flexBasis: { xs: "50%", sm: "25%" }, // ✅ 50% on xs, 25% on sm+
+              flexBasis: { xs: "50%", sm: "25%" },
               flexGrow: 1,
             }}
           >

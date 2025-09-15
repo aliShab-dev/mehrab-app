@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Avatar,
   Box,
@@ -48,7 +50,7 @@ const subCat = [
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const Movie = () => {
-  const BASE_URL = "http://10.133.56.89:8000";
+  const BASE_URL = "http://127.0.0.1:8000";
 
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
@@ -171,7 +173,7 @@ const Movie = () => {
   useEffect(() => {
     getCategories()
       .then((res: Subcategory[]) => {
-        setSubCategoies(res.filter((subCat) => subCat.category_id === 6));
+        setSubCategoies(res.filter((subCat) => subCat.category_id === 2));
       })
       .catch((err) => console.log(err));
   }, []);

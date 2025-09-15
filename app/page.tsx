@@ -70,9 +70,6 @@ export default async function Home() {
 
   const transformedData = transformCategories(categories);
 
-  console.log(categories);
-  console.log(transformedData);
-
   return (
     <div>
       <main>
@@ -85,16 +82,16 @@ export default async function Home() {
         </section>
 
         <section>
-          <FilmDocSection />
+          <FilmDocSection categories={transformedData} />
         </section>
 
         <section>
-          <AudioSection />
+          <AudioSection categories={categories} />
         </section>
 
-        <section>
+        {/* <section>
           <GraphicDesignSection />
-        </section>
+        </section> */}
 
         <section>
           <Comunity />

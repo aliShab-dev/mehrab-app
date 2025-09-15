@@ -8,9 +8,15 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React from "react";
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  Skeleton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
-import { number } from "framer-motion";
 import { Categories } from "@/app/page";
 import { Product } from "./ClientContainer";
 
@@ -36,7 +42,6 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
     },
   [`& .${accordionSummaryClasses.content}`]: {
     margin: 0,
-    // marginLeft: theme.spacing(1),
   },
   ...theme.applyStyles("dark", {
     backgroundColor: "rgba(255, 255, 255, .05)",
@@ -45,7 +50,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   width: "100%",
-  padding: theme.spacing(1),
+  padding: theme.spacing(1, 0),
 }));
 
 type headerButtonType = {
@@ -157,13 +162,9 @@ const motionCats = [
   "پوستر موشن",
   " استوری موشن",
 ];
-const subCat: SubCat[] = [
-  { id: 1, name: "نمونه کار اول" },
-  { id: 2, name: "نمونه کار دوم" },
-  { id: 3, name: "نمونه کار سوم" },
-];
 
 interface ButtonMenuProps {
+  BASE_URL: string;
   productById: Product[];
   categories: Categories;
   expanded: string | false;
@@ -175,6 +176,7 @@ interface ButtonMenuProps {
 }
 
 const ButtonMenu: React.FC<ButtonMenuProps> = ({
+  BASE_URL,
   productById,
   categories,
   expanded,
@@ -187,6 +189,7 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
       width={{ xs: "100%", md: 300 }}
       height={{ xs: 400, md: "100%" }}
       overflow="hidden"
+      pr={1}
       sx={(theme) => ({
         overflowY: "auto",
         direction: "ltr",
@@ -208,7 +211,6 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
         },
         "&::-webkit-scrollbar-button": { display: "none" },
       })}
-      pr={1}
     >
       {motionCats.map((cat, index) => (
         <Accordion
@@ -229,60 +231,105 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
               mt={0.6}
               direction={"row"}
               justifyContent={"space-between"}
+              gap={0.8}
               width={"90%"}
             >
-              {productById.slice(0, 3).map((subCat) => (
-                <Button
-                  key={subCat.id}
-                  fullWidth
-                  // disableRipple
-                  onClick={() => handleSubCatChange(subCat.id)}
-                  sx={{ px: 0, py: 0.3 }}
-                >
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    width="100%"
-                    sx={{
-                      position: "relative",
-                      cursor: "pointer",
-                      aspectRatio: "1920 / 1080",
-                    }}
-                  >
-                    <Image
-                      src="/banner.png"
-                      alt={`${subCat.id}-${subCat.file}`}
-                      fill
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        borderRadius: 2,
-                        objectFit: "cover",
-                        filter:
-                          subCat.id === selectedSubCat
-                            ? "none"
-                            : "grayscale(100%)",
-                      }}
-                    />
-                    <Typography
-                      fontSize={11}
-                      sx={(theme) => ({
-                        position: "absolute",
-                        bottom: -12,
-                        right: 5,
-                        width: 55,
-                        color:
-                          subCat.id === selectedSubCat
-                            ? theme.palette.secondary.main
-                            : theme.palette.text.primary,
-                      })}
-                      noWrap
+              {productById.length === 0
+                ? Array.from({ length: 3 }).map((_, index) => (
+                    <Button
+                      key={`skeleton-${index}`}
+                      fullWidth
+                      sx={{ px: 0, py: 0.3 }}
                     >
-                      {subCat.name}
-                    </Typography>
-                  </Stack>
-                </Button>
-              ))}
+                      <Stack
+                        direction="row"
+                        alignItems="center"
+                        width="100%"
+                        gap={1}
+                        sx={{
+                          position: "relative",
+                          cursor: "pointer",
+                          aspectRatio: "1920 / 1080",
+                        }}
+                      >
+                        <Skeleton
+                          variant="rectangular"
+                          width="100%"
+                          height="100%"
+                          sx={{
+                            borderRadius: 2,
+                          }}
+                        />
+                        <Skeleton
+                          variant="text"
+                          width={55}
+                          height={16}
+                          sx={{
+                            position: "absolute",
+                            bottom: -14,
+                            right: 5,
+                          }}
+                        />
+                      </Stack>
+                    </Button>
+                  ))
+                : productById.slice(0, 3).map((subCat) => {
+                    const imageSrc = subCat?.poster
+                      ? `${BASE_URL}${subCat.poster}`
+                      : "/default-poster.png";
+
+                    return (
+                      <Button
+                        key={subCat.id}
+                        fullWidth
+                        onClick={() => handleSubCatChange(subCat.id)}
+                        sx={{ px: 0, py: 0.3 }}
+                      >
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          width="100%"
+                          sx={{
+                            position: "relative",
+                            cursor: "pointer",
+                            aspectRatio: "1920 / 1080",
+                          }}
+                        >
+                          <Image
+                            src={imageSrc}
+                            alt={`${subCat.id}-${subCat.name}`}
+                            fill
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              borderRadius: 2,
+                              objectFit: "cover",
+                              filter:
+                                subCat.id === selectedSubCat
+                                  ? "none"
+                                  : "grayscale(100%)",
+                            }}
+                          />
+                          <Typography
+                            fontSize={11}
+                            sx={(theme) => ({
+                              position: "absolute",
+                              bottom: -16,
+                              right: 5,
+                              width: 55,
+                              color:
+                                subCat.id === selectedSubCat
+                                  ? theme.palette.secondary.main
+                                  : theme.palette.text.primary,
+                            })}
+                            noWrap
+                          >
+                            {subCat.name}
+                          </Typography>
+                        </Stack>
+                      </Button>
+                    );
+                  })}
             </Stack>
           </AccordionDetails>
         </Accordion>

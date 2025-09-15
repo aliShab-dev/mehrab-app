@@ -78,7 +78,7 @@ const subCat = [
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const MotionGraphy = () => {
-  const BASE_URL = "http://10.133.56.89:8000";
+  const BASE_URL = "http://127.0.0.1:8000";
 
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
@@ -201,7 +201,7 @@ const MotionGraphy = () => {
   useEffect(() => {
     getCategories()
       .then((res: Subcategory[]) => {
-        setSubCategoies(res.filter((subCat) => subCat.category_id === 5));
+        setSubCategoies(res.filter((subCat) => subCat.category_id === 1));
       })
       .catch((err) => console.log(err));
   }, []);

@@ -39,7 +39,7 @@ const SelectStaff = ({
   setStaffRole,
   setIsAddStaff,
 }: SelectStaffProps) => {
-  const BASE_URL = "http://10.133.56.89:8000";
+  const BASE_URL = "http://127.0.0.1:8000";
   return (
     <Stack
       position={"relative"}

@@ -17,7 +17,7 @@ const MediaPreview = ({
   mediaType,
   isEditing,
 }: MediaPreviewProps) => {
-  const BASE_URL = "http://10.133.56.89:8000";
+  const BASE_URL = "http://127.0.0.1:8000";
 const objectUrl = useMemo(() => {
   if (typeof isEditing === "number" && typeof productImage === "string") {
     return `${BASE_URL}${productImage}`;

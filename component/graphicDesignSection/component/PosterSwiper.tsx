@@ -18,58 +18,21 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Swiper as SwiperClass } from "swiper/types";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
+import { SubCategory } from "@/app/page";
 
-type Poster = {
-  id: number;
-  name: string;
-  author: string;
-  src: string;
-};
+interface PosterSwiperProps {
+  posterCats: SubCategory[] | undefined;
+  listOfPics: Product[];
+  selectedCategory: SubCategory | null;
+  setSeletedCategory: (item: SubCategory) => void;
+}
 
-type PosterCategory = {
-  catName: string;
-  posterList: Poster[];
-};
-
-type PosterButtonProps = {
-  item: PosterCategory;
-  index: number;
-  category: number;
-  setCategory: (index: number) => void;
-};
-
-const posterCats = [
-  "هویت بصری",
-  "لوگو",
-  "اینفوگرافیک",
-  "پوستر",
-  "تایپوگرافی",
-  "جلد کتاب",
-  "همه",
-];
-
-const posterList1: Poster[] = [
-  { id: 1, name: "کوران", author: "کمیل عباس", src: "/poster.png" },
-  { id: 2, name: "کمیل", author: "Author C", src: "/poster.png" },
-  { id: 3, name: "پوستر اول", author: "کمیل عباس", src: "/book.png" },
-  { id: 4, name: "کوران", author: "کمیل ", src: "/poster.png" },
-  { id: 5, name: "عباس", author: " عباس", src: "/poster.png" },
-  { id: 6, name: "کوران", author: "عباس عباس", src: "/orange.png" },
-];
-
-const posterList2: Poster[] = [
-  { id: 1, name: "کوران", author: "کمیل عباس", src: "/orange.png" },
-  { id: 2, name: "کمیل", author: "Author C", src: "/orange.png" },
-  { id: 4, name: "کوران", author: "کمیل ", src: "/book.png" },
-  { id: 3, name: "پوستر اول", author: "کمیل عباس", src: "/orange.png" },
-  { id: 5, name: "عباس", author: " عباس", src: "/book.png" },
-  { id: 6, name: "کوران", author: "عباس عباس", src: "/book.png" },
-];
-
-const posterData = posterCats.map((cat, index) => ({
-  catName: cat,
-  posterList: index % 2 === 0 ? posterList2 : posterList1,
-}));
+interface PosterButtonProps {
+  selectedCategoryId: number | undefined;
+  category: SubCategory;
+  setSeletedCategory: (item: SubCategory) => void;
+}
 
 const MySwiperStyles = () => (
   <Global
@@ -116,10 +79,15 @@ const MySwiperStyles = () => (
   />
 );
 
-const PosterSwiper = () => {
+const PosterSwiper: React.FC<PosterSwiperProps> = ({
+  posterCats,
+  selectedCategory,
+  setSeletedCategory,
+  listOfPics,
+}) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const swiperRef = useRef<SwiperRef | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [category, setCategory] = useState<number>(0);
 
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
@@ -144,8 +112,25 @@ const PosterSwiper = () => {
       swiperInstance.navigation.update();
     }
   }, []);
+
   const theme = useTheme();
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+
+  useEffect(() => {
+    const swiperInstance = swiperRef.current?.swiper as SwiperClass | undefined;
+    if (swiperInstance && listOfPics.length > 0) {
+      swiperInstance.slideToLoop(0, 0, false);
+
+      setTimeout(() => {
+        swiperInstance.update();
+        if (swiperInstance.params.loop) {
+          swiperInstance?.loopFix();
+        }
+      }, 0);
+
+      setActiveIndex(0);
+    }
+  }, [listOfPics]);
 
   return (
     <Stack width="100%" overflow={"visible"} position={"relative"}>
@@ -200,6 +185,7 @@ const PosterSwiper = () => {
       <Swiper
         ref={swiperRef}
         onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+        initialSlide={0}
         spaceBetween={40}
         centeredSlides
         loop
@@ -217,122 +203,82 @@ const PosterSwiper = () => {
             spaceBetween: 20,
           },
           900: {
-            slidesPerView: 3,
+            slidesPerView: 2.4,
             spaceBetween: 40,
           },
         }}
       >
-        {posterData[category].posterList.map((poster, index) => (
-          <SwiperSlide
-            key={poster.id}
-            style={{
-              borderRadius: 16,
-              overflow: "visible",
-              transition: "transform 0.3s ease",
-              boxShadow: "0 2px 8px rgba(0,0,1,0.4)",
-            }}
-          >
-            <Stack p={1} textAlign="start" height="100%" width="100%">
-              <Box
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  paddingTop: `${(1080 / 1950) * 100}%`,
-                  borderRadius: 2,
-                  overflow: "hidden",
-                }}
-              >
-                <Image
-                  src={poster.src}
-                  alt={poster.name}
-                  fill
-                  style={{
-                    objectFit: "cover",
-                    borderRadius: 12,
-                  }}
-                />
-              </Box>
-
-              <Stack p={0.5} pr={0.8} mt={-0.3}>
-                <Typography fontWeight={600} fontSize={14} mt={1}>
-                  {poster.name}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  fontSize={14}
-                  color="text.secondary"
-                >
-                  طراح: {poster.author}
-                </Typography>
-              </Stack>
-
-              {activeIndex === index && (
-                <Stack
-                  position="absolute"
-                  bottom={-23}
-                  right="45%"
-                  boxShadow={3}
-                  borderRadius="50%"
-                  color={(theme) => theme.palette.secondary.main}
-                  bgcolor="#fff"
-                  p={0.9}
+        {listOfPics &&
+          listOfPics.map((poster, index) => (
+            <SwiperSlide
+              key={poster.id}
+              style={{
+                borderRadius: 16,
+                overflow: "visible",
+                transition: "transform 0.3s ease",
+                boxShadow: "0 2px 8px rgba(0,0,1,0.4)",
+              }}
+            >
+              <Stack p={1} textAlign="start" height="100%" width="100%">
+                <Box
                   sx={{
-                    cursor: "pointer",
-                    "&:hover": {
-                      color: "#fff",
-                      bgcolor: (theme) => theme.palette.secondary.main,
-                    },
+                    position: "relative",
+                    width: "100%",
+                    paddingTop: `${(1080 / 1950) * 100}%`,
+                    borderRadius: 2,
+                    overflow: "hidden",
                   }}
                 >
-                  <RemoveRedEyeOutlinedIcon sx={{ fontSize: 32 }} />
+                  <Image
+                    src={`${BASE_URL}${poster.file}`}
+                    alt={poster.name}
+                    fill
+                    style={{
+                      objectFit: "cover",
+                      borderRadius: 12,
+                    }}
+                  />
+                </Box>
+
+                <Stack p={0.5} pr={0.8} mt={-0.3}>
+                  <Typography fontWeight={600} fontSize={14} mt={1}>
+                    {poster.name}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    fontSize={14}
+                    color="text.secondary"
+                  >
+                    طراح: {poster.company}
+                  </Typography>
                 </Stack>
-              )}
-            </Stack>
-          </SwiperSlide>
-        ))}
+
+                {activeIndex === index && (
+                  <Stack
+                    position="absolute"
+                    bottom={-23}
+                    right="45%"
+                    boxShadow={3}
+                    borderRadius="50%"
+                    color={(theme) => theme.palette.secondary.main}
+                    bgcolor="#fff"
+                    p={0.9}
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": {
+                        color: "#fff",
+                        bgcolor: (theme) => theme.palette.secondary.main,
+                      },
+                    }}
+                  >
+                    <RemoveRedEyeOutlinedIcon sx={{ fontSize: 32 }} />
+                  </Stack>
+                )}
+              </Stack>
+            </SwiperSlide>
+          ))}
       </Swiper>
 
-      {/* <Stack
-        position={"absolute"}
-        bottom={-40}
-        direction={"row-reverse"}
-        gap={2.3}
-        width={"100%"}
-        justifyContent={"center"}
-      >
-        {posterData.map((item, index) => (
-          <Stack
-            key={item.catName}
-            component={"button"}
-            onClick={() => setCategory(index)}
-            border={"none"}
-            borderRadius={2}
-            p={0}
-            width={80}
-            height={75}
-            sx={{
-              zIndex: 200,
-              cursor: "pointer",
-              transition: "color 0.3s ease, background 0.3s ease",
-              boxShadow: (theme) =>
-                category == index
-                  ? `0 2px 15px 10px ${alpha(theme.palette.primary.main, 0.5)}`
-                  : 3,
-              color: category == index ? "#fff" : "inherit",
-              background: (theme) =>
-                category == index
-                  ? `linear-gradient(to bottom,${
-                      theme.palette.primary.main
-                    }, ${alpha(theme.palette.secondary.dark, 0.9)})`
-                  : `linear-gradient(to bottom,#FFFFFF, #D2D3F0)`,
-            }}
-          >
-            <Typography fontSize={14} m={"auto"}>
-              {item.catName}
-            </Typography>
-          </Stack>
-        ))}
-      </Stack> */}
       {isMdUp ? (
         <Stack
           position="absolute"
@@ -342,15 +288,15 @@ const PosterSwiper = () => {
           width="100%"
           justifyContent="center"
         >
-          {posterData.map((item, index) => (
-            <PosterButton
-              key={item.catName}
-              item={item}
-              index={index}
-              category={category}
-              setCategory={setCategory}
-            />
-          ))}
+          {posterCats &&
+            posterCats.map((item, index) => (
+              <PosterButton
+                key={item.subCatId}
+                category={item}
+                selectedCategoryId={selectedCategory?.subCatId}
+                setSeletedCategory={setSeletedCategory}
+              />
+            ))}
         </Stack>
       ) : (
         <Swiper
@@ -367,19 +313,20 @@ const PosterSwiper = () => {
             padding: "20px 16px",
           }}
         >
-          {posterData.map((item, index) => (
-            <SwiperSlide
-              key={item.catName}
-              style={{ width: 80, height: "auto", background: "transparent" }}
-            >
-              <PosterButton
-                item={item}
-                index={index}
-                category={category}
-                setCategory={setCategory}
-              />
-            </SwiperSlide>
-          ))}
+          {posterCats &&
+            posterCats.map((item, index) => (
+              <SwiperSlide
+                key={item.subCatId}
+                style={{ width: 80, height: "auto", background: "transparent" }}
+              >
+                <PosterButton
+                  key={item.subCatId}
+                  category={item}
+                  selectedCategoryId={selectedCategory?.subCatId}
+                  setSeletedCategory={setSeletedCategory}
+                />
+              </SwiperSlide>
+            ))}
         </Swiper>
       )}
     </Stack>
@@ -387,15 +334,14 @@ const PosterSwiper = () => {
 };
 
 function PosterButton({
-  item,
-  index,
+  selectedCategoryId,
   category,
-  setCategory,
+  setSeletedCategory,
 }: PosterButtonProps) {
   return (
     <Stack
       component="button"
-      onClick={() => setCategory(index)}
+      onClick={() => setSeletedCategory(category)}
       border="none"
       borderRadius={2}
       p={0}
@@ -406,12 +352,12 @@ function PosterButton({
         cursor: "pointer",
         transition: "color 0.3s ease, background 0.3s ease",
         boxShadow:
-          category === index
+          selectedCategoryId === category.subCatId
             ? `0 2px 15px 10px ${alpha(theme.palette.primary.main, 0.5)}`
             : 3,
-        color: category === index ? "#fff" : "inherit",
+        color: selectedCategoryId === category.subCatId ? "#fff" : "inherit",
         background:
-          category === index
+          selectedCategoryId === category.subCatId
             ? `linear-gradient(to bottom,${theme.palette.primary.main}, ${alpha(
                 theme.palette.secondary.dark,
                 0.9
@@ -420,7 +366,7 @@ function PosterButton({
       })}
     >
       <Typography fontSize={{ xs: 10, md: 14 }} m="auto">
-        {item.catName}
+        {category.subCatName}
       </Typography>
     </Stack>
   );

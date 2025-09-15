@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "../css/styles.css";
 import { css, Global } from "@emotion/react";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Swiper as SwiperClass } from "swiper";
 import Image from "next/image";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
@@ -64,6 +64,15 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
+
+  useEffect(() => {
+    if (swiperRef && videoList.length > 0) {
+      swiperRef.slideToLoop(0, 0, false); // jump to first
+      setTimeout(() => {
+        swiperRef.update();
+      }, 0);
+    }
+  }, [videoList, swiperRef]);
 
   return (
     <Stack width="100%" mt={3} position={"relative"}>
@@ -216,11 +225,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                     aspectRatio: "1920 / 1080",
                   }}
                 >
-                  <Skeleton
-                    variant="rectangular"
-                    width="100%"
-                    height="100%"
-                  />
+                  <Skeleton variant="rectangular" width="100%" height="100%" />
                 </Stack>
               </SwiperSlide>
             ))

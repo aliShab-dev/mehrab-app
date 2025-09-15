@@ -3,12 +3,36 @@
 import { Box, Stack, useTheme } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
 import PosterSwiper from "./component/PosterSwiper";
+import { useEffect, useState } from "react";
+import { Categories, SubCategory } from "@/app/page";
+import { getProductsByCatId } from "../adminPage/service/postProduct";
+import { Product } from "../adminPage/components/tabs/MotionGraphy";
 
-const GraphicDesignSection = () => {
+interface AudioSectionProps {
+  categories: Categories;
+}
+
+const GraphicDesignSection: React.FC<AudioSectionProps> = ({ categories }) => {
   const theme = useTheme();
+  const graphicSubCats = categories[3].subCatList;
+  const [selectedCategory, setSeletedCategory] = useState<SubCategory>(graphicSubCats[0]);
+  const [listOfPics, setListOfPics] = useState<Product[]>([]);
+
+  useEffect(() => {
+    if (selectedCategory?.subCatId) {
+      setListOfPics([]);
+      getProductsByCatId(selectedCategory.subCatId)
+        .then((res) => {
+          console.log(res)
+          res ? setListOfPics(res) : setListOfPics([]);
+        })
+        .catch((res) => console.log(res));
+    }
+  }, [selectedCategory]);
+
   return (
-    <Stack width={"100%"} height={"auto"} mt={12}>
-      <Stack  width={{ xs: "90%", md: "80%" }}  mx="auto">
+    <Stack width={"100%"} height={"auto"} mt={20}>
+      <Stack width={{ xs: "90%", md: "80%" }} mx="auto">
         <SectionHeader
           backIcon={{
             src: "/Paper.png",
@@ -30,11 +54,7 @@ const GraphicDesignSection = () => {
         />
       </Stack>
 
-      <Stack
-        width="100%"
-        mt={{xs: 0, sm: -6}}
-        position="relative"
-      >
+      <Stack width="100%" mt={{ xs: 0, md: -14 }} position="relative">
         <Box
           component="svg"
           xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +74,6 @@ const GraphicDesignSection = () => {
           />
         </Box>
 
-        {/* Content area */}
         <Stack
           sx={{
             width: "100%",
@@ -65,7 +84,12 @@ const GraphicDesignSection = () => {
             mt: -0.5,
           }}
         >
-          <PosterSwiper />
+          <PosterSwiper
+            listOfPics={listOfPics}
+            posterCats={graphicSubCats}
+            selectedCategory={selectedCategory}
+            setSeletedCategory={setSeletedCategory}
+          />
         </Stack>
       </Stack>
     </Stack>

@@ -6,11 +6,7 @@ import { useEffect, useState } from "react";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 import { getProductsByCategoryId } from "@/component/adminPage/service/postProduct";
 
-interface AudioClientSectionProps {
-  categories: Categories;
-}
-
-const AudioClient: React.FC<AudioClientSectionProps> = ({ categories }) => {
+const AudioClient = () => {
   const [selectedItem, setSelectedItem] = useState<Product | null>(null);
   const [audioList, setAudioList] = useState<Product[]>([]);
 

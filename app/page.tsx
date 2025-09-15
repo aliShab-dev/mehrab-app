@@ -86,12 +86,12 @@ export default async function Home() {
         </section>
 
         <section>
-          <AudioSection categories={categories} />
+          <AudioSection />
         </section>
 
-        {/* <section>
-          <GraphicDesignSection />
-        </section> */}
+        <section>
+          <GraphicDesignSection categories={transformedData} />
+        </section>
 
         <section>
           <Comunity />

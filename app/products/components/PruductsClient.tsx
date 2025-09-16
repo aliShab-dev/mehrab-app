@@ -14,7 +14,7 @@ interface ProductsClientProps {
 }
 
 const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
-  const [loading, setLoading] = useState(false); ////// !!!!!!!!
+  const [loading, setLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null

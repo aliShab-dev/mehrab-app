@@ -6,6 +6,15 @@ import StarRoundedIcon from "@mui/icons-material/StarRounded";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
 import Staff from "@/component/product/Staff";
 import CardContainerProduct from "@/component/product/CardContainer";
+import {
+  getProductsByCatId,
+  getProductsByProductId,
+} from "@/component/adminPage/service/postProduct";
+import {
+  FetchedProduct,
+  Product,
+} from "@/component/adminPage/components/tabs/MotionGraphy";
+import getCategories from "@/component/adminPage/service/getCat";
 
 type ProductPageProps = {
   params: {
@@ -13,42 +22,63 @@ type ProductPageProps = {
   };
 };
 
-const staff = [
-  {
-    name: "کمیل عباس زاهدی",
-    position: "کارگردان هنری",
-    src: "/komeil.png",
-  },
-  {
-    name: "ریحانه محمدی",
-    position: "مدیر منابع انسانی",
-    src: "/komeil.png",
-  },
-  {
-    name: "مهدی رضایی",
-    position: "برنامه‌نویس ارشد",
-    src: "/komeil.png",
-  },
-  {
-    name: "زهرا علی‌پور",
-    position: "طراح UI/UX",
-    src: "/komeil.png",
-  },
-  {
-    name: "حسین کریمی",
-    position: "تحلیل‌گر داده",
-    src: "/komeil.png",
-  },
-  {
-    name: "سمانه احمدی",
-    position: "مدیر پروژه",
-    src: "/komeil.png",
-  },
-];
+type RawCategories = {
+  category: string;
+  category_id: number;
+  created_at: string;
+  id: number;
+  is_active: boolean;
+  name: string;
+};
+
+async function fetchProduct(id: string): Promise<FetchedProduct | null> {
+  try {
+    const product = await getProductsByProductId(id);
+    return product || null;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    return null;
+  }
+}
+async function fetchOtherFromSameSubCat(
+  id: number
+): Promise<FetchedProduct[] | null> {
+  try {
+    const product = await getProductsByCatId(id);
+    return product || null;
+  } catch (error) {
+    console.error("Failed to fetch product:", error);
+    return [];
+  }
+}
+
+async function fetchCategoriesData(): Promise<RawCategories[]> {
+  try {
+    const res = await getCategories();
+    return res;
+  } catch (err) {
+    console.error("Fetch error:", err);
+    return [];
+  }
+}
 
 const ProductPage = async ({ params }: ProductPageProps) => {
-  const product = products.find((p) => p.id == params.productId);
+  const { productId } = params;
+  const product = await fetchProduct(productId);
+  const categories = await fetchCategoriesData();
+  const sameSubCat = categories.find(
+    (cat) => cat.name == product?.sub_category
+  );
+
+  const sameSubCatProduct =
+    sameSubCat && (await fetchOtherFromSameSubCat(sameSubCat?.id));
+  const sameWithoutCurrent =
+    product &&
+    sameSubCatProduct &&
+    sameSubCatProduct.filter((item) => item.id !== product.id);
+
   if (!product) return notFound();
+
   return (
     <Stack
       width={{ xs: "90%", md: "75%" }}
@@ -83,7 +113,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
                 fontWeight={700}
                 lineHeight={1.1}
               >
-                1:35:40
+                {product.duration}
               </Typography>
               <Typography
                 fontSize={{ xs: 11, sm: 12, md: 14, lg: 18 }}
@@ -100,7 +130,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
                 fontWeight={700}
                 lineHeight={1.1}
               >
-                1
+                {product.episode ?? "تک قسمت"}
               </Typography>
               <Typography
                 fontSize={{ xs: 11, sm: 12, md: 14, lg: 18 }}
@@ -115,7 +145,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
         <Stack>
           <Typography
             fontSize={{ xs: 12, sm: 14, md: 18, lg: 20 }}
-          >{`به سفارش ${product.author}`}</Typography>
+          >{`به سفارش ${product.company}`}</Typography>
         </Stack>
         <Stack width={60}>
           <Box
@@ -131,7 +161,7 @@ const ProductPage = async ({ params }: ProductPageProps) => {
               fontWeight={700}
               color="secondary.dark"
             >
-              سطح 1
+              سطح {product.level}
             </Typography>
           </Box>
         </Stack>
@@ -140,47 +170,56 @@ const ProductPage = async ({ params }: ProductPageProps) => {
             fontSize={{ xs: 13, sm: 15, md: 18 }}
             color="textSecondary"
           >
-            محتوای کار از جمله متن، چگونه رسیدن به ایده، رنگبندی،و...
+            {product.description}
           </Typography>
         </Stack>
-        <Stack direction={"row"} alignItems={"center"} gap={2} mt={8}>
-          <Stack width={50} height={50} position={"relative"}>
-            <StarRoundedIcon
-              sx={{
-                position: "absolute",
-                top: { xs: -10, sm: -10, md: -15 },
-                right: { xs: 5, sm: 0, md: -10 },
-                fontSize: { xs: 55, sm: 60, md: 70 },
-                color: "primary.main",
-                opacity: 0.6,
-                rotate: "-10deg",
-                zIndex: 10,
-              }}
-            />
-            <GroupsRoundedIcon
-              sx={{
-                fontSize: { xs: 28, sm: 35 },
-                position: "absolute",
-                bottom: { xs: 5, sm: 0 },
-                left: -5,
-                color: "secondary.dark",
-                zIndex: 20,
-              }}
-            />
-          </Stack>
-          <Stack>
-            <Typography
-              fontSize={{ xs: 20, sm: 24, md: 28, lg: 32 }}
-              fontWeight={700}
-            >
-              عوامل
-            </Typography>
-          </Stack>
-        </Stack>
 
-        <Staff staff={staff} />
-        <CardContainerProduct label="دیگر قسمت‌ها" cardData={relatedProduct} />
-        <CardContainerProduct label="نمونه‌های دیگر" cardData={restEpisod} />
+        {!!product?.staff_data?.length && (
+          <>
+            <Stack direction={"row"} alignItems={"center"} gap={2} mt={8}>
+              <Stack width={50} height={50} position={"relative"}>
+                <StarRoundedIcon
+                  sx={{
+                    position: "absolute",
+                    top: { xs: -10, sm: -10, md: -15 },
+                    right: { xs: 5, sm: 0, md: -10 },
+                    fontSize: { xs: 55, sm: 60, md: 70 },
+                    color: "primary.main",
+                    opacity: 0.6,
+                    rotate: "-10deg",
+                    zIndex: 10,
+                  }}
+                />
+                <GroupsRoundedIcon
+                  sx={{
+                    fontSize: { xs: 28, sm: 35 },
+                    position: "absolute",
+                    bottom: { xs: 5, sm: 0 },
+                    left: -5,
+                    color: "secondary.dark",
+                    zIndex: 20,
+                  }}
+                />
+              </Stack>
+              <Stack>
+                <Typography
+                  fontSize={{ xs: 20, sm: 24, md: 28, lg: 32 }}
+                  fontWeight={700}
+                >
+                  عوامل
+                </Typography>
+              </Stack>
+            </Stack>
+            <Staff staff={product.staff_data} />
+          </>
+        )}
+        {/* <CardContainerProduct label="دیگر قسمت‌ها" cardData={relatedProduct} /> */}
+        {!!sameWithoutCurrent?.length && (
+          <CardContainerProduct
+            label="نمونه‌های دیگر"
+            cardData={sameWithoutCurrent}
+          />
+        )}
       </Stack>
     </Stack>
   );

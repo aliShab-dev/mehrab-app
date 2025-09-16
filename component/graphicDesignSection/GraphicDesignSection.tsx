@@ -23,7 +23,6 @@ const GraphicDesignSection: React.FC<AudioSectionProps> = ({ categories }) => {
       setListOfPics([]);
       getProductsByCatId(selectedCategory.subCatId)
         .then((res) => {
-          console.log(res)
           res ? setListOfPics(res) : setListOfPics([]);
         })
         .catch((res) => console.log(res));

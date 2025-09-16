@@ -127,6 +127,7 @@ const getProductsByCatId = async (cat) => {
     throw err;
   }
 };
+
 const getProductsByCategoryId = async (cat) => {
   try {
     const response = await fetch(
@@ -148,9 +149,28 @@ const getProductsByCategoryId = async (cat) => {
   }
 };
 
+const getProductsByProductId = async (productId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/products/${productId}/`, {
+      method: "get",
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error("Post new product failed:", err);
+    throw err;
+  }
+};
+
 export {
   createProduct,
-  getProductsByCatId,
   updateProduct,
+  getProductsByCatId,
+  getProductsByProductId,
   getProductsByCategoryId,
 };

@@ -31,11 +31,26 @@ export type Product = {
   id: number;
   name: string;
   description: string;
-  file: File | null;
+  file: File | null ;
   company: string;
   poster: File | null;
   episode: number;
   staff: { name: string; role: string; image: File | null }[];
+  level: string;
+  category: string;
+  sub_category: string;
+  duration: string;
+};
+
+export type FetchedProduct = {
+  id: number;
+  name: string;
+  description: string;
+  file: string;
+  company: string;
+  poster: string | null;
+  episode: number;
+  staff_data: { name: string; role: string; image: string | null }[];
   level: string;
   category: string;
   sub_category: string;

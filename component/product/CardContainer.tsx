@@ -7,19 +7,12 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { css, Global } from "@emotion/react";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { Swiper as SwiperClass } from "swiper";
+import { FetchedProduct } from "../adminPage/components/tabs/MotionGraphy";
+import { getFileFormat } from "../ZoomImage/ZoomImage";
 const cardVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 },
-};
-
-type CardType = {
-  id: string;
-  src: string;
-  name: string;
-  author: string;
-  category: string;
 };
 
 const MySwiperStyles = () => {
@@ -39,11 +32,14 @@ const CardContainerProduct = ({
   cardData,
 }: {
   label: string;
-  cardData: CardType[];
+  cardData: FetchedProduct[] | null | undefined;
 }) => {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   const [isBeginning, setIsBeginning] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
+
   return (
     <Stack gap={1} mt={6}>
       <Stack>
@@ -173,124 +169,139 @@ const CardContainerProduct = ({
               swiper.on("fromEdge", updateEdges);
             }}
           >
-            {cardData.map((data) => (
-              <SwiperSlide key={data.name} style={{ width: "auto" }}>
-                <motion.div
-                  variants={cardVariants}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  style={{
-                    flex: "1 1 280px",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Box
-                    flexDirection={"column"}
-                    component={"a"}
-                    sx={{
-                      width: { xs: 200, md: 250 },
-                      borderRadius: 3,
-                      backgroundImage: (theme) =>
-                        `linear-gradient(to bottom, ${theme.palette.secondary.light}, ${theme.palette.secondary.dark})`,
-                      p: 0.6,
-                      pb: 1.2,
-                      cursor: "pointer",
-                      transition: "box-shadow .3s ease",
-                      "&:hover": {
-                        top: 1,
-                        boxShadow: (theme) =>
-                          `0px 10px 35px -8px ${theme.palette.secondary.main}`,
-                      },
-                      "&:hover .image-wrapper": {
-                        filter: "none",
-                      },
-                      "&:hover .zoom-image": {
-                        transform: "scale(1.05) !important",
-                      },
+            {cardData &&
+              cardData.map((data) => (
+                <SwiperSlide key={data.name} style={{ width: "auto" }}>
+                  <motion.div
+                    variants={cardVariants}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    style={{
+                      flex: "1 1 280px",
+                      display: "flex",
+                      justifyContent: "center",
                     }}
                   >
                     <Box
-                      className={"image-wrapper"}
+                      flexDirection={"column"}
+                      component={"a"}
                       sx={{
-                        width: "100%",
-                        aspectRatio: "4/3",
-                        backgroundColor: "#fff",
+                        width: { xs: 200, md: 250 },
                         borderRadius: 3,
-                        overflow: "hidden",
-                        position: "relative",
-                        filter: "grayscale(75%)",
-                        transition: "filter 0.3s ease",
+                        backgroundImage: (theme) =>
+                          `linear-gradient(to bottom, ${theme.palette.secondary.light}, ${theme.palette.secondary.dark})`,
+                        p: 0.6,
+                        pb: 1.2,
+                        cursor: "pointer",
+                        transition: "box-shadow .3s ease",
+                        "&:hover": {
+                          top: 1,
+                          boxShadow: (theme) =>
+                            `0px 10px 35px -8px ${theme.palette.secondary.main}`,
+                        },
+                        "&:hover .image-wrapper": {
+                          filter: "none",
+                        },
+                        "&:hover .zoom-image": {
+                          transform: "scale(1.05) !important",
+                        },
                       }}
                     >
-                      <Image
-                        src={data.src}
-                        alt="image"
-                        fill
-                        className="zoom-image"
-                        style={{
-                          objectFit: "cover",
-                          transform: "scale(1)",
-                          transition: "transform 0.4s ease",
-                        }}
-                      />
-                    </Box>
-
-                    <Box mt={1} position={"relative"}>
-                      <Typography
-                        width={"calc(100% - 55px)"}
-                        color="#fff"
-                        fontSize={{ xs: 14, md: 20 }}
-                        noWrap
-                      >
-                        {data.name} asdkfssss
-                      </Typography>
-                      <Typography
-                        width={"100%"}
-                        color="#FFCE5C"
-                        fontSize={{ xs: 12, md: 14 }}
-                        noWrap
-                      >
-                        {data.author}
-                      </Typography>
-                      <Typography
-                        fontSize={12}
-                        fontWeight={300}
-                        width={"100%"}
-                        sx={{
-                          mt: 2,
-                          color: (theme) =>
-                            alpha(theme.palette.primary.main, 0.7),
-                        }}
-                        noWrap
-                      >
-                        {data.category}
-                      </Typography>
                       <Box
+                        className={"image-wrapper"}
                         sx={{
-                          position: "absolute",
-                          top: 1,
-                          left: 5,
-                          width: { xs: 45, ms: 50 },
-                          height: { xs: 20, md: 25 },
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          bgcolor: "#FFE95C",
+                          width: "100%",
+                          aspectRatio: "4/3",
+                          backgroundColor: "#fff",
                           borderRadius: 3,
+                          overflow: "hidden",
+                          position: "relative",
+                          filter: "grayscale(75%)",
+                          transition: "filter 0.3s ease",
                         }}
                       >
+                        {getFileFormat(data.file) !== "photo" ? (
+                          <Image
+                            src={`${BASE_URL}${data.poster}`}
+                            alt="image"
+                            fill
+                            className="zoom-image"
+                            style={{
+                              objectFit: "cover",
+                              transform: "scale(1)",
+                              transition: "transform 0.4s ease",
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            src={data.file}
+                            alt="image"
+                            fill
+                            className="zoom-image"
+                            style={{
+                              objectFit: "cover",
+                              transform: "scale(1)",
+                              transition: "transform 0.4s ease",
+                            }}
+                          />
+                        )}
+                      </Box>
+
+                      <Box mt={1} position={"relative"}>
                         <Typography
-                          fontSize={{ xs: 10, md: 12 }}
-                          color="secondary.dark"
+                          width={"calc(100% - 55px)"}
+                          color="#fff"
+                          fontSize={{ xs: 14, md: 20 }}
+                          noWrap
                         >
-                          سطح 1
+                          {data.name} asdkfssss
                         </Typography>
+                        <Typography
+                          width={"100%"}
+                          color="#FFCE5C"
+                          fontSize={{ xs: 12, md: 14 }}
+                          noWrap
+                        >
+                          {data.company}
+                        </Typography>
+                        <Typography
+                          fontSize={12}
+                          fontWeight={300}
+                          width={"100%"}
+                          sx={{
+                            mt: 2,
+                            color: (theme) =>
+                              alpha(theme.palette.primary.main, 0.7),
+                          }}
+                          noWrap
+                        >
+                          {data.category}
+                        </Typography>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 1,
+                            left: 5,
+                            width: { xs: 45, ms: 50 },
+                            height: { xs: 20, md: 25 },
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            bgcolor: "#FFE95C",
+                            borderRadius: 3,
+                          }}
+                        >
+                          <Typography
+                            fontSize={{ xs: 10, md: 12 }}
+                            color="secondary.dark"
+                          >
+                            سطح 1
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
-                  </Box>
-                </motion.div>
-              </SwiperSlide>
-            ))}
+                  </motion.div>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </Stack>
       </Box>

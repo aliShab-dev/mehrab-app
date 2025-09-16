@@ -5,13 +5,12 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { Swiper as SwiperClass } from "swiper";
 
 type Staff = {
-  src: string;
+  image: string | null;
   name: string;
-  position: string;
+  role: string;
 };
 
 const Staff = ({ staff }: { staff: Staff[] }) => {
@@ -146,45 +145,47 @@ const Staff = ({ staff }: { staff: Staff[] }) => {
             },
           }}
         >
-          {staff.map((s) => (
-            <SwiperSlide key={s.name} style={{ width: 200 }}>
-              <Box
-                sx={{
-                  width: "100%",
-                  borderRadius: 3,
-                  aspectRatio: "4/5",
-                  position: "relative",
-                  overflow: "hidden",
-                  boxShadow: 3,
-                  transition: "box-shadow .3s ease",
-                  "& .staff-desc": {
-                    position: "absolute",
-                    right: 5,
-                    bottom: -18,
-                    opacity: 0.3,
-                    transition: "bottom 0.3s ease, opacity 1s ease-out",
-                  },
-                  "&:hover": {
-                    boxShadow: 5,
+          {staff &&
+            staff.map((s) => (
+              <SwiperSlide key={s.name} style={{ width: 200 }}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    borderRadius: 3,
+                    aspectRatio: "4/5",
+                    position: "relative",
+                    overflow: "hidden",
+                    boxShadow: 3,
+                    transition: "box-shadow .3s ease",
                     "& .staff-desc": {
-                      opacity: 1,
-                      bottom: 5,
+                      position: "absolute",
+                      right: 5,
+                      bottom: -18,
+                      opacity: 0.3,
+                      transition: "bottom 0.3s ease, opacity 1s ease-out",
                     },
-                  },
-                }}
-              >
-                <Image src={s.src} alt="personel" fill />
-                <Stack className="staff-desc">
-                  <Typography fontSize={{ xs: 12, md: 16 }} fontWeight={700}>
-                    {s.name}
-                  </Typography>
-                  <Typography fontSize={{ xs: 12, md: 14 }}>
-                    {s.position}
-                  </Typography>
-                </Stack>
-              </Box>
-            </SwiperSlide>
-          ))}
+                    "&:hover": {
+                      boxShadow: 5,
+                      "& .staff-desc": {
+                        opacity: 1,
+                        bottom: 5,
+                      },
+                    },
+                  }}
+                >
+                  <Image src={"/orange.png"} alt="personel" fill />
+                  {/* <Image src={s.image ?? '/avatar.png'} alt="personel" fill /> */}
+                  <Stack className="staff-desc">
+                    <Typography fontSize={{ xs: 12, md: 16 }} fontWeight={700}>
+                      {s.name}
+                    </Typography>
+                    <Typography fontSize={{ xs: 12, md: 14 }}>
+                      {s.role}
+                    </Typography>
+                  </Stack>
+                </Box>
+              </SwiperSlide>
+            ))}
         </Swiper>
       </Stack>
     </Box>

@@ -5,7 +5,7 @@ import CategoryRoundedIcon from "@mui/icons-material/CategoryRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import DashboardRoundedIcon from "@mui/icons-material/DashboardRounded";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
-import { Categories, Category, SubCategory } from "@/app/page";
+import { Categories, Category, SubCategory } from "@/types/categories";
 
 interface SelectCatBtnProps {
   categories: Categories;

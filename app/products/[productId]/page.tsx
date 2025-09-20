@@ -1,4 +1,3 @@
-import { products, relatedProduct, restEpisod } from "@/app/lib/products";
 import DissplayBox from "@/component/ZoomImage/ZoomImage";
 import { Box, Stack, Typography } from "@mui/material";
 import { notFound } from "next/navigation";
@@ -10,30 +9,12 @@ import {
   getProductsByCatId,
   getProductsByProductId,
 } from "@/component/adminPage/service/postProduct";
-import {
-  FetchedProduct,
-  Product,
-} from "@/component/adminPage/components/tabs/MotionGraphy";
+import { FetchedProduct, Subcategory as RawCategories } from "@/types/products";
 import getCategories from "@/component/adminPage/service/getCat";
-
-type ProductPageProps = {
-  params: {
-    productId: string;
-  };
-};
-
-type RawCategories = {
-  category: string;
-  category_id: number;
-  created_at: string;
-  id: number;
-  is_active: boolean;
-  name: string;
-};
 
 async function fetchProduct(id: string): Promise<FetchedProduct | null> {
   try {
-    const product = await getProductsByProductId(id);
+    const product = (await getProductsByProductId(id)) as unknown as FetchedProduct;
     return product || null;
   } catch (error) {
     console.error("Failed to fetch product:", error);
@@ -44,7 +25,7 @@ async function fetchOtherFromSameSubCat(
   id: number
 ): Promise<FetchedProduct[] | null> {
   try {
-    const product = await getProductsByCatId(id);
+    const product = (await getProductsByCatId(id)) as unknown as FetchedProduct[];
     return product || null;
   } catch (error) {
     console.error("Failed to fetch product:", error);
@@ -62,20 +43,24 @@ async function fetchCategoriesData(): Promise<RawCategories[]> {
   }
 }
 
-const ProductPage = async ({ params }: ProductPageProps) => {
-  const { productId } = params;
+type ProductPageParams = {
+  params: Promise<{ productId: string }>;
+};
+
+const ProductPage = async ({ params }: ProductPageParams) => {
+const { productId } = await params;
   const product = await fetchProduct(productId);
   const categories = await fetchCategoriesData();
   const sameSubCat = categories.find(
     (cat) => cat.name == product?.sub_category
   );
 
-  const sameSubCatProduct =
-    sameSubCat && (await fetchOtherFromSameSubCat(sameSubCat?.id));
-  const sameWithoutCurrent =
-    product &&
-    sameSubCatProduct &&
-    sameSubCatProduct.filter((item) => item.id !== product.id);
+  const sameSubCatProduct = sameSubCat
+    ? await fetchOtherFromSameSubCat(sameSubCat.id)
+    : null;
+  const sameWithoutCurrent = product && sameSubCatProduct
+    ? sameSubCatProduct.filter((item) => item.id !== product.id)
+    : undefined;
 
   if (!product) return notFound();
 

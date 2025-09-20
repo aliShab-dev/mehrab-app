@@ -2,7 +2,7 @@
 
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import VideoSwiper from "./VideoSwiper";
-import { Categories, SubCategory } from "@/app/page";
+import { Categories, SubCategory } from "@/types/categories";
 import { useCallback, useEffect, useState } from "react";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";

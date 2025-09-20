@@ -5,9 +5,9 @@ import SelectedCatBtn from "@/component/selectCatBtn/SelectCatBtn";
 import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import Pagination from "@/component/products/Pagination";
-import { Categories, Category, SubCategory } from "@/app/page";
+import { Categories, Category, SubCategory } from "@/types/categories";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
-import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
+import { Product } from "@/types/products";
 
 interface ProductsClientProps {
   categories: Categories;
@@ -39,21 +39,23 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
 
   useEffect(() => {
     setSelectedCategory(categories[0]);
-  }, []);
+  }, [categories]);
 
   useEffect(() => {
-    selectedCategory && setSelectedSubCat(selectedCategory?.subCatList[0]);
-    setSelectedLevel(1)
-  },[selectedCategory])
+    if (selectedCategory) {
+      setSelectedSubCat(selectedCategory.subCatList[0]);
+    }
+    setSelectedLevel(1);
+  }, [selectedCategory]);
 
   useEffect(() => {
     if (selectedSubCat) {
       setProducts([]);
-      setLoading(true)
+      setLoading(true);
       getProductsByCatId(selectedSubCat.subCatId)
         .then((res) => {
           setProducts(res);
-          setLoading(false)
+          setLoading(false);
         })
         .catch((res) => console.log(res));
     }

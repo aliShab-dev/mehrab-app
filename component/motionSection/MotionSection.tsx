@@ -1,13 +1,20 @@
+"use client";
+
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
-import { Categories } from "@/app/page";
-import ClientContainer from "./components/ClientContainer";
+import { Categories } from "@/types/categories";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 
 interface MotionSectionProps {
   categories: Categories;
 }
 
-const MotionSection: React.FC<MotionSectionProps> = ({categories}) => {
+const ClientContainer = dynamic(() => import("./components/ClientContainer"), {
+  ssr: false,
+});
+
+const MotionSection: React.FC<MotionSectionProps> = ({ categories }) => {
   return (
     <Stack width={{ xs: "95%", md: "80%" }} mx="auto" gap={{ xs: 3, md: 5 }}>
       <SectionHeader
@@ -26,8 +33,9 @@ const MotionSection: React.FC<MotionSectionProps> = ({categories}) => {
         frontIcon={{ alt: "motion-graphic-image", src: "/camera-icon.png" }}
         title="برترین‌های موشن گرافیک"
       />
-      <ClientContainer categories={categories}/>
-      
+      <Suspense fallback={<div>درحال بارگزاری..</div>}>
+        <ClientContainer categories={categories} />
+      </Suspense>
     </Stack>
   );
 };

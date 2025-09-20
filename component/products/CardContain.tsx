@@ -4,7 +4,7 @@ import { alpha, Box, Skeleton, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
+import { Product } from "@/types/products";
 
 type CardContainer = {
   currentItems: Product[];

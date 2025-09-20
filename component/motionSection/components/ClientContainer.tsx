@@ -5,7 +5,7 @@ import ButtonMenu from "./ButtonMenu";
 import VideoPlayer from "./VideoPlayer";
 import { useEffect, useState } from "react";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
-import { Categories } from "@/app/page";
+import { Categories } from "@/types/categories";
 
 interface ClientContainerProps {
   categories: Categories;

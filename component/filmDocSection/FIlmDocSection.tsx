@@ -2,7 +2,8 @@
 
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
-import { Categories } from "@/app/page";
+import { Categories } from "@/types/categories";
+import { Suspense } from "react";
 import ClientContainer from "./component/ClientComponent";
 
 interface FilmDocSectionProps {
@@ -40,7 +41,10 @@ const FilmDocSection: React.FC<FilmDocSectionProps> = ({ categories }) => {
           title="برترین‌های فیلم و مستند"
         />
       </Stack>
-      <ClientContainer categories={categories} />
+
+      <Suspense fallback={<div>درحال بارگزاری..</div>}>
+        <ClientContainer categories={categories} />
+      </Suspense>
     </Stack>
   );
 };

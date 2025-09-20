@@ -3,9 +3,9 @@
 import { Suspense, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { toPersianDigits } from "@/app/util/numberHandler";
 import { motion } from "framer-motion";
 import { Avatar, Stack, Typography } from "@mui/material";
+import { toPersianDigits } from "@/util/numberHandler";
 
 const icons = [
   {

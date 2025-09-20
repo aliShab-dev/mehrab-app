@@ -11,7 +11,7 @@ import { animate, motion, useMotionValue } from "framer-motion";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import { useState } from "react";
-import { Counter, IconSwinger, ModelCanvas, MouseType } from "./component/subs";
+import { Counter, IconSwinger } from "./component/subs";
 
 
 const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({

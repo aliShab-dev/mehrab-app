@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { Categories } from "@/app/page";
+import { Categories } from "@/types/categories";
 import { Product } from "./ClientContainer";
 
 const Accordion = styled((props: AccordionProps) => (

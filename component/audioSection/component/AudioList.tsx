@@ -2,7 +2,6 @@
 
 import { alpha, Box, Skeleton, Stack, Typography } from "@mui/material";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
-import { MockDataList, MockData } from "../AudioSection";
 import { Dispatch, SetStateAction } from "react";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 

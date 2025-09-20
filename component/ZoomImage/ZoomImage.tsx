@@ -10,7 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { FetchedProduct } from "../adminPage/components/tabs/MotionGraphy";
+import { FetchedProduct } from "@/types/products";
 import dynamic from "next/dynamic";
 import ReactAudioPlayer from "react-audio-player";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });

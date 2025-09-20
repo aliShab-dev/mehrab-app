@@ -6,7 +6,6 @@ import {
 } from "@mui/material";
 import { use } from "react";
 import { ThemeContext } from "./ThemeContext";
-import createCache from "@emotion/cache";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { faIR } from "@mui/material/locale";
 import { faIR as DateFaIR } from "@mui/x-date-pickers/locales";
@@ -34,15 +33,9 @@ type BaseTheme = {
 const baseTheme: BaseTheme = {
   direction: "rtl",
   typography: {
-    fontFamily: "Peyda, YekanBakh, Dirooz, Roboto, Arial, sans-serif",
+    fontFamily: "Peyda, Roboto, Arial, sans-serif",
   },
 };
-
-function createEmotionCache() {
-  return createCache({ key: "css", prepend: true });
-}
-
-const cache = createEmotionCache();
 
 export const getCustomTheme = (palette: string) => {
   switch (palette) {

@@ -1,12 +1,10 @@
-"use client";
-
 import { Box, Stack, useTheme } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
 import PosterSwiper from "./component/PosterSwiper";
 import { useEffect, useState } from "react";
-import { Categories, SubCategory } from "@/app/page";
+import { Categories, SubCategory } from "@/types/categories";
 import { getProductsByCatId } from "../adminPage/service/postProduct";
-import { Product } from "../adminPage/components/tabs/MotionGraphy";
+import { Product } from "@/types/products";
 
 interface AudioSectionProps {
   categories: Categories;

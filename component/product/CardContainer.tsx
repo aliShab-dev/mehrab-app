@@ -8,7 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { css, Global } from "@emotion/react";
 import type { Swiper as SwiperClass } from "swiper";
-import { FetchedProduct } from "../adminPage/components/tabs/MotionGraphy";
+import { FetchedProduct } from "@/types/products";
 import { getFileFormat } from "../ZoomImage/ZoomImage";
 const cardVariants = {
   hidden: { opacity: 0, y: 10 },

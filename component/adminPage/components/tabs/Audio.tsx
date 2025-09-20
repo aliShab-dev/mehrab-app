@@ -167,7 +167,9 @@ const Audio = () => {
       .then((res: Subcategory[]) => {
         setSubCategoies(res.filter((subCat) => subCat.category_id === 3));
       })
-      .catch((err) => console.log(err));
+      .catch((err: Error) => {
+        console.error(err.message);
+      });
   }, []);
 
   useEffect(() => {

@@ -18,8 +18,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Swiper as SwiperClass } from "swiper/types";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
-import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
-import { SubCategory } from "@/app/page";
+import { Product } from "@/types/products";
+import { SubCategory } from "@/types/categories";
 
 interface PosterSwiperProps {
   posterCats: SubCategory[] | undefined;
@@ -39,6 +39,7 @@ const MySwiperStyles = () => (
     styles={{
       ".swiper": {
         paddingTop: 20,
+        // direction: 'ltr',
         position: "relative",
       },
       ".custom-swiper .swiper-slide": {
@@ -124,7 +125,7 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
       setTimeout(() => {
         swiperInstance.update();
         if (swiperInstance.params.loop) {
-          swiperInstance?.loopFix();
+          swiperInstance.loopCreate();
         }
       }, 0);
 
@@ -193,6 +194,13 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
         modules={[Navigation]}
         className="custom-swiper"
         style={{ paddingBottom: 100 }}
+        onInit={(swiper) => {
+          // Force initial update on mount
+          swiper.update();
+          swiper.updateSize();
+          swiper.updateSlides();
+          swiper.slideToLoop(0, 0, false);
+        }}
         breakpoints={{
           0: {
             slidesPerView: 1.18,

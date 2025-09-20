@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { StyledTextField } from "./InputField";
 import { Dayjs } from "dayjs";
-import { toPersianDigits } from "@/app/util/numberHandler";
+import { toPersianDigits } from "@/util/numberHandler";
 
 interface PosterSectionProps {
   buttonRef: React.RefObject<HTMLButtonElement | null>;

@@ -1,10 +1,16 @@
-"use client";
+"use client"
 
 import { Stack } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
+import React, { Suspense } from "react";
 import AudioClient from "./component/AudioClient";
+import { Categories } from "@/types/categories";
 
-const AudioSection = () => {
+interface AudioSectionProps {
+  categories: Categories;
+}
+
+const AudioSection: React.FC<AudioSectionProps> = ({categories}) => {
   return (
     <Stack height={"auto"} width={"100%"} mt={15} gap={5}>
       <Stack width={{ xs: "95%", md: "80%" }} mx="auto">
@@ -25,7 +31,10 @@ const AudioSection = () => {
           title="برترین‌های صوت و نریشن"
         />
       </Stack>
-      <AudioClient />
+
+      <Suspense fallback={<div>درحال بارگزاری..</div>}>
+        <AudioClient />
+      </Suspense>
     </Stack>
   );
 };

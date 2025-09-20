@@ -1,4 +1,5 @@
 "use client";
+
 import { Stack, styled, Typography } from "@mui/material";
 import Image, { ImageProps, StaticImageData } from "next/image";
 

@@ -1,3 +1,5 @@
+'use client'
+
 import { SvgIconComponent } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 

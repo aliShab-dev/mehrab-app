@@ -1,7 +1,6 @@
 import { Stack } from "@mui/material";
 import AudioList from "./AudioList";
 import AudioPLayer from "./AudioPlayer";
-import { Categories } from "@/app/page";
 import { useEffect, useState } from "react";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 import { getProductsByCategoryId } from "@/component/adminPage/service/postProduct";

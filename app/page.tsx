@@ -1,80 +1,24 @@
-import MainBanner from "@/component/mainBanner/MainBanner";
-import MotionSection from "@/component/motionSection/MotionSection";
-import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
-import AudioSection from "@/component/audioSection/AudioSection";
-import GraphicDesignSection from "@/component/graphicDesignSection/GraphicDesignSection";
-import Comunity from "@/component/comunity/Cumunity";
 import getCategories from "@/component/adminPage/service/getCat";
-
-export interface SubCategory {
-  subCatName: string;
-  subCatId: number;
-}
-
-export interface Category {
-  categoryName: string;
-  categoryId: number;
-  subCatList: SubCategory[];
-}
-
-export type Categories = Category[];
-
-async function fetchCategoriesData() {
-  try {
-    const res = await getCategories();
-    return res;
-  } catch (err) {
-    console.error("Fetch error:", err);
-    return [];
-  }
-}
-
-export function transformCategories(
-  subCategories: {
-    id: number;
-    name: string;
-    category: string;
-    category_id: number;
-  }[]
-): Categories {
-  const categoryMap = new Map<
-    string,
-    { categoryId: number; subCatList: SubCategory[] }
-  >();
-
-  subCategories.forEach((sub) => {
-    const mainCatName = sub.category;
-    const mainCatId = sub.category_id;
-
-    if (!categoryMap.has(mainCatName)) {
-      categoryMap.set(mainCatName, { categoryId: mainCatId, subCatList: [] });
-    }
-
-    categoryMap.get(mainCatName)!.subCatList.push({
-      subCatName: sub.name,
-      subCatId: sub.id,
-    });
-  });
-
-  return Array.from(categoryMap.entries()).map(
-    ([categoryName, { categoryId, subCatList }]) => ({
-      categoryName,
-      categoryId,
-      subCatList,
-    })
-  );
-}
+import AudioSection from "@/component/audioSection/AudioSection";
+import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
+import { Suspense } from "react";
+import MotionSection from "@/component/motionSection/MotionSection";
+import MainBannerWrapper from "@/component/mainBanner/component/BannerWrapper";
+import GraphicDesignWrapper from "@/component/graphicDesignSection/component/GraphicWrapper";
+import CommunityWrapper from "@/component/comunity/component/CummunityWrapper";
+import { transformCategories } from "@/util/numberHandler";
 
 export default async function Home() {
-  const categories = await fetchCategoriesData();
-
+  const categories = await getCategories();
   const transformedData = transformCategories(categories);
 
   return (
     <div>
       <main>
         <section>
-          <MainBanner />
+          <Suspense fallback={<div>درحال بارگذاری...</div>}>
+            <MainBannerWrapper />
+          </Suspense>
         </section>
 
         <section>
@@ -86,18 +30,22 @@ export default async function Home() {
         </section>
 
         <section>
-          <AudioSection />
+          <AudioSection categories={transformedData} />
         </section>
 
         <section>
-          <GraphicDesignSection categories={transformedData} />
+          <Suspense fallback={<div>درحال بارگذاری...</div>}>
+            <GraphicDesignWrapper categories={transformedData} />
+          </Suspense>
         </section>
 
         <section>
-          <Comunity />
+          <Suspense fallback={<div>درحال بارگذاری...</div>}>
+            <CommunityWrapper />
+          </Suspense>
         </section>
 
-        <div style={{ height: 100 }}></div>
+        <div style={{ height: 100 }} />
       </main>
     </div>
   );

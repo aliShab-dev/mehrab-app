@@ -175,7 +175,7 @@ const Movie = () => {
       .then((res: Subcategory[]) => {
         setSubCategoies(res.filter((subCat) => subCat.category_id === 2));
       })
-      .catch((err) => console.log(err));
+      .catch((err: Error) => console.log(err));
   }, []);
 
   useEffect(() => {

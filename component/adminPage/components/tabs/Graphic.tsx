@@ -177,7 +177,7 @@ const Graphic = () => {
       .then((res: Subcategory[]) => {
         setSubCategoies(res.filter((subCat) => subCat.category_id === 4));
       })
-      .catch((err) => console.log(err));
+      .catch((err: Error) => console.log(err));
   }, []);
 
   useEffect(() => {

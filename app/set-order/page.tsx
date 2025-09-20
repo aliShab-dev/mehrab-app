@@ -46,7 +46,6 @@ const CustomButton = styled(Button)(({ theme }) => ({
   boxShadow: `0px 5px 10px -5px ${theme.palette.secondary.main}`,
   margin: 0,
   padding: theme.spacing(1, 7),
-  // width: 280,
   display: "flex",
   position: "relative",
   color: theme.palette.text.primary,
@@ -74,7 +73,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const CustomAccordion = styled(Accordion)(({ theme }) => ({
+const CustomAccordion = styled(Accordion)(({
   borderRadius: 16,
   boxShadow: "none",
   margin: 0,

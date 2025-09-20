@@ -18,6 +18,11 @@ export function transformCategories(
     { categoryId: number; subCatList: SubCategory[] }
   >();
 
+  // Handle case where subCategories is undefined, null, or not an array
+  if (!subCategories || !Array.isArray(subCategories)) {
+    return [];
+  }
+
   subCategories.forEach((sub) => {
     const mainCatName = sub.category;
     const mainCatId = sub.category_id;

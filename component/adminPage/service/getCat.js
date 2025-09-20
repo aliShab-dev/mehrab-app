@@ -12,9 +12,11 @@ const getCategories = async () => {
     }
 
     const data = await response.json();
-    return data || [];
+    // Ensure we always return an array, even if data is null/undefined
+    return Array.isArray(data) ? data : [];
   } catch (err) {
     console.error("Fetch error:", err);
+    // Always return an empty array on error
     return [];
   }
 };

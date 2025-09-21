@@ -57,10 +57,10 @@ const { productId } = await params;
 
   const sameSubCatProduct = sameSubCat
     ? await fetchOtherFromSameSubCat(sameSubCat.id)
-    : null;
+    : [];
   const sameWithoutCurrent = product && sameSubCatProduct
     ? sameSubCatProduct.filter((item) => item.id !== product.id)
-    : undefined;
+    : [];
 
   if (!product) return notFound();
 

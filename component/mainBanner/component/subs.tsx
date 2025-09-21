@@ -174,36 +174,3 @@ export function Counter({
     </Stack>
   );
 }
-
-export const ModelCanvas = ({ mouse }: { mouse: MouseType }) => (
-  <Canvas
-    camera={{ position: [0, 0, 3] }}
-    style={{
-      position: "absolute",
-      top: 50,
-      zIndex: 200,
-      height: "100%",
-      opacity: 0.6,
-    }}
-  >
-    <ambientLight intensity={10} />
-    <directionalLight position={[5, 5, 5]} intensity={1.5} />
-    <Suspense fallback={null}>
-      <Model mouse={mouse} />
-    </Suspense>
-  </Canvas>
-);
-
-export function Model({ mouse }: { mouse: MouseType }) {
-  const ref = useRef<any>(null);
-  const { scene } = useGLTF("/video_camera.glb");
-
-  useFrame(() => {
-    if (ref.current) {
-      ref.current.rotation.y = mouse.x * Math.PI;
-      ref.current.rotation.x = mouse.y * Math.PI;
-    }
-  });
-
-  return <primitive ref={ref} object={scene} scale={0.5} />;
-}

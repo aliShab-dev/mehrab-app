@@ -13,7 +13,7 @@ const createProduct = async ({
   poster,
   file,
 }) => {
-  const API_URL = `${BASE_URL}/api/products/`;
+  const API_URL = `${BASE_URL}/products/`;
   const token = localStorage.getItem("token");
 
   const formData = new FormData();
@@ -90,7 +90,7 @@ const updateProduct = async ({
   if (file) formData.append("file", file);
 
   try {
-    const response = await fetch(`${BASE_URL}/api/products/${id}`, {
+    const response = await fetch(`${BASE_URL}/products/${id}`, {
       method: "PATCH",
       body: formData,
     });
@@ -110,7 +110,7 @@ const updateProduct = async ({
 const getProductsByCatId = async (cat) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/subcategories/${cat}/get_products/`,
+      `${BASE_URL}/subcategories/${cat}/get_products/`,
       {
         method: "get",
       }
@@ -131,7 +131,7 @@ const getProductsByCatId = async (cat) => {
 const getProductsByCategoryId = async (cat) => {
   try {
     const response = await fetch(
-      `${BASE_URL}/api/categories/${cat}/get_products/`,
+      `${BASE_URL}/categories/${cat}/get_products/`,
       {
         method: "get",
       }
@@ -151,7 +151,7 @@ const getProductsByCategoryId = async (cat) => {
 
 const getProductsByProductId = async (productId) => {
   try {
-    const response = await fetch(`${BASE_URL}/api/products/${productId}/`, {
+    const response = await fetch(`${BASE_URL}/products/${productId}/`, {
       method: "get",
     });
 

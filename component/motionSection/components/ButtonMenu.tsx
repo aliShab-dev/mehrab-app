@@ -107,6 +107,7 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
             src={expanded === name ? "/selected-folder.png" : "/Folder.png"}
             alt={expanded === name ? "selected-folder-icon" : "folder-icon"}
             fill
+            sizes="(max-width: 600px) 35px, 40px"
             style={{ objectFit: "contain" }}
           />
         </Box>
@@ -129,6 +130,7 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
             src={expanded === name ? "/selected-Union.png" : "/Union.png"}
             alt={expanded === name ? "selected-Union-icon" : "Union-icon"}
             fill
+            sizes="(max-width: 600px) 20px, 20px"
             style={{ objectFit: "contain" }}
           />
         </Box>

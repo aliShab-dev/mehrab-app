@@ -187,6 +187,7 @@ const Footer = () => {
               src="/logo.png"
               alt="logo"
               fill
+              sizes="(max-width: 600px) 80x, 100px"
               style={{ objectFit: "cover", marginRight: 2 }}
             />
           </StyledButton>

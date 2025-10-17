@@ -462,6 +462,7 @@ const SetOrder = () => {
                 src={item.src}
                 alt={item.title}
                 fill
+                sizes="(max-width: 600px) 60px, 60px"
                 style={{ objectFit: "contain" }}
               />
             </Box>

@@ -103,6 +103,7 @@ const SectionHeader = ({ title, backIcon, frontIcon }: SectionHeaderType) => {
       <Stack direction={"row"} gap={{ xs: 1, sm: 1.5, md: 2, lg: 2.2 }}>
         <Stack position={"relative"} mt={0.5}>
           <ResponsiveImage
+            sizes="(max-width: 600px) 30px, 30px"
             alt={backIcon.alt}
             src={backIcon.src}
             style={backIcon.style}

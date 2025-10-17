@@ -83,29 +83,47 @@ const Navbar = () => {
         justifyContent={"space-between"}
         alignItems={"center"}
       >
-        <Stack direction={"row"} gap={0}>
+        <Stack
+          component={"a"}
+          href="/"
+          direction={"row"}
+          gap={0}
+          sx={{ textDecoration: "none" }}
+        >
           <Box
             sx={{
               position: "relative",
-              width: 50,
-              height: 65,
+              width: { xs: 40, md: 50 },
+              height: { xs: 55, md: 65 },
               pb: 0.5,
               ml: -1,
             }}
           >
             <Image
+              priority
               alt="logo"
               src="/logo.png"
               fill
-              style={{ objectFit: "contain" }}
+              sizes="(max-width: 600px) 40px, 50px"
+              style={{
+                objectFit: "contain",
+              }}
             />
           </Box>
           <Stack
             justifyContent={"end"}
             pb={1}
-            display={{ xs: "none", sm: "flex" }}
+            display={{ xs: "flex", sm: "flex" }}
           >
-            <Typography fontSize={{ xs: 16, md: 22 }} fontWeight={800}>
+            <Typography
+              fontSize={{
+                xs: 16,
+                md: 22,
+                color: "#000",
+                textDecoration: "none",
+              }}
+              fontWeight={800}
+            >
               خانواده هنری محراب
             </Typography>
             <Stack>
@@ -126,7 +144,7 @@ const Navbar = () => {
             orientation="vertical"
             flexItem
             sx={{
-              display: {xs: 'none', sm: 'block'},
+              display: { xs: "none", sm: "block" },
               height: 42,
               borderColor: (theme) => alpha(theme.palette.secondary.main, 0.2),
               borderWidth: "1px",
@@ -154,7 +172,7 @@ const Navbar = () => {
               <IconButton color="primary" onClick={handleClickMenu}>
                 <MenuIcon
                   sx={{
-                    fontSize: 32,
+                    fontSize: 28,
                     border: (theme) =>
                       `1px solid ${theme.palette.primary.main}`,
                     borderRadius: 1,
@@ -189,7 +207,7 @@ const Navbar = () => {
               <Image alt="call-us" src="/phone.png" width={20} height={20} />
             </Stack>
 
-            <Divider
+            {/* <Divider
               orientation="vertical"
               flexItem
               sx={{
@@ -197,15 +215,15 @@ const Navbar = () => {
                   alpha(theme.palette.secondary.main, 0.2),
                 borderWidth: "1px",
               }}
-            />
-            <IconButton
+            /> */}
+            {/* <IconButton
               aria-label="palette"
               id="palette-button"
               aria-haspopup="true"
               onClick={handleClick}
             >
               <CircleIcon color={"primary"} sx={{ fontSize: 28 }} />
-            </IconButton>
+            </IconButton> */}
 
             <Menu
               id="palette-menu"
@@ -289,6 +307,7 @@ const Navbar = () => {
         </Stack>
       </Stack>
     </Stack>
+    
   );
 };
 

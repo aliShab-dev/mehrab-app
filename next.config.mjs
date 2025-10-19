@@ -12,11 +12,4 @@ const nextConfig = {
   },
 };
 
-console.log("Loaded image envs:", {
-  IMAGE_PROTOCOL: process.env.IMAGE_PROTOCOL,
-  IMAGE_HOSTNAME: process.env.IMAGE_HOSTNAME,
-  IMAGE_PORT: process.env.IMAGE_PORT,
-  IMAGE_PATHNAME: process.env.IMAGE_PATHNAME,
-});
-
 export default nextConfig;

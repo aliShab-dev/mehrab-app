@@ -11,7 +11,7 @@ const icons = [
     right: "2%",
     rotate: "0",
     factor: 1,
-    size: { xs: 50, sm: 100, md: 150, lg: 180, xl: 190},
+    size: { xs: 50, sm: 100, md: 150, lg: 180, xl: 190 },
   },
   {
     src: "/k-camera.png",
@@ -81,7 +81,7 @@ export function IconSwinger() {
             }}
           >
             <motion.div
-              whileHover={{
+              animate={{
                 rotate: [
                   baseRotate - currentSwing * icon.factor,
                   baseRotate + currentSwing * icon.factor,
@@ -109,6 +109,7 @@ export function IconSwinger() {
                 alt="Icon"
                 variant="square"
                 sx={{
+                  cursor: "pointer",
                   width: icon.size,
                   height: icon.size,
                   transformStyle: "preserve-3d",
@@ -131,11 +132,11 @@ export function Counter({
   display: number;
 }) {
   return (
-    <Stack display={{xs: 'none', sm: 'flex'}}>
+    <Stack display={{ xs: "none", sm: "flex" }}>
       <motion.div
         style={{
           position: "absolute",
-          bottom: '8%',
+          bottom: "8%",
           left: "5%",
           background: "#FFCE5C",
           padding: "10px 20px",
@@ -164,7 +165,10 @@ export function Counter({
         >
           {toPersianDigits(display.toString())}+
         </Typography>
-        <Typography fontSize={{ xs: 12, sm: 16, md: 18, lg: 20 }} lineHeight={0.9}>
+        <Typography
+          fontSize={{ xs: 12, sm: 16, md: 18, lg: 20 }}
+          lineHeight={0.9}
+        >
           دقیقه تولید ویدیوئی
         </Typography>
       </motion.div>

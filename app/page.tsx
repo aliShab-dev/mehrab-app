@@ -7,6 +7,7 @@ import MainBannerWrapper from "@/component/mainBanner/component/BannerWrapper";
 import GraphicDesignWrapper from "@/component/graphicDesignSection/component/GraphicWrapper";
 import CommunityWrapper from "@/component/comunity/component/CummunityWrapper";
 import { transformCategories } from "@/util/numberHandler";
+import MainBanner from "@/component/mainBanner/MainBanner";
 
 export default async function Home() {
   const categories = await getCategories();
@@ -17,7 +18,7 @@ export default async function Home() {
       <main>
         <section>
           <Suspense fallback={<div>درحال بارگذاری...</div>}>
-            <MainBannerWrapper />
+            <MainBanner />
           </Suspense>
         </section>
 

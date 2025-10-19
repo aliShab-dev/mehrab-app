@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Stack, styled, Typography } from "@mui/material";
 import { toPersianDigits } from "@/util/numberHandler";
 
 const icons = [
@@ -11,7 +11,7 @@ const icons = [
     right: "2%",
     rotate: "0",
     factor: 1,
-    size: { xs: 50, sm: 100, md: 150, lg: 180, xl: 190 },
+    size: { xs: 65, sm: 100, md: 150, lg: 180, xl: 190 },
   },
   {
     src: "/k-camera.png",
@@ -19,15 +19,15 @@ const icons = [
     right: "18%",
     rotate: "0",
     factor: -0.6,
-    size: { xs: 100, sm: 150, md: 205, lg: 225, xl: 240 },
+    size: { xs: 80, sm: 150, md: 205, lg: 225, xl: 240 },
   },
   {
     src: "/k-palette.png",
-    bottom: "-5%",
+    bottom: "-3.5%",
     right: "42%",
     rotate: "0",
     factor: 1,
-    size: { xs: 80, sm: 120, md: 170, lg: 190 },
+    size: { xs: 70, sm: 120, md: 170, lg: 190 },
   },
   {
     src: "/k-clapboard.png",
@@ -35,15 +35,15 @@ const icons = [
     left: "22%",
     rotate: "0",
     factor: 0.4,
-    size: { xs: 80, sm: 110, md: 170, lg: 190, xl: 200 },
+    size: { xs: 60, sm: 110, md: 170, lg: 190, xl: 200 },
   },
   {
     src: "/k-film-cam.png",
     bottom: "16%",
-    left: "-0%",
+    left: "2%",
     rotate: "0",
     factor: -1,
-    size: { xs: 110, sm: 150, md: 220, lg: 240, xl: 250 },
+    size: { xs: 70, sm: 150, md: 220, lg: 240, xl: 250 },
   },
 ];
 
@@ -57,7 +57,7 @@ export function IconSwinger() {
   const moveAmplitude = 3;
 
   return (
-    <Stack display={{ xs: "none", sm: "flex" }}>
+    <Stack display={{ xs: "flex", sm: "flex" }}>
       {icons.map((icon, index) => {
         const baseRotate = parseFloat(icon.rotate);
 
@@ -124,6 +124,28 @@ export function IconSwinger() {
   );
 }
 
+const MotionBox = motion(Box);
+
+const CounterContainer = styled(MotionBox)(({ theme }) => ({
+  position: "absolute",
+  bottom: "8%",
+  left: "5%",
+  background: "#FFCE5C",
+  padding: "10px 20px",
+  borderRadius: "50px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  flexDirection: "column",
+  gap: 0,
+  zIndex: 100,
+  boxShadow: "0px 4px 12px rgba(0, 0, 15, 0.4)",
+  cursor: "pointer",
+  [theme.breakpoints.down("sm")]: {
+    padding: "5px 5px",
+  },
+}));
+
 export function Counter({
   startCounting,
   display,
@@ -132,46 +154,30 @@ export function Counter({
   display: number;
 }) {
   return (
-    <Stack display={{ xs: "none", sm: "flex" }}>
-      <motion.div
-        style={{
-          position: "absolute",
-          bottom: "8%",
-          left: "5%",
-          background: "#FFCE5C",
-          padding: "10px 20px",
-          borderRadius: "50px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          gap: 0,
-          zIndex: 100,
-          boxShadow: "0px 4px 12px rgba(0, 0, 15, 0.4)",
-          cursor: "pointer",
-        }}
+    <Stack display={{ xs: "flex", sm: "flex" }}>
+      <CounterContainer
         whileHover={{
           scale: 1.05,
           transition: { duration: 0.3 },
         }}
         initial={false}
         onViewportEnter={startCounting}
-        viewport={{ once: false, amount: 0.3 }} // Triggers when 30% is visible
+        viewport={{ once: false, amount: 0.3 }}
       >
         <Typography
           fontWeight={700}
-          fontSize={{ xs: 16, sm: 18, md: 20, lg: 24 }}
+          fontSize={{ xs: 12, sm: 18, md: 20, lg: 24 }}
           lineHeight={0.9}
         >
           {toPersianDigits(display.toString())}+
         </Typography>
         <Typography
-          fontSize={{ xs: 12, sm: 16, md: 18, lg: 20 }}
+          fontSize={{ xs: 10, sm: 16, md: 18, lg: 20 }}
           lineHeight={0.9}
         >
           دقیقه تولید ویدیوئی
         </Typography>
-      </motion.div>
+      </CounterContainer>
     </Stack>
   );
 }

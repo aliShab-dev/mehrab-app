@@ -1,5 +1,4 @@
-// app/components/MainBanner.tsx
-import { Stack, Typography, styled, Button, ButtonProps } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TelegramIcon from "@mui/icons-material/Telegram";
 
@@ -23,7 +22,6 @@ export default function MainBanner() {
         mt: -6,
       }}
     >
-      {/* Background Image */}
       <img
         src="/back-banner.png"
         alt="background"
@@ -38,7 +36,6 @@ export default function MainBanner() {
         }}
       />
 
-      {/* Static Server-rendered Content */}
       <Stack
         sx={{
           position: "absolute",
@@ -95,7 +92,6 @@ export default function MainBanner() {
         </Stack>
       </Stack>
 
-      {/* Lazy-loaded client-side animation layer */}
       <MainBannerClient />
     </Stack>
   );

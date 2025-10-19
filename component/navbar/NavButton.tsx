@@ -17,10 +17,10 @@ const NavButton = ({ href, label, sx }: NavButtonProps) => {
     <Link href={href} passHref>
       <Button
         disableRipple
+        fullWidth
         color={isActive ? "secondary" : "inherit"}
         sx={{
-          mx: 1,
-          fontSize: 18,
+          fontSize: 13,
           fontWeight: 800,
           color: isActive ? undefined : "text.primary",
           ...sx,

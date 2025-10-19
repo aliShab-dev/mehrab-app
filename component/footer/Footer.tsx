@@ -261,7 +261,7 @@ const Footer = () => {
         onClick={() =>
           window.scrollTo({
             top: 0,
-            behavior: "smooth", // ✅ smooth scrolling
+            behavior: "smooth",
           })
         }
         sx={{

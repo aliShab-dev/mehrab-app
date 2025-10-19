@@ -30,6 +30,11 @@ const ListNavButton = [
   { name: "ثبت سفارش", href: "/set-order" },
 ];
 
+export function toPersianDigits(str: string) {
+  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  return str.replace(/\d/g, (d) => persianDigits[+d]);
+}
+
 const Navbar = () => {
   const themeContext = useContext(ThemeContext);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -200,11 +205,11 @@ const Navbar = () => {
                 fontSize={16}
                 fontWeight={600}
                 lineHeight={1}
-                pt={0.4}
+                pt={0.8}
               >
-                09103533906
+                {toPersianDigits("09103533906")}
               </Typography>
-              <Image alt="call-us" src="/phone.png" width={20} height={20} />
+              <Image alt="call-us" src="/phone.png" width={22} height={22} />
             </Stack>
 
             {/* <Divider
@@ -238,7 +243,7 @@ const Navbar = () => {
                 },
                 paper: {
                   style: {
-                    width: "15ch",
+                    width: "14ch",
                   },
                 },
               }}
@@ -250,20 +255,37 @@ const Navbar = () => {
               <Divider />
               <Stack
                 display={{ xs: "flex", sm: "none" }}
-                direction={"row"}
+                direction="row"
+                alignItems="center"
                 gap={1}
                 py={2}
                 px={2}
               >
-                <Image alt="call-us" src="/phone.png" width={20} height={20} />
-                <Typography
-                  fontSize={16}
-                  fontWeight={600}
-                  lineHeight={1}
-                  pt={0.4}
+                <a
+                  href="tel:09103533906"
+                  style={{
+                    textDecoration: "none",
+                    color: "inherit",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                  }}
                 >
-                  09103533906
-                </Typography>
+                  <Typography
+                    fontSize={13}
+                    fontWeight={600}
+                    lineHeight={1}
+                    pt={0.7}
+                  >
+                    {toPersianDigits("09103533906")}
+                  </Typography>
+                  <Image
+                    alt="call-us"
+                    src="/phone.png"
+                    width={16}
+                    height={16}
+                  />
+                </a>
               </Stack>
             </Menu>
 
@@ -299,7 +321,7 @@ const Navbar = () => {
                   <CircleIcon
                     sx={{ color: option.color, fontSize: 16, mr: 1 }}
                   />
-                  <Typography>{option.label}</Typography>
+                  <Typography fontSize={12}>{option.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -307,7 +329,6 @@ const Navbar = () => {
         </Stack>
       </Stack>
     </Stack>
-    
   );
 };
 

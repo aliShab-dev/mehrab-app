@@ -6,7 +6,7 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   borderRadius: 18,
   gap: 5,
   padding: "1px 0px",
-  paddingRight: 10,
+  paddingRight: 8,
   fontSize: 12,
   color: "white",
   background: `linear-gradient(to bottom, ${theme.palette.primary.main}, ${theme.palette.primary.dark})`,
@@ -17,6 +17,7 @@ const StyledButton = styled(Button)<ButtonProps>(({ theme }) => ({
   },
   [theme.breakpoints.up("sm")]: {
     padding: "3px 0px",
+    paddingRight: 10,
     gap: 15,
     fontSize: 18,
     "& .MuiButton-endIcon": {

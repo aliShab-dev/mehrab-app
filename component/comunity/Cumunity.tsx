@@ -57,7 +57,7 @@ const Comunity = () => {
           style={{ width: "100%" }}
         >
           {orgList.map((item) => (
-            <SwiperSlide key={item.name}>
+            <SwiperSlide key={item.name} style={{background: 'transparent'}}>
               <Image
                 src={item.logo}
                 alt={item.name}
@@ -96,7 +96,7 @@ const Comunity = () => {
           style={{ width: "100%" }}
         >
           {orgList.map((item) => (
-            <SwiperSlide key={item.name}>
+            <SwiperSlide key={item.name} style={{background: 'transparent'}}>
               <Image
                 src={item.logo}
                 alt={item.name}

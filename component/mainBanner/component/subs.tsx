@@ -128,7 +128,7 @@ const MotionBox = motion(Box);
 
 const CounterContainer = styled(MotionBox)(({ theme }) => ({
   position: "absolute",
-  bottom: "8%",
+  bottom: "7%",
   left: "5%",
   background: "#FFCE5C",
   padding: "10px 20px",
@@ -166,13 +166,13 @@ export function Counter({
       >
         <Typography
           fontWeight={700}
-          fontSize={{ xs: 12, sm: 18, md: 20, lg: 24 }}
+          fontSize={{ xs: 11, sm: 18, md: 20, lg: 24 }}
           lineHeight={0.9}
         >
           {toPersianDigits(display.toString())}+
         </Typography>
         <Typography
-          fontSize={{ xs: 10, sm: 16, md: 18, lg: 20 }}
+          fontSize={{ xs: 9, sm: 16, md: 18, lg: 20 }}
           lineHeight={0.9}
         >
           دقیقه تولید ویدیوئی

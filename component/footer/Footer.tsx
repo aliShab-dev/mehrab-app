@@ -216,7 +216,7 @@ const Footer = () => {
         width={"100%"}
         flexWrap={"wrap"}
       >
-        {socialMedia.map((item) => (
+        {/* {socialMedia.map((item) => (
           <Stack
             key={item.name}
             component={"a"}
@@ -240,12 +240,58 @@ const Footer = () => {
               src={item.icon}
               alt={item.name}
               sx={{
-                width: { xs: 50, md: 60 },
+                width: { xs: 30, md: 50 },
                 height: { xs: 30, md: 35 },
                 cursor: "pointer",
               }}
             />
             <Typography fontSize={{ xs: 10, md: 11 }} color={"white"}>
+              {item.name}
+            </Typography>
+          </Stack>
+        ))} */}
+        {socialMedia.map((item) => (
+          <Stack
+            key={item.name}
+            component="a"
+            href={item.url}
+            sx={{
+              textAlign: "center",
+              textDecoration: "none",
+              borderRadius: 3,
+              boxShadow: 2,
+              background: "rgba(0, 0, 0, .07)",
+              gap: .3,
+              px: 1.2,
+              py: 0.5,
+              transition: "all .3s ease-out",
+              "&:hover": {
+                boxShadow: 5,
+                transform: "translateY(-3px)",
+                background: "rgba(250, 250, 250, .25)",
+              },
+            }}
+          >
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              sx={{
+                width: { xs: 30, sm: 35, md: 40 },
+                height: { xs: 30, sm: 35, md: 40 },
+                mx: "auto",
+                position: "relative",
+              }}
+            >
+              <Image
+                src={item.icon}
+                alt={item.name}
+                fill
+                style={{ objectFit: "contain", cursor: "pointer" }}
+                sizes="(max-width: 600px) 50px, (max-width: 900px) 50px, 60px"
+              />
+            </Stack>
+
+            <Typography fontSize={{ xs: 10, md: 12 }} color="white">
               {item.name}
             </Typography>
           </Stack>

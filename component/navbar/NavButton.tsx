@@ -20,7 +20,7 @@ const NavButton = ({ href, label, sx }: NavButtonProps) => {
         fullWidth
         color={isActive ? "secondary" : "inherit"}
         sx={{
-          fontSize: 13,
+          fontSize: {xs: 14, sm: 18},
           fontWeight: 800,
           color: isActive ? undefined : "text.primary",
           ...sx,

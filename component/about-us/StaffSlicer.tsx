@@ -1,6 +1,13 @@
 "use client";
 
-import { Box, IconButton, Stack, Typography, alpha } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Typography,
+  alpha,
+  useMediaQuery,
+} from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useState } from "react";
 import Image from "next/image";
@@ -22,6 +29,7 @@ export default function UserImageCarousel({
   users: User[];
   initialSelectedId: string;
 }) {
+  const isMobile = useMediaQuery("(max-width:600px)");
   const [selectedId, setSelectedId] = useState(initialSelectedId);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
@@ -145,7 +153,7 @@ export default function UserImageCarousel({
             <SwiperSlide
               key={user.id}
               style={{
-                width: isSelected ? 280 : 140,
+                width: isSelected ? (isMobile ? 230 : 280) : 140,
                 transition: "width 0.3s ease",
                 display: "flex",
                 justifyContent: "center",
@@ -157,7 +165,9 @@ export default function UserImageCarousel({
                   position: "relative",
                   width: "100%",
                   minHeight: { xs: 300, md: 350 },
-                  ...(isSelected ? { aspectRatio: "4 / 5" } : { height: 350 }),
+                  ...(isSelected
+                    ? { aspectRatio: "4 / 5" }
+                    : { height: { xs: 300, sm: 350 } }),
                   borderRadius: 3,
                   overflow: "hidden",
                   cursor: "pointer",
@@ -188,7 +198,11 @@ export default function UserImageCarousel({
                 }}
               >
                 <Image
-                  src={user.src}
+                  src={
+                    typeof user.src === "string" && user.src.trim() !== ""
+                      ? user.src
+                      : "/avatar.png"
+                  }
                   alt={user.name}
                   fill
                   style={{

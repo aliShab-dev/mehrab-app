@@ -3,11 +3,10 @@ import AudioSection from "@/component/audioSection/AudioSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
 import { Suspense } from "react";
 import MotionSection from "@/component/motionSection/MotionSection";
-import MainBannerWrapper from "@/component/mainBanner/component/BannerWrapper";
 import GraphicDesignWrapper from "@/component/graphicDesignSection/component/GraphicWrapper";
-import CommunityWrapper from "@/component/comunity/component/CummunityWrapper";
 import { transformCategories } from "@/util/numberHandler";
 import MainBanner from "@/component/mainBanner/MainBanner";
+import Comunity from "@/component/comunity/Cumunity";
 
 export default async function Home() {
   const categories = await getCategories();
@@ -42,7 +41,7 @@ export default async function Home() {
 
         <section>
           <Suspense fallback={<div>درحال بارگذاری...</div>}>
-            <CommunityWrapper />
+            <Comunity />
           </Suspense>
         </section>
 

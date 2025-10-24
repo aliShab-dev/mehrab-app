@@ -16,9 +16,7 @@ export default async function Home() {
     <div>
       <main>
         <section>
-          <Suspense fallback={<div>درحال بارگذاری...</div>}>
-            <MainBanner />
-          </Suspense>
+          <MainBanner />
         </section>
 
         <section>

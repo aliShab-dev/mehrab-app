@@ -1,43 +1,35 @@
-'use client';
-
-import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "./ThemeContext";
 import MUIThemeProvider from "./MUIThemeProvider";
-import Navbar from "@/component/navbar/Navbar";
-import Footer from "@/component/footer/Footer";
-import { usePathname } from "next/navigation";
+import getCategories from "@/component/adminPage/service/getCat";
+import ClientLayoutWrapper from "@/component/layoutWrapper/ClientLayoutWrapper";
 
-interface CustomMetadata extends Metadata {
-  title: string;
-  description: string;
+export async function generateMetadata() {
+  const categories = await getCategories();
+  const transformedCategories = categories.map((cat) => cat.name);
+
+  return {
+    title: "استودیو محراب | رسانه و تولید هنری با رسالت و دغدغه",
+    description:
+      "امروز آثار هنری و رسانه‌ای زبان مشترک مردم جهان‌اند. ما در محراب با گردهم‌آوردن تیمی جوان و متخصص، به دنبال خلق آثار باکیفیت هنری و رسانه‌ای هستیم تا بتوانیم اندیشه‌ها و دغدغه‌های خود را با زبان هنر بیان کنیم.",
+    keywords: transformedCategories,
+    authors: [{ name: "استودیو محراب", url: "https://www.mehrabartmedia.ir" }],
+    creator: "استودیو محراب",
+    publisher: "استودیو محراب",
+  };
 }
-
-const metadata: CustomMetadata = {
-  title: "گروه هنری محراب",
-  description: "گروه هنری محراب با هدف ارتقای فرهنگ و هنر ایرانی، در زمینه‌های طراحی، عکاسی، نقاشی، و تولید محتوای هنری فعالیت می‌کند.",
-};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const pathname = usePathname()
-  const isAdminRoute = pathname.startsWith('/admin');
+}) {
   return (
     <html lang="fa" dir="rtl">
-      <head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-      </head>
       <body>
         <ThemeProvider>
-          <MUIThemeProvider >
-            {!isAdminRoute && <Navbar />}
-            {children}
-            {!isAdminRoute && <Footer />}
-
+          <MUIThemeProvider>
+            <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
           </MUIThemeProvider>
         </ThemeProvider>
       </body>

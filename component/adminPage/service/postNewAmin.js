@@ -1,3 +1,26 @@
+const getAdmins = async () => {
+  const token = localStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Token ${token}`,
+  };
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  try {
+    const response = await fetch(`${BASE_URL}/user_service/`, {
+      method: "GET",
+      headers,
+    });
+
+    console.log(response)
+    if (!response.ok) throw new Error("Server error");
+    return await response.json();
+  } catch (err) {
+    console.error("Get admin failed:", err);
+    throw err;
+  }
+};
+
 const createNewAdmin = async ({
   userName,
   password,
@@ -98,4 +121,4 @@ const deleteAdmin = async ({
   }
 };
 
-export { createNewAdmin, updateAdmin, deleteAdmin };
+export { getAdmins, createNewAdmin, updateAdmin, deleteAdmin };

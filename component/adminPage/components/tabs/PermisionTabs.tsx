@@ -15,8 +15,7 @@ import {
 import React, { useEffect, useState } from "react";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import SaveIcon from "@mui/icons-material/Save";
-import { createNewAdmin } from "../../service/postNewAmin";
-import { useRouter } from "next/router";
+import { createNewAdmin, getAdmins } from "../../service/postNewAmin";
 
 const admins = [
   {
@@ -138,9 +137,9 @@ const PermissionTabs = () => {
   };
 
   useEffect(() => {
-    if (newAdminResponse) {
-      console.log("Admin added successfully:", newAdminResponse);
-    }
+    getAdmins()
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   }, [newAdminResponse]);
 
   return (

@@ -1,9 +1,9 @@
 import { Stack, Typography } from "@mui/material";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import TelegramIcon from "@mui/icons-material/Telegram";
-
 import MainBannerClient from "./component/MuiBanner.client";
 import StyledButton from "./component/StyledButton";
+import Image from "next/image";
 
 export default function MainBanner() {
   return (
@@ -22,15 +22,13 @@ export default function MainBanner() {
         mt: -6,
       }}
     >
-      <img
-        src="/back-banner.png"
+      <Image
+        src="/back-banner-.png"
         alt="background"
+        fill
+        priority
+        sizes="(max-width: 900px) 100vw, 68vw"
         style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
           objectFit: "cover",
           zIndex: 1,
         }}

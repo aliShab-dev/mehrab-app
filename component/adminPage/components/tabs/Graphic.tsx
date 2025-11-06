@@ -19,7 +19,12 @@ import {
 } from "@mui/material";
 import AddProduct from "../shared/AddProduct";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { createProduct, getProductsByCatId } from "../../service/postProduct";
+import {
+  createProduct,
+  getProductsByCatId,
+  updateProduct,
+  deleteProduct as deleteProductAPI,
+} from "../../service/postProduct";
 import getCategories from "../../service/getCat";
 
 type Subcategory = {
@@ -131,45 +136,62 @@ const Graphic = () => {
     setAge(event.target.value);
   };
 
+  const handleDeleteProduct = (id: number) => {
+    if (typeof isEditing === "number") {
+      setNewResponse(false);
+      deleteProductAPI(id)
+        .then((res) => {
+          resetInputs();
+          setNewResponse(true);
+        })
+        .catch((err) => {
+          console.error("❌ Delete failed:", err);
+        });
+    }
+  };
+
   const submitProduct = () => {
-    // if (typeof isEditing === "number") {
-    //   //FIXME: need to work on
-    //   updateProduct({
-    //     id: isEditing,
-    //     name,
-    //     description,
-    //     staff: staffArray,
-    //     category: subcategories[0].category_id,
-    //     duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
-    //     episode: episod,
-    //     company: company,
-    //     sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
-    //     file: productImage,
-    //     poster,
-    //     level: parseInt(level.replace(/[^\d]/g, ""), 10),
-    //   })
-    //     .then((res) => console.log(res))
-    //     .catch((err) => console.log(err));
-    // } else {
-    createProduct({
-      name,
-      description,
-      staff: staffArray,
-      category: subcategories[0].category_id,
-      duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
-      episode: episod,
-      company: company,
-      sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
-      file: productImage,
-      poster,
-      level: parseInt(level.replace(/[^\d]/g, ""), 10),
-    })
-      .then((res) => {
-        resetInputs();
-        setNewResponse(true);
+    setNewResponse(false);
+    if (typeof isEditing === "number") {
+      updateProduct({
+        id: isEditing,
+        name,
+        description,
+        staff: staffArray,
+        category: subcategories[0].category_id,
+        duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+        episode: episod,
+        company: company,
+        sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+        file: productImage,
+        poster,
+        level: parseInt(level.replace(/[^\d]/g, ""), 10),
       })
-      .catch((err) => console.log(err));
-    // }
+        .then((res) => {
+          resetInputs();
+          setNewResponse(true);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      createProduct({
+        name,
+        description,
+        staff: staffArray,
+        category: subcategories[0].category_id,
+        duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
+        episode: episod,
+        company: company,
+        sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
+        file: productImage,
+        poster,
+        level: parseInt(level.replace(/[^\d]/g, ""), 10),
+      })
+        .then((res) => {
+          resetInputs();
+          setNewResponse(true);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   useEffect(() => {
@@ -211,6 +233,7 @@ const Graphic = () => {
         }}
       >
         <AddProduct
+          handleDeleteProduct={handleDeleteProduct}
           resetInputs={resetInputs}
           company={company}
           setCompany={setCompany}

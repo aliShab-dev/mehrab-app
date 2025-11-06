@@ -34,10 +34,12 @@ interface PreviewEditionInterface {
   setIsAddStaff: (isAdd: boolean) => void;
   submitProduct: () => void;
   mediaType: "audio" | "video" | "image";
-  resetInputs: () => void
+  resetInputs: () => void;
+  handleDeleteProduct: (id: number) => void;
 }
 
 const PreviewEdition = ({
+  handleDeleteProduct,
   selectedTime,
   productImage,
   setProductImage,
@@ -59,7 +61,7 @@ const PreviewEdition = ({
   setIsAddStaff,
   submitProduct,
   mediaType,
-  resetInputs
+  resetInputs,
 }: PreviewEditionInterface) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleDownload = () => {
@@ -72,22 +74,29 @@ const PreviewEdition = ({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    URL.revokeObjectURL(url); // Clean up
+    URL.revokeObjectURL(url);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setProductImage(file);
-      // clear the input value so that the same file can be picked again
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
   const discardFn = () => {
-    setProducts(products.filter((product, i) => product.name !== name));
+    const productToDelete = products.find((p) => p.name === name);
+
+    if (!productToDelete) {
+      console.error("❌ Product not found by name:", name);
+      return;
+    }
+
+    handleDeleteProduct(productToDelete.id);
+    setProducts(products.filter((p) => p.name !== name));
     setOpen(false);
-    resetInputs
+    resetInputs();
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
@@ -152,7 +161,7 @@ const PreviewEdition = ({
             !level ||
             !cat ||
             !productImage ||
-            (mediaType !== 'image' && !selectedTime)
+            (mediaType !== "image" && !selectedTime)
           }
           onClick={() => {
             submitProduct();

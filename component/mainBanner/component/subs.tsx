@@ -7,16 +7,16 @@ import { toPersianDigits } from "@/util/numberHandler";
 const icons = [
   {
     src: "/k-like.png",
-    bottom: "22%",
-    right: "2%",
+    bottom: { xs: "22%", sm: "22%" },
+    right: { xs: "5%", sm: "2%" },
     rotate: "0",
     factor: 1,
     size: { xs: 65, sm: 100, md: 150, lg: 180, xl: 190 },
   },
   {
     src: "/k-camera.png",
-    bottom: "2%",
-    right: "18%",
+    bottom: { xs: "2%", sm: "2%" },
+    right: { xs: "20%", sm: "18%" },
     rotate: "0",
     factor: -0.6,
     size: { xs: 80, sm: 150, md: 205, lg: 225, xl: 240 },
@@ -31,21 +31,23 @@ const icons = [
   },
   {
     src: "/k-clapboard.png",
-    bottom: "7%",
-    left: "22%",
+    bottom: { xs: "8%", sm: "7%" },
+    left: { xs: "23%", sm: "22%" },
     rotate: "0",
     factor: 0.4,
     size: { xs: 60, sm: 110, md: 170, lg: 190, xl: 200 },
   },
   {
     src: "/k-film-cam.png",
-    bottom: "16%",
-    left: "2%",
+    bottom: {xs: '19%', sm: '16%'},
+    left: {xs: "6%", sm: "2%"},
     rotate: "0",
     factor: -1,
-    size: { xs: 70, sm: 150, md: 220, lg: 240, xl: 250 },
+    size: { xs: 80, sm: 150, md: 220, lg: 240, xl: 250 },
   },
 ];
+
+const MotionStack = motion(Stack);
 
 export type MouseType = {
   x: number;
@@ -65,13 +67,13 @@ export function IconSwinger() {
         const currentMove = moveAmplitude;
 
         return (
-          <motion.div
+          <MotionStack
             key={index}
             whileHover={{
               scale: 1.1,
               transition: { duration: 0.3 },
             }}
-            style={{
+            sx={{
               position: "absolute",
               bottom: icon.bottom,
               right: icon.right,
@@ -80,7 +82,7 @@ export function IconSwinger() {
               transformStyle: "preserve-3d",
             }}
           >
-            <motion.div
+            <MotionStack
               animate={{
                 rotate: [
                   baseRotate - currentSwing * icon.factor,
@@ -116,8 +118,8 @@ export function IconSwinger() {
                   transform: `rotate(${icon.rotate})`,
                 }}
               />
-            </motion.div>
-          </motion.div>
+            </MotionStack>
+          </MotionStack>
         );
       })}
     </Stack>

@@ -59,9 +59,11 @@ interface DisplayProductInterface {
   setPoster: (file: File | null) => void;
   mediaType: "audio" | "video" | "image";
   resetInputs: () => void;
+  handleDeleteProduct : (id: number) => void;
 }
 
 const AddProduct = ({
+  handleDeleteProduct ,
   company,
   setCompany,
   productImage,
@@ -129,6 +131,7 @@ const AddProduct = ({
     >
       <Stack direction="row" width="100%" height="100%" gap={2}>
         <PreviewEdition
+          handleDeleteProduct ={handleDeleteProduct }
           resetInputs={resetInputs}
           selectedTime={selectedTime}
           isEditing={isEditing}

@@ -5,7 +5,7 @@ import LoginPanel from "@/component/adminPage/components/LoginPanel";
 import { useState } from "react";
 
 const AdminPage = () => {
-  const [isValid, setIsValid] = useState(true );
+  const [isValid, setIsValid] = useState(false);
   return isValid ? <AdminPanel /> : <LoginPanel setIsValid={setIsValid} />;
 };
 

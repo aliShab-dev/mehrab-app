@@ -7,12 +7,11 @@ const getAdmins = async () => {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   try {
-    const response = await fetch(`${BASE_URL}/user_service/`, {
+    const response = await fetch(`${BASE_URL}/User_Service/`, {
       method: "GET",
       headers,
     });
 
-    console.log(response)
     if (!response.ok) throw new Error("Server error");
     return await response.json();
   } catch (err) {

@@ -8,15 +8,15 @@ const icons = [
   {
     src: "/k-like.png",
     bottom: { xs: "22%", sm: "22%" },
-    right: { xs: "5%", sm: "2%" },
+    right: { xs: "0%", sm: "2%" },
     rotate: "0",
     factor: 1,
     size: { xs: 65, sm: 100, md: 150, lg: 180, xl: 190 },
   },
   {
     src: "/k-camera.png",
-    bottom: { xs: "2%", sm: "2%" },
-    right: { xs: "20%", sm: "18%" },
+    bottom: { xs: "0%", sm: "2%" },
+    right: { xs: "18%", sm: "18%" },
     rotate: "0",
     factor: -0.6,
     size: { xs: 80, sm: 150, md: 205, lg: 225, xl: 240 },
@@ -32,7 +32,7 @@ const icons = [
   {
     src: "/k-clapboard.png",
     bottom: { xs: "8%", sm: "7%" },
-    left: { xs: "23%", sm: "22%" },
+    left: { xs: "22%", sm: "22%" },
     rotate: "0",
     factor: 0.4,
     size: { xs: 60, sm: 110, md: 170, lg: 190, xl: 200 },
@@ -40,7 +40,7 @@ const icons = [
   {
     src: "/k-film-cam.png",
     bottom: {xs: '19%', sm: '16%'},
-    left: {xs: "6%", sm: "2%"},
+    left: {xs: "0%", sm: "2%"},
     rotate: "0",
     factor: -1,
     size: { xs: 80, sm: 150, md: 220, lg: 240, xl: 250 },
@@ -130,8 +130,8 @@ const MotionBox = motion(Box);
 
 const CounterContainer = styled(MotionBox)(({ theme }) => ({
   position: "absolute",
-  bottom: "7%",
-  left: "5%",
+  bottom: "6%",
+  left: "3%",
   background: "#FFCE5C",
   padding: "10px 20px",
   borderRadius: "50px",
@@ -144,6 +144,9 @@ const CounterContainer = styled(MotionBox)(({ theme }) => ({
   boxShadow: "0px 4px 12px rgba(0, 0, 15, 0.4)",
   cursor: "pointer",
   [theme.breakpoints.down("sm")]: {
+    left: "1%",
+    bottom: "3%",
+    boxShadow: "0px 2px 6px rgba(0, 0, 15, 0.4)",
     padding: "5px 5px",
   },
 }));
@@ -168,13 +171,13 @@ export function Counter({
       >
         <Typography
           fontWeight={700}
-          fontSize={{ xs: 11, sm: 18, md: 20, lg: 24 }}
+          fontSize={{ xs: 10, sm: 18, md: 20, lg: 24 }}
           lineHeight={0.9}
         >
           {toPersianDigits(display.toString())}+
         </Typography>
         <Typography
-          fontSize={{ xs: 9, sm: 16, md: 18, lg: 20 }}
+          fontSize={{ xs: 8, sm: 16, md: 18, lg: 20 }}
           lineHeight={0.9}
         >
           دقیقه تولید ویدیوئی

@@ -10,7 +10,7 @@ export default function MainBanner() {
     <Stack
       sx={{
         position: "relative",
-        width: { xs: "100%", md: "90%", lg: "68%" },
+        width: { xs: "90%", md: "85%", lg: "68%" },
         aspectRatio: "16 / 9",
         mx: "auto",
         borderRadius: 2,
@@ -19,11 +19,11 @@ export default function MainBanner() {
         justifyContent: "center",
         alignItems: "center",
         mb: 5,
-        mt: -6,
+        mt: -3,
       }}
     >
       <Image
-        src="/back-banner-.png"
+        src="/back-banner.png"
         alt="background"
         fill
         priority

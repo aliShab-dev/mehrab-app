@@ -1,20 +1,20 @@
 "use client";
 
 import { Button, Stack } from "@mui/material";
-import { Product } from "../../tabs/MotionGraphy";
-import DownloadIcon from "@mui/icons-material/Download";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import MediaPreview from "./MediaPreview";
 import { useRef } from "react";
 import { Dayjs } from "dayjs";
+import MediaPreviewSwiper from "./MediaPreviewSwiper";
+import { ProductSwiper } from "../../tabs/Graphic";
 
 interface PreviewEditionInterface {
   selectedTime: Dayjs | null;
   isEditing: null | number;
-  productImage: File | null;
-  setProductImage: (file: File | null) => void;
+  productImage: File[] | [];
+  setProductImage: (file: File[] | []) => void;
   name: string;
   setName: (name: string) => void;
   description: string;
@@ -29,8 +29,8 @@ interface PreviewEditionInterface {
   setIsEditing: (id: number | null) => void;
   setOpen: (open: boolean) => void;
   age: string;
-  products: Product[];
-  setProducts: (products: Product[]) => void;
+  products: ProductSwiper[];
+  setProducts: (products: ProductSwiper[]) => void;
   setIsAddStaff: (isAdd: boolean) => void;
   submitProduct: () => void;
   mediaType: "audio" | "video" | "image";
@@ -38,7 +38,7 @@ interface PreviewEditionInterface {
   handleDeleteProduct: (id: number) => void;
 }
 
-const PreviewEdition = ({
+const PreviewEditionSwiper = ({
   handleDeleteProduct,
   selectedTime,
   productImage,
@@ -64,29 +64,18 @@ const PreviewEdition = ({
   resetInputs,
 }: PreviewEditionInterface) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const handleDownload = () => {
-    if (!productImage) return;
-
-    const url = URL.createObjectURL(productImage);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = productImage.name || "downloaded-image";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setProductImage(file);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-    }
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setProductImage([...productImage, ...Array.from(files)]);
+
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   const handleDeleteImage = (index: number) => {
-    setProducts(products.filter((_, i) => i !== index));
+    setProductImage(productImage.filter((_, i) => i !== index));
   };
 
   const discardFn = () => {
@@ -114,7 +103,7 @@ const PreviewEdition = ({
 
   return (
     <Stack justifyContent={"space-around"}>
-      <MediaPreview
+      <MediaPreviewSwiper
         productImage={productImage}
         mediaType={mediaType}
         isEditing={isEditing}
@@ -122,7 +111,7 @@ const PreviewEdition = ({
       />
 
       <Stack direction={"row"} justifyContent={"space-around"}>
-        <Button
+        {/* <Button
           variant="contained"
           disabled={!productImage}
           startIcon={<DownloadIcon />}
@@ -130,14 +119,14 @@ const PreviewEdition = ({
           onClick={handleDownload}
         >
           دانلود
-        </Button>
+        </Button> */}
         <Button
           component="label"
           variant="contained"
           startIcon={productImage ? <EditIcon /> : <AddIcon />}
           sx={{ gap: 1, color: "white" }}
         >
-          {productImage ? "ویرایش" : "افزودن"}
+          افزودن
           <input
             ref={fileInputRef}
             type="file"
@@ -175,7 +164,7 @@ const PreviewEdition = ({
             setDescription("");
             setLevel("");
             setCat(age);
-            setProductImage(null);
+            setProductImage([]);
             setStaffArray([]);
             setIsAddStaff(false);
             setIsEditing(null);
@@ -190,4 +179,4 @@ const PreviewEdition = ({
   );
 };
 
-export default PreviewEdition;
+export default PreviewEditionSwiper;

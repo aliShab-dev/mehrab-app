@@ -1,16 +1,16 @@
 "use client";
 
 import { SelectChangeEvent, Stack } from "@mui/material";
-import { Product } from "../tabs/MotionGraphy";
-import PreviewEdition from "./component/PreviewEdition";
-import InputField from "./component/InputField";
+import InputField from "./InputField";
 import { Dayjs } from "dayjs";
+import PreviewEditionSwiper from "./PreviewEditionSwiper";
+import { ProductSwiper } from "../../tabs/Graphic";
 
 interface DisplayProductInterface {
   company: string;
   setCompany: (company: string) => void;
-  productImage: File | null;
-  setProductImage: (file: File | null) => void;
+  productImage: File[] | [];
+  setProductImage: (file: File[] | []) => void;
   name: string;
   setName: (name: string) => void;
   description: string;
@@ -27,8 +27,8 @@ interface DisplayProductInterface {
   setIsEditing: (id: number | null) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  setProducts: (products: Product[]) => void;
-  products: Product[];
+  setProducts: (products: ProductSwiper[]) => void;
+  products: ProductSwiper[];
   age: string;
   setAge: (age: string) => void;
   setIsAddStaff: (isAdd: boolean) => void;
@@ -62,7 +62,7 @@ interface DisplayProductInterface {
   handleDeleteProduct: (id: number) => void;
 }
 
-const AddProduct = ({
+const AddProductSwiper = ({
   handleDeleteProduct,
   company,
   setCompany,
@@ -130,7 +130,7 @@ const AddProduct = ({
       }}
     >
       <Stack direction="row" width="100%" height="100%" gap={2}>
-        <PreviewEdition
+        <PreviewEditionSwiper
           handleDeleteProduct={handleDeleteProduct}
           resetInputs={resetInputs}
           selectedTime={selectedTime}
@@ -198,4 +198,4 @@ const AddProduct = ({
   );
 };
 
-export default AddProduct;
+export default AddProductSwiper;

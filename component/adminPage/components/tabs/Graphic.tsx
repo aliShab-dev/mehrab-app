@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Product } from "./MotionGraphy";
 import dayjs, { Dayjs } from "dayjs";
 import {
   Avatar,
@@ -17,7 +16,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import AddProduct from "../shared/AddProduct";
+import AddProductSwiper from "../shared/component/AddProductSwiper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   createProduct,
@@ -26,6 +25,21 @@ import {
   deleteProduct as deleteProductAPI,
 } from "../../service/postProduct";
 import getCategories from "../../service/getCat";
+
+export type ProductSwiper = {
+  id: number;
+  name: string;
+  description: string;
+  file: File[] | [];
+  company: string;
+  poster: File[] | [];
+  episode: number;
+  staff: { name: string; role: string; image: File | null }[];
+  level: string;
+  category: string;
+  sub_category: string;
+  duration: string;
+};
 
 type Subcategory = {
   id: number;
@@ -73,14 +87,14 @@ const Graphic = () => {
   const [staffName, setStaffName] = useState("");
   const [staffRole, setStaffRole] = useState("");
   const [staffImage, setStaffImage] = useState<File | null>(null);
-  const [productImage, setProductImage] = useState<File | null>(null);
+  const [productImage, setProductImage] = useState<File[]>([]);
   const [poster, setPoster] = useState<File | null>(null);
 
   const [staffArray, setStaffArray] = useState<
     { name: string; role: string; image: File | null }[]
   >([]);
 
-  const [products, setProducts] = useState<Product[]>(
+  const [products, setProducts] = useState<ProductSwiper[]>(
     productsWithCat.find((cat) => cat.name === age)?.products || []
   );
 
@@ -96,7 +110,7 @@ const Graphic = () => {
     setSelectedTime(null);
     setEpisod("");
     setCompany("");
-    setProductImage(null);
+    setProductImage([]);
     setPoster(null);
     setLevel("سطح 1");
   };
@@ -232,7 +246,7 @@ const Graphic = () => {
           gap: 2,
         }}
       >
-        <AddProduct
+        <AddProductSwiper
           handleDeleteProduct={handleDeleteProduct}
           resetInputs={resetInputs}
           company={company}
@@ -402,7 +416,7 @@ const Graphic = () => {
                       setName(product.name ?? "");
                       setDescription(product.description ?? "");
                       setLevel(`سطح ${product.level}`);
-                      setPoster(product.poster);
+                      // setPoster(product.poster);
                       setCat(age);
                       setCompany(product.company ?? "");
                       setStaffArray(product.staff ?? []);

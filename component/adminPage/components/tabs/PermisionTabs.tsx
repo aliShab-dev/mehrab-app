@@ -17,50 +17,14 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import SaveIcon from "@mui/icons-material/Save";
 import { createNewAdmin, getAdmins } from "../../service/postNewAmin";
 
-const admins = [
-  {
-    id: 1,
-    name: "ادمین شماره یک",
-    usreName: "slsjdfl",
-    password: 1245,
-    permission: [1, 3],
-  },
-  {
-    id: 2,
-    name: "ادمین شماره دو",
-    usreName: "cc",
-    password: 1245,
-    permission: [2],
-  },
-  {
-    id: 3,
-    name: "ادمین شماره سه",
-    usreName: "eee",
-    password: 1245,
-    permission: [3],
-  },
-  {
-    id: 4,
-    name: "ادمین شماره 5",
-    usreName: "ff",
-    password: "1245",
-    permission: [4, 1],
-  },
-  {
-    id: 6,
-    name: "ادمین سس 5",
-    usreName: "dd",
-    password: "1245",
-    permission: [4, 3, 2],
-  },
-  {
-    id: 5,
-    name: "ادمین شماره 4",
-    usreName: "ss",
-    password: 1245,
-    permission: [2],
-  },
-];
+type adminType = {
+  is_user_active: boolean;
+  name: string;
+  password: string;
+  permissions: Record<string, unknown>;
+  role: string;
+  username: string;
+};
 
 const permissionsList = [
   "موشن گرافی",
@@ -70,7 +34,7 @@ const permissionsList = [
 ];
 
 const PermissionTabs = () => {
-  const [selectedAdmin, setSelectedAdmin] = useState<number | null>(null);
+  const [selectedAdmin, setSelectedAdmin] = useState<string | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const [name, setName] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
@@ -78,6 +42,7 @@ const PermissionTabs = () => {
   const [adminPermission, setAdminPermission] = useState<number[]>([]);
   const [image, setImage] = useState<File | null>(null);
   const [newAdminResponse, setNewAdminResponse] = useState(null);
+  const [admins, setAdmins] = useState<adminType[]>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -105,14 +70,14 @@ const PermissionTabs = () => {
     );
   };
 
-  const handleAdminClick = (adminId: number) => {
+  const handleAdminClick = (adminId: string) => {
     setSelectedAdmin(adminId);
-    const admin = admins.find((a) => a.id === adminId);
+    const admin = admins.find((a) => a.username === adminId);
     if (admin) {
       setName(admin.name);
       setPassword(admin.password);
-      setAdminPermission(admin.permission);
-      setUserName(admin.usreName);
+      // setAdminPermission(admin.permission);
+      setUserName(admin.username);
     }
   };
 
@@ -131,14 +96,19 @@ const PermissionTabs = () => {
       password,
       role: "Admin",
       isUserAcitve: true,
+      // per: adminPermission FIXME: fix with zahra
     })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
+    setAdmins([]);
     getAdmins()
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        setAdmins(res);
+      })
       .catch((err) => console.log(err));
   }, [newAdminResponse]);
 
@@ -152,7 +122,7 @@ const PermissionTabs = () => {
           variant="contained"
           sx={{ color: "white" }}
           onClick={() => {
-            handleAdminClick(0);
+            handleAdminClick("");
             resetHandler();
           }}
         >
@@ -194,13 +164,13 @@ const PermissionTabs = () => {
           {admins.map((admin) => (
             <Stack
               component={"button"}
-              key={admin.id}
+              key={admin.username}
               width={"100%"}
               direction={"row"}
-              onClick={() => handleAdminClick(admin.id)}
+              onClick={() => handleAdminClick(admin.username)}
               borderColor={(theme) => alpha(theme.palette.secondary.main, 0.5)}
               bgcolor={(theme) =>
-                selectedAdmin === admin.id
+                selectedAdmin === admin.username
                   ? alpha(theme.palette.primary.main, 0.3)
                   : "transparent"
               }
@@ -228,11 +198,11 @@ const PermissionTabs = () => {
                   fontSize={14}
                   pr={1}
                 >
-                  {admin.permission
+                  {/* {admin.permission
                     .map((p) => {
                       return permissionsList[p - 1];
                     })
-                    .join(", ")}
+                    .join(", ")} */}
                 </Typography>
               </Stack>
             </Stack>

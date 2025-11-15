@@ -16,7 +16,7 @@ const ClientContainer = dynamic(() => import("./components/ClientContainer"), {
 
 const MotionSection: React.FC<MotionSectionProps> = ({ categories }) => {
   return (
-    <Stack width={{ xs: "95%", md: "80%" }} mx="auto" gap={{ xs: 3, md: 5 }}>
+    <Stack width={{ xs: "95%", md: "80%" }} mx="auto" gap={{ xs: 3, md: 5 }} mt={10}>
       <SectionHeader
         backIcon={{
           alt: "motion-graphic-background-image",

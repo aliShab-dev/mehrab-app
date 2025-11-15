@@ -69,7 +69,7 @@ const AdminPanel = () => {
             <Tab label="فیلم و مستند" sx={{ fontSize: 20 }} />
             <Tab label="صوت و نریشن" sx={{ fontSize: 20 }} />
             <Tab label="گرافیک دیزاین" sx={{ fontSize: 20 }} />
-            <Tab label="گزارشات" sx={{ fontSize: 20 }} />
+            {/* <Tab label="گزارشات" sx={{ fontSize: 20 }} /> */}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

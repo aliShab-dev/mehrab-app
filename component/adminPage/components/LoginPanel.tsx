@@ -1,48 +1,72 @@
 "use client";
 
+import { useState } from "react";
 import {
-  alpha,
   Box,
-  Button,
-  IconButton,
-  InputAdornment,
   Stack,
   TextField,
+  Button,
   Typography,
+  IconButton,
+  InputAdornment,
+  CircularProgress,
   useTheme,
+  alpha,
 } from "@mui/material";
-import Image from "next/image";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
 import postAdminLogin from "../service/postAdminLogin";
 
-type LoginPanelProps = {
+type Props = {
   setIsValid: (value: boolean) => void;
 };
 
-const LoginPanel: React.FC<LoginPanelProps> = ({ setIsValid }) => {
+export default function LoginPanel({ setIsValid }: Props) {
   const theme = useTheme();
-
-  const [name, setName] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
-  const handleToggle = () => setShowPassword((prev) => !prev);
-  const handleLogin = () => {
-    postAdminLogin({ userName: name, password })
-      .then((res) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg("");
+
+    if (!userName || !password) {
+      setErrorMsg("Please enter username and password.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const res = await postAdminLogin({ userName, password });
+      if (res?.token) {
         localStorage.setItem("token", res.token);
-        setIsValid(!!res?.token);
-      })
-      .catch((err) => console.log(err));
+        setIsValid(true);
+      } else {
+        setErrorMsg("Invalid username or password.");
+      }
+    } catch {
+      setErrorMsg("Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Stack
-      width={"100vw"}
-      height={"100vh"}
-      overflow={"hidden"}
-      position={"relative"}
+      alignItems="center"
+      justifyContent="center"
+      height="100vh"
+      width="100vw"
+      position="relative"
+      overflow="hidden"
+      sx={{
+        background: `linear-gradient(180deg, ${alpha(
+          theme.palette.primary.main,
+          0.08
+        )}, ${alpha(theme.palette.secondary.main, 0.08)})`,
+      }}
     >
       <Box position={"absolute"} bottom={-10} width={"100%"} zIndex={0}>
         <svg
@@ -200,100 +224,72 @@ const LoginPanel: React.FC<LoginPanelProps> = ({ setIsValid }) => {
           ></path>
         </svg>
       </Box>
-      <Stack
-        position={"relative"}
-        bgcolor={"#F5F5F5"}
-        width={{ xs: 300, sm: 400 }}
-        height={{ xs: 340, sm: 360 }}
-        mx={"auto"}
-        zIndex={100}
-        my={"auto"}
-        boxShadow={5}
-        borderRadius={5}
-        py={8}
+
+      {/* 🧩 Login Form */}
+      <Box
+        zIndex={1}
+        bgcolor={theme.palette.background.paper}
+        boxShadow={6}
+        borderRadius={4}
+        px={6}
+        py={5}
+        width={350}
+        display="flex"
+        flexDirection="column"
+        gap={3}
       >
-        <Stack position={"absolute"} top={-70} width={"100%"}>
-          <Image
-            src={"/logo.png"}
-            alt={"logo"}
-            width={100}
-            height={150}
-            style={{ marginRight: "auto", marginLeft: "auto" }}
-          />
-        </Stack>
-        <Stack width={200} mx={"auto"} textAlign={"center"}>
-          <Typography component={`h1`} fontSize={20} fontWeight={600}>
-            ورود به پنل مدیریت
-          </Typography>
-        </Stack>
-        <Stack gap={2} my="auto" width={250} mx="auto">
-          <Stack width={"100%"} textAlign="center" dir="rtl">
-            <TextField
-              fullWidth
-              value={name}
-              onChange={(e) => setName(e.target.value.trimStart())}
-              variant="outlined"
-              label={"نام کاربری"}
-              type="text"
-              sx={{
-                "& label": {
-                  right: 25,
-                  left: "auto",
-                  fontSize: 16,
-                },
+        <Typography variant="h5" textAlign="center" fontWeight={600}>
+          ورود مدیر
+        </Typography>
 
-                "& legend": {
-                  right: 30,
-                  textAlign: "right",
-                  fontSize: 18,
-                },
-              }}
-            />
-          </Stack>
-          <Stack width={"100%"} textAlign="center" dir="rtl">
-            <TextField
-              value={password}
-              onChange={(e) => setPassword(e.target.value.trimStart())}
-              fullWidth
-              variant="outlined"
-              label="رمز عبور"
-              type={showPassword ? "text" : "password"}
-              sx={{
-                "& label": {
-                  right: 25,
-                  left: "auto",
-                  fontSize: 16,
-                },
-
-                "& legend": {
-                  right: 30,
-                  textAlign: "right",
-                  fontSize: 18,
-                },
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleToggle} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Stack>
-        </Stack>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleLogin}
-          sx={{ width: 250, mx: "auto", color: "white", fontSize: "18px" }}
+        <form
+          onSubmit={handleLogin}
+          style={{ display: "flex", flexDirection: "column", gap: 20 }}
         >
-          ورود
-        </Button>
-      </Stack>
+          <TextField
+            label="نام کاربری"
+            variant="outlined"
+            fullWidth
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+
+          <TextField
+            label="رمز عبور"
+            type={showPassword ? "text" : "password"}
+            variant="outlined"
+            fullWidth
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={() => setShowPassword((p) => !p)}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          {errorMsg && (
+            <Typography color="error" textAlign="center" variant="body2">
+              {errorMsg}
+            </Typography>
+          )}
+
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            type="submit"
+            disabled={loading}
+            sx={{ mt: 1, height: 45 }}
+          >
+            {loading ? <CircularProgress size={22} color="inherit" /> : "ورود"}
+          </Button>
+        </form>
+      </Box>
     </Stack>
   );
-};
-
-export default LoginPanel;
+}

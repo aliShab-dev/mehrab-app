@@ -21,6 +21,7 @@ const getAdmins = async () => {
 };
 
 const createNewAdmin = async ({
+  permissions,
   userName,
   password,
   isUserAcitve,
@@ -44,6 +45,7 @@ const createNewAdmin = async ({
         role,
         name,
         isUserAcitve,
+        permissions
       }),
     });
 

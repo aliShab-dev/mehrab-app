@@ -8,6 +8,7 @@ import Movie from "./tabs/Movie";
 import Audio from "./tabs/Audio";
 import Graphic from "./tabs/Graphic";
 import Report from "./tabs/Report";
+import Customers from "./tabs/Customers";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -69,6 +70,7 @@ const AdminPanel = () => {
             <Tab label="فیلم و مستند" sx={{ fontSize: 20 }} />
             <Tab label="صوت و نریشن" sx={{ fontSize: 20 }} />
             <Tab label="گرافیک دیزاین" sx={{ fontSize: 20 }} />
+            <Tab label="همراهان" sx={{ fontSize: 20 }} />
             {/* <Tab label="گزارشات" sx={{ fontSize: 20 }} /> */}
           </Tabs>
         </Box>
@@ -88,8 +90,11 @@ const AdminPanel = () => {
           <Graphic />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={5}>
-          <Report />
+          <Customers />
         </CustomTabPanel>
+        {/* <CustomTabPanel value={value} index={5}>
+          <Report />
+        </CustomTabPanel> */}
       </Stack>
     </Stack>
   );

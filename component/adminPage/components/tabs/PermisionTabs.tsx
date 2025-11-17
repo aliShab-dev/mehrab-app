@@ -17,11 +17,18 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import SaveIcon from "@mui/icons-material/Save";
 import { createNewAdmin, getAdmins } from "../../service/postNewAmin";
 
+export type PermissionType = {
+  can_add_motion_graphic: boolean;
+  can_add_graphic_design: boolean;
+  can_add_movie_and_document: boolean;
+  can_add_audio: boolean;
+};
+
 type adminType = {
   is_user_active: boolean;
   name: string;
   password: string;
-  permissions: Record<string, unknown>;
+  permissions: PermissionType;
   role: string;
   username: string;
 };
@@ -43,6 +50,15 @@ const PermissionTabs = () => {
   const [image, setImage] = useState<File | null>(null);
   const [newAdminResponse, setNewAdminResponse] = useState(null);
   const [admins, setAdmins] = useState<adminType[]>([]);
+
+  // console.log(adminPermission);
+
+  const payloadPermissions = {
+    can_add_motion_graphic: adminPermission.includes(1),
+    can_add_graphic_design: adminPermission.includes(2),
+    can_add_movie_and_document: adminPermission.includes(3),
+    can_add_audio: adminPermission.includes(4),
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -70,13 +86,22 @@ const PermissionTabs = () => {
     );
   };
 
+  const mapPermissionsToNumbers = (permissions: PermissionType): number[] => {
+    const result: number[] = [];
+    if (permissions.can_add_motion_graphic) result.push(1);
+    if (permissions.can_add_graphic_design) result.push(2);
+    if (permissions.can_add_movie_and_document) result.push(3);
+    if (permissions.can_add_audio) result.push(4);
+    return result;
+  };
+
   const handleAdminClick = (adminId: string) => {
     setSelectedAdmin(adminId);
     const admin = admins.find((a) => a.username === adminId);
     if (admin) {
       setName(admin.name);
       setPassword(admin.password);
-      // setAdminPermission(admin.permission);
+      setAdminPermission(mapPermissionsToNumbers(admin.permissions));
       setUserName(admin.username);
     }
   };
@@ -90,13 +115,14 @@ const PermissionTabs = () => {
   };
 
   const handleSubmit = () => {
+    console.log(userName, name, password, payloadPermissions);
     createNewAdmin({
       userName,
       name,
       password,
       role: "Admin",
       isUserAcitve: true,
-      // per: adminPermission FIXME: fix with zahra
+      permissions: payloadPermissions,
     })
       .then((res) => console.log(res))
       .catch((err) => console.log(err));

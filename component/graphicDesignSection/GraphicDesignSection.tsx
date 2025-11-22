@@ -12,7 +12,7 @@ interface AudioSectionProps {
 
 const GraphicDesignSection: React.FC<AudioSectionProps> = ({ categories }) => {
   const theme = useTheme();
-  const graphicSubCats = categories[3].subCatList;
+  const graphicSubCats = categories[3]?.subCatList;
   const [selectedCategory, setSeletedCategory] = useState<SubCategory>(graphicSubCats[0]);
   const [listOfPics, setListOfPics] = useState<Product[]>([]);
 

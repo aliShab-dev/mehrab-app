@@ -45,7 +45,7 @@ const createNewAdmin = async ({
         role,
         name,
         isUserAcitve,
-        permissions
+        permissions,
       }),
     });
 
@@ -59,22 +59,31 @@ const createNewAdmin = async ({
 };
 
 const updateAdmin = async ({
+  permissions,
   userName,
   password,
   isUserAcitve,
   role,
   name,
 }) => {
+  const token = localStorage.getItem("token");
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Token ${token}`,
+  };
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
   try {
     const response = await fetch(`${BASE_URL}/user_service/`, {
       method: "patch",
       headers: headers,
       body: JSON.stringify({
-        userName,
+        username: userName,
         password,
-        isUserAcitve,
         role,
         name,
+        isUserAcitve,
+        permissions,
       }),
     });
 

@@ -2,6 +2,7 @@
 
 import {
   alpha,
+  Avatar,
   Box,
   Button,
   Divider,
@@ -13,69 +14,101 @@ import {
 import Image from "next/image";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
+import InterestsIcon from "@mui/icons-material/Interests";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation } from "swiper/modules";
 
-const fakeCustomers = [
-  { id: 1, name: "mojtaba", image: "/avatar.png" },
-  { id: 2, name: "mmd", image: "/avatar.png" },
-  { id: 3, name: "taba", image: "/avatar.png" },
-  { id: 4, name: "jiji", image: "/avatar.png" },
+const socialMedia = [
+  {
+    name: "ایتا",
+    link: "https://www.aparat.com/mehrab.art",
+    icon: "/gs-eita.png",
+  },
+  {
+    name: "اینستاگرام",
+    link: "https://www.instagram.com/",
+    icon: "/gs-instagram.png",
+  },
+  {
+    name: "تلگرام",
+    link: "https://t.me/mehrabartmedia",
+    icon: "/gs-telegram.png",
+  },
+  {
+    name: "واتساپ",
+    link: "https://t.me/mehrabartmedia",
+    icon: "/gs-whatsapp.png",
+  },
+  {
+    name: "ایمیل",
+    link: "https://eitaa.com/s/mehrabartmedia",
+    icon: "/imail.png",
+  },
+  {
+    name: "آپارات",
+    link: "https://eitaa.com/s/mehrabartmedia",
+    icon: "/gs-aparat.png",
+  },
+  {
+    name: "تماس با ما",
+    link: "https://eitaa.com/s/mehrabartmedia",
+    icon: "/gs-phone.png",
+  },
 ];
 
-const Customers = () => {
-  const [customers, setCustomers] = useState(fakeCustomers);
-  const [text, setText] = useState("");
-  const [image, setImage] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+type socialMedia = {
+  name: string;
+  link: string;
+  icon: string;
+};
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
+const SocialMedia = () => {
+  const [selectedSM, setSelectedSM] = useState<socialMedia | null>(null);
+  const [link, setLink] = useState("");
+
+  const handleLink = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLink(e.target.value);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImage(file);
-      setPreviewUrl(URL.createObjectURL(file));
-      e.target.value = "";
-    }
+  const handleSelectSM = (item: socialMedia) => {
+    setSelectedSM(item);
+    setLink(item.link);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
-    setText("");
-    setImage(null);
-    setPreviewUrl(null);
+    setLink("");
   };
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>
         <Typography component={"h2"} fontSize={18} pr={1}>
-          همراهان:
+          اعضا:
         </Typography>
       </Stack>
 
       <Stack width={"100%"} position={"relative"} direction={"row"}>
         <Swiper navigation modules={[Navigation]} slidesPerView={"auto"} spaceBetween={20}>
-          {customers.map((c, i) => (
+          {socialMedia.map((c, i) => (
             <SwiperSlide
               style={{
-                width: "300px",
-                aspectRatio: "16 / 9",
-                backgroundColor: "#f2f2f2",
+                width: "180px",
+                aspectRatio: "1",
+                backgroundColor: "#4EBFA8",
                 display: "flex",
                 justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "16px",
               }}
             >
               <Stack
-                width="100%"
-                height="100%"
+                width="90%"
+                height="90%"
                 position="relative"
                 borderRadius={3}
                 overflow="hidden"
@@ -87,20 +120,20 @@ const Customers = () => {
                     width: "100%",
                     flexDirection: "row",
                     justifyContent: "center",
-                    bottom: 5,
+                    bottom: -10,
                     zIndex: 100,
                   }}
                 >
-                  <IconButton>
-                    <DeleteForeverIcon color="error" />
+                  <IconButton size="large" onClick={() => handleSelectSM(c)}>
+                    <EditIcon fontSize="large" color="primary" />
                   </IconButton>
                 </Stack>
                 <Image
-                  src={"/avatar.png"}
+                  src={c.icon}
                   alt={"random"}
                   fill
                   style={{
-                    objectFit: "cover",
+                    objectFit: "contain",
                   }}
                 />
               </Stack>
@@ -113,7 +146,7 @@ const Customers = () => {
           <Box
             sx={{
               border: (theme) => `4px dotted ${theme.palette.primary.main}`,
-              width: 320,
+              width: 180,
               height: 180,
               borderRadius: 3,
               position: "relative",
@@ -122,58 +155,33 @@ const Customers = () => {
                 bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
               },
             }}
-            onClick={() => console.log("hii")}
           >
             <Stack
               component="label"
               width="100%"
               height="100%"
+              justifyContent={"center"}
+              alignItems={"center"}
               sx={{
-                cursor: "pointer",
                 position: "relative",
                 borderRadius: 2,
-                overflow: "hidden",
+                bgcolor: "secondary.main",
               }}
-              onClick={() => console.log("hii")}
             >
-              {/* Hidden input */}
-              <input
-                type="file"
-                accept="image/*"
-                hidden
-                onChange={handleFileChange}
-              />
-
-              {/* Preview or placeholder */}
-              {previewUrl ? (
-                <Image
-                  src={previewUrl}
-                  alt={text}
-                  fill
-                  style={{ objectFit: "cover", pointerEvents: "none" }}
-                />
-              ) : (
-                <Stack
-                  justifyContent="center"
-                  alignItems="center"
-                  height="100%"
-                >
-                  <Typography
-                    color="primary.main"
-                    fontSize={26}
-                    fontWeight={800}
-                  >
-                    +
-                  </Typography>
-                  <Typography
-                    color="primary.main"
-                    fontSize={24}
-                    fontWeight={500}
-                  >
-                    اضافه کردن
-                  </Typography>
-                </Stack>
-              )}
+              <Avatar
+                src={selectedSM?.icon || undefined}
+                sx={{
+                  width: "90%",
+                  height: "90%",
+                  "& img": {
+                    objectFit: "contain", // applies to the inner <img>
+                  },
+                  background: "transparent",
+                }}
+                variant="square"
+              >
+                {!selectedSM?.icon && <InterestsIcon sx={{ fontSize: 64 }} />}
+              </Avatar>
             </Stack>
           </Box>
         </Stack>
@@ -182,14 +190,23 @@ const Customers = () => {
           <form onSubmit={handleSubmit}>
             <Stack spacing={2} width={300}>
               <TextField
-                label="نام موسسه"
-                value={text}
-                onChange={handleChange}
+                label="نام شبکه اجتماعی"
+                value={selectedSM?.name}
+                fullWidth
+                disabled
+              />
+
+              <TextField
+                label="لینک"
+                value={link}
+                onChange={handleLink}
                 fullWidth
               />
 
               <Button
-                disabled={!text.trim() || !previewUrl}
+                disabled={
+                  !link.trim() || link.trim() === selectedSM?.link?.trim()
+                }
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -204,4 +221,4 @@ const Customers = () => {
   );
 };
 
-export default Customers;
+export default SocialMedia;

@@ -216,40 +216,6 @@ const Footer = () => {
         width={"100%"}
         flexWrap={"wrap"}
       >
-        {/* {socialMedia.map((item) => (
-          <Stack
-            key={item.name}
-            component={"a"}
-            href={item.url}
-            sx={{
-              textAlign: "center",
-              textDecoration: "none",
-              borderRadius: 3,
-              boxShadow: 2,
-              background: "rgba(0, 0, 0, .07)",
-              py: 0.5,
-              transition: "all .3s ease-out",
-              "&:hover": {
-                boxShadow: 5,
-                transform: "translateY(-3px)",
-                background: "rgba(250, 250, 250, .25)",
-              },
-            }}
-          >
-            <Avatar
-              src={item.icon}
-              alt={item.name}
-              sx={{
-                width: { xs: 30, md: 50 },
-                height: { xs: 30, md: 35 },
-                cursor: "pointer",
-              }}
-            />
-            <Typography fontSize={{ xs: 10, md: 11 }} color={"white"}>
-              {item.name}
-            </Typography>
-          </Stack>
-        ))} */}
         {socialMedia.map((item) => (
           <Stack
             key={item.name}

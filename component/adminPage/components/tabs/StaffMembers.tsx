@@ -11,13 +11,19 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation } from "swiper/modules";
+
+type CustomerType = {
+  id: number;
+  name: string;
+  image: File;
+};
 
 const fakeCustomers = [
   { id: 1, name: "mojtaba", image: "/avatar.png" },
@@ -26,15 +32,12 @@ const fakeCustomers = [
   { id: 4, name: "jiji", image: "/avatar.png" },
 ];
 
-const Customers = () => {
+const StaffMembers = () => {
   const [customers, setCustomers] = useState(fakeCustomers);
-  const [text, setText] = useState("");
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setText(e.target.value);
-  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -45,10 +48,18 @@ const Customers = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
 
-    setText("");
+  const handleChangeRole = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRole(e.target.value);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setRole("");
+    setName("");
     setImage(null);
     setPreviewUrl(null);
   };
@@ -57,7 +68,7 @@ const Customers = () => {
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>
         <Typography component={"h2"} fontSize={18} pr={1}>
-          همراهان:
+          اعضا:
         </Typography>
       </Stack>
 
@@ -66,8 +77,8 @@ const Customers = () => {
           {customers.map((c, i) => (
             <SwiperSlide
               style={{
-                width: "300px",
-                aspectRatio: "16 / 9",
+                width: "140px",
+                aspectRatio: "4 / 5",
                 backgroundColor: "#f2f2f2",
                 display: "flex",
                 justifyContent: "center",
@@ -122,7 +133,6 @@ const Customers = () => {
                 bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
               },
             }}
-            onClick={() => console.log("hii")}
           >
             <Stack
               component="label"
@@ -134,7 +144,6 @@ const Customers = () => {
                 borderRadius: 2,
                 overflow: "hidden",
               }}
-              onClick={() => console.log("hii")}
             >
               {/* Hidden input */}
               <input
@@ -148,7 +157,7 @@ const Customers = () => {
               {previewUrl ? (
                 <Image
                   src={previewUrl}
-                  alt={text}
+                  alt={name}
                   fill
                   style={{ objectFit: "cover", pointerEvents: "none" }}
                 />
@@ -182,14 +191,21 @@ const Customers = () => {
           <form onSubmit={handleSubmit}>
             <Stack spacing={2} width={300}>
               <TextField
-                label="نام موسسه"
-                value={text}
-                onChange={handleChange}
+                label="نام عضو"
+                value={name}
+                onChange={handleChangeName}
+                fullWidth
+              />
+
+              <TextField
+                label="تقش عضو"
+                value={role}
+                onChange={handleChangeRole}
                 fullWidth
               />
 
               <Button
-                disabled={!text.trim() || !previewUrl}
+                disabled={!name.trim() || !role.trim() || !previewUrl}
                 type="submit"
                 variant="contained"
                 color="primary"
@@ -204,4 +220,4 @@ const Customers = () => {
   );
 };
 
-export default Customers;
+export default StaffMembers;

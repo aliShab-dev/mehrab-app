@@ -15,7 +15,11 @@ import {
 import React, { useEffect, useState } from "react";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import SaveIcon from "@mui/icons-material/Save";
-import { createNewAdmin, getAdmins } from "../../service/postNewAmin";
+import {
+  createNewAdmin,
+  getAdmins,
+  updateAdmin,
+} from "../../service/postNewAmin";
 
 export type PermissionType = {
   can_add_motion_graphic: boolean;
@@ -50,8 +54,9 @@ const PermissionTabs = () => {
   const [image, setImage] = useState<File | null>(null);
   const [newAdminResponse, setNewAdminResponse] = useState(null);
   const [admins, setAdmins] = useState<adminType[]>([]);
+  const [isEditingAdmin, setIsEditingAdmin] = useState(false);
 
-  // console.log(adminPermission);
+  console.log(selectedAdmin);
 
   const payloadPermissions = {
     can_add_motion_graphic: adminPermission.includes(1),
@@ -99,6 +104,7 @@ const PermissionTabs = () => {
     setSelectedAdmin(adminId);
     const admin = admins.find((a) => a.username === adminId);
     if (admin) {
+      setIsEditingAdmin(true);
       setName(admin.name);
       setPassword(admin.password);
       setAdminPermission(mapPermissionsToNumbers(admin.permissions));
@@ -107,6 +113,7 @@ const PermissionTabs = () => {
   };
 
   const resetHandler = () => {
+    setIsEditingAdmin(false);
     setName("");
     setUserName("");
     setPassword("");
@@ -115,24 +122,36 @@ const PermissionTabs = () => {
   };
 
   const handleSubmit = () => {
-    console.log(userName, name, password, payloadPermissions);
-    createNewAdmin({
-      userName,
-      name,
-      password,
-      role: "Admin",
-      isUserAcitve: true,
-      permissions: payloadPermissions,
-    })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    if (isEditingAdmin) {
+      updateAdmin({
+        userName,
+        name,
+        password,
+        role: "Admin",
+        isUserAcitve: true,
+        permissions: payloadPermissions,
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    } else {
+      createNewAdmin({
+        userName,
+        name,
+        password,
+        role: "Admin",
+        isUserAcitve: true,
+        permissions: payloadPermissions,
+      })
+        .then((res) => console.log(res))
+        .catch((err) => console.log(err));
+    }
   };
 
   useEffect(() => {
     setAdmins([]);
     getAdmins()
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setAdmins(res);
       })
       .catch((err) => console.log(err));

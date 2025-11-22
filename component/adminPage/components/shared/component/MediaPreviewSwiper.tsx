@@ -1,8 +1,7 @@
 "use client";
 
-import { Avatar, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
-import ReactPlayer from "react-player";
 import { useEffect, useMemo } from "react";
 import ImagesSwiper from "./ImagesSwiper";
 

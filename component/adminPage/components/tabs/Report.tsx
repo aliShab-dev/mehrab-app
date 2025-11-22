@@ -5,6 +5,8 @@ import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
 import ImageIcon from "@mui/icons-material/Image";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import MovieIcon from "@mui/icons-material/Movie";
+import { useEffect } from "react";
+import { getOrders } from "../../service/setOrderServices";
 
 const rows: GridRowsProp = [
   {
@@ -146,6 +148,16 @@ const columns: GridColDef[] = [
 ];
 
 const Report = () => {
+  useEffect(() => {
+    getOrders()
+    .then(res => {
+      console.log(res)
+    })
+    .catch(res => {
+      console.log(res)
+    })
+  },[])
+  
   return (
     <Stack width={"100%"} height={500}>
       <DataGrid

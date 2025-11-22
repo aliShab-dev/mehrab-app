@@ -42,6 +42,9 @@ export default function LoginPanel({ setIsValid }: Props) {
       const res = await postAdminLogin({ userName, password });
       if (res?.token) {
         localStorage.setItem("token", res.token);
+        localStorage.setItem("permissions", JSON.stringify(res.permissions));
+        localStorage.setItem("role", res.role);
+
         setIsValid(true);
       } else {
         setErrorMsg("Invalid username or password.");

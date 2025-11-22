@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import EditIcon from "@mui/icons-material/Edit";
 import InterestsIcon from "@mui/icons-material/Interests";
@@ -20,60 +20,83 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation } from "swiper/modules";
+import {
+  deletesocialMedia,
+  getsocialMedia,
+  postsocialMedia,
+} from "../../service/socialMediaServices";
 
 const socialMedia = [
   {
-    name: "ایتا",
+    id: 1,
+    platform: "eitaa",
+    platform_name: "ایتا",
     link: "https://www.aparat.com/mehrab.art",
     icon: "/gs-eita.png",
   },
   {
-    name: "اینستاگرام",
+    id: 2,
+    platform: "instagram",
+    platform_name: "اینستاگرام",
     link: "https://www.instagram.com/",
     icon: "/gs-instagram.png",
   },
   {
-    name: "تلگرام",
+    id: 3,
+    platform: "telegram",
+    platform_name: "تلگرام",
     link: "https://t.me/mehrabartmedia",
     icon: "/gs-telegram.png",
   },
   {
-    name: "واتساپ",
+    id: 4,
+    platform: "whatsapp",
+    platform_name: "واتساپ",
     link: "https://t.me/mehrabartmedia",
     icon: "/gs-whatsapp.png",
   },
   {
-    name: "ایمیل",
+    id: 5,
+    platform: "email",
+    platform_name: "ایمیل",
     link: "https://eitaa.com/s/mehrabartmedia",
     icon: "/imail.png",
   },
   {
-    name: "آپارات",
+    id: 6,
+    platform: "aparat",
+    platform_name: "آپارات",
     link: "https://eitaa.com/s/mehrabartmedia",
     icon: "/gs-aparat.png",
   },
   {
-    name: "تماس با ما",
+    id: 7,
+    platform: "phone",
+    platform_name: "تماس با ما",
     link: "https://eitaa.com/s/mehrabartmedia",
     icon: "/gs-phone.png",
   },
 ];
 
-type socialMedia = {
-  name: string;
+type socialMediaType = {
+  id: number;
+  platform: string;
+  platform_name: string;
   link: string;
   icon: string;
 };
 
 const SocialMedia = () => {
-  const [selectedSM, setSelectedSM] = useState<socialMedia | null>(null);
+  const [socialMedias, setSocialMedias] =
+    useState<socialMediaType[]>(socialMedia);
+  const [selectedSM, setSelectedSM] = useState<socialMediaType | null>(null);
   const [link, setLink] = useState("");
 
   const handleLink = (e: React.ChangeEvent<HTMLInputElement>) => {
     setLink(e.target.value);
   };
 
-  const handleSelectSM = (item: socialMedia) => {
+  const handleSelectSM = (item: socialMediaType) => {
     setSelectedSM(item);
     setLink(item.link);
   };
@@ -81,8 +104,47 @@ const SocialMedia = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    postsocialMedia({
+      link,
+      platform: selectedSM?.platform,
+      platform_name: selectedSM?.platform_name,
+    })
+      .then((res) => {
+        console.log(res);
+        refreshCustomers();
+      })
+      .catch((err) => console.error(err));
+
     setLink("");
   };
+
+  const handleDelete = (id: number) => {
+    deletesocialMedia({ id: id })
+      .then((res) => {
+        console.log(res);
+        refreshCustomers();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const refreshCustomers = () => {
+    getsocialMedia()
+      .then((res) => {
+        const updatedSocialMedias = socialMedia.map((item) => {
+          const match = res.find((r) => r.platform === item.platform);
+          return match
+            ? { ...item, link: match.link }
+            : item;
+        });
+
+        setSocialMedias(updatedSocialMedias);
+      })
+      .catch((err) => console.error("Failed to fetch customers:", err));
+  };
+
+  useEffect(() => {
+    refreshCustomers();
+  }, []);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -93,8 +155,13 @@ const SocialMedia = () => {
       </Stack>
 
       <Stack width={"100%"} position={"relative"} direction={"row"}>
-        <Swiper navigation modules={[Navigation]} slidesPerView={"auto"} spaceBetween={20}>
-          {socialMedia.map((c, i) => (
+        <Swiper
+          navigation
+          modules={[Navigation]}
+          slidesPerView={"auto"}
+          spaceBetween={20}
+        >
+          {socialMedias.map((c, i) => (
             <SwiperSlide
               style={{
                 width: "180px",
@@ -113,7 +180,6 @@ const SocialMedia = () => {
                 borderRadius={3}
                 overflow="hidden"
               >
-                {/* FIXME: complete this shit - delete and add */}
                 <Stack
                   sx={{
                     position: "absolute",
@@ -191,7 +257,7 @@ const SocialMedia = () => {
             <Stack spacing={2} width={300}>
               <TextField
                 label="نام شبکه اجتماعی"
-                value={selectedSM?.name}
+                value={selectedSM?.platform_name}
                 fullWidth
                 disabled
               />
@@ -205,7 +271,9 @@ const SocialMedia = () => {
 
               <Button
                 disabled={
-                  !link.trim() || link.trim() === selectedSM?.link?.trim()
+                  !link.trim() ||
+                  link.trim() === selectedSM?.link?.trim() ||
+                  !selectedSM?.platform_name
                 }
                 type="submit"
                 variant="contained"

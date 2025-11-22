@@ -237,7 +237,7 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
                     overflow: "hidden",
                   }}
                 >
-                  <Image
+                  {/* <Image
                     src={`${BASE_URL}${poster.file}`}
                     alt={poster.name}
                     fill
@@ -245,7 +245,7 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
                       objectFit: "cover",
                       borderRadius: 12,
                     }}
-                  />
+                  /> */}
                 </Box>
 
                 <Stack p={0.5} pr={0.8} mt={-0.3}>

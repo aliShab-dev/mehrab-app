@@ -2,7 +2,7 @@ const postAdminLogin = async ({ userName, password }) => {
   try {
     const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-    const response = await fetch(`${BASE_URL}/admin_login/`, {
+    const response = await fetch(`${BASE_URL}/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

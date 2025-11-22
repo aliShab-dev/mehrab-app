@@ -11,23 +11,27 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation } from "swiper/modules";
+import {
+  deleteCustomers,
+  getCustomers,
+  postCustomers,
+} from "../../service/customerServices";
 
-const fakeCustomers = [
-  { id: 1, name: "mojtaba", image: "/avatar.png" },
-  { id: 2, name: "mmd", image: "/avatar.png" },
-  { id: 3, name: "taba", image: "/avatar.png" },
-  { id: 4, name: "jiji", image: "/avatar.png" },
-];
+interface Customer {
+  id: number;
+  name: string;
+  logo: string;
+}
 
 const Customers = () => {
-  const [customers, setCustomers] = useState(fakeCustomers);
+  const [customers, setCustomers] = useState<Customer[]>([]);
   const [text, setText] = useState("");
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -46,12 +50,35 @@ const Customers = () => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
+    postCustomers({ name: text, logo: image })
+      .then((res) => {
+        refreshCustomers();
+      })
+      .catch((err) => console.error(err));
 
     setText("");
     setImage(null);
     setPreviewUrl(null);
   };
+
+  const handleDelete = (id: number) => {
+    deleteCustomers({ id: id })
+      .then((res) => {
+        refreshCustomers();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const refreshCustomers = () => {
+    getCustomers()
+      .then((res) => setCustomers(res))
+      .catch((err) => console.error("Failed to fetch customers:", err));
+  };
+
+  useEffect(() => {
+    refreshCustomers();
+  }, []);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -62,13 +89,19 @@ const Customers = () => {
       </Stack>
 
       <Stack width={"100%"} position={"relative"} direction={"row"}>
-        <Swiper navigation modules={[Navigation]} slidesPerView={"auto"} spaceBetween={20}>
+        <Swiper
+          navigation
+          modules={[Navigation]}
+          slidesPerView={"auto"}
+          spaceBetween={20}
+        >
           {customers.map((c, i) => (
             <SwiperSlide
+              key={c.id}
               style={{
                 width: "300px",
                 aspectRatio: "16 / 9",
-                backgroundColor: "#f2f2f2",
+                backgroundColor: "transparent",
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -80,7 +113,6 @@ const Customers = () => {
                 borderRadius={3}
                 overflow="hidden"
               >
-                {/* FIXME: complete this shit - delete and add */}
                 <Stack
                   sx={{
                     position: "absolute",
@@ -91,12 +123,12 @@ const Customers = () => {
                     zIndex: 100,
                   }}
                 >
-                  <IconButton>
+                  <IconButton onClick={() => handleDelete(c.id)}>
                     <DeleteForeverIcon color="error" />
                   </IconButton>
                 </Stack>
                 <Image
-                  src={"/avatar.png"}
+                  src={c.logo}
                   alt={"random"}
                   fill
                   style={{
@@ -122,7 +154,6 @@ const Customers = () => {
                 bgcolor: (theme) => alpha(theme.palette.primary.main, 0.1),
               },
             }}
-            onClick={() => console.log("hii")}
           >
             <Stack
               component="label"
@@ -134,7 +165,6 @@ const Customers = () => {
                 borderRadius: 2,
                 overflow: "hidden",
               }}
-              onClick={() => console.log("hii")}
             >
               {/* Hidden input */}
               <input
@@ -144,7 +174,6 @@ const Customers = () => {
                 onChange={handleFileChange}
               />
 
-              {/* Preview or placeholder */}
               {previewUrl ? (
                 <Image
                   src={previewUrl}

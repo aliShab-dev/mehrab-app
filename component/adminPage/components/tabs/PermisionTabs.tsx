@@ -56,8 +56,6 @@ const PermissionTabs = () => {
   const [admins, setAdmins] = useState<adminType[]>([]);
   const [isEditingAdmin, setIsEditingAdmin] = useState(false);
 
-  console.log(selectedAdmin);
-
   const payloadPermissions = {
     can_add_motion_graphic: adminPermission.includes(1),
     can_add_graphic_design: adminPermission.includes(2),

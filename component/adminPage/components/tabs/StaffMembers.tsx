@@ -11,29 +11,23 @@ import {
   Typography,
 } from "@mui/material";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation } from "swiper/modules";
+import { deleteStaff, getStaff, postStaff } from "../../service/staffServices";
 
 type CustomerType = {
   id: number;
   name: string;
-  image: File;
+  image: string;
 };
 
-const fakeCustomers = [
-  { id: 1, name: "mojtaba", image: "/avatar.png" },
-  { id: 2, name: "mmd", image: "/avatar.png" },
-  { id: 3, name: "taba", image: "/avatar.png" },
-  { id: 4, name: "jiji", image: "/avatar.png" },
-];
-
 const StaffMembers = () => {
-  const [customers, setCustomers] = useState(fakeCustomers);
+  const [staff, setStaff] = useState<CustomerType[]>([]);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [image, setImage] = useState<File | null>(null);
@@ -58,11 +52,38 @@ const StaffMembers = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    postStaff({ name: name, role, image: image })
+      .then((res) => {
+        console.log(res);
+        refreshCustomers();
+      })
+      .catch((err) => console.error(err));
+
     setRole("");
     setName("");
     setImage(null);
     setPreviewUrl(null);
   };
+
+  const handleDelete = (id: number) => {
+    deleteStaff({ id: id })
+      .then((res) => {
+        console.log(res);
+        refreshCustomers();
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const refreshCustomers = () => {
+    getStaff()
+      .then((res) => setStaff(res))
+      .catch((err) => console.error("Failed to fetch customers:", err));
+  };
+
+  useEffect(() => {
+    refreshCustomers();
+  }, []);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -73,13 +94,19 @@ const StaffMembers = () => {
       </Stack>
 
       <Stack width={"100%"} position={"relative"} direction={"row"}>
-        <Swiper navigation modules={[Navigation]} slidesPerView={"auto"} spaceBetween={20}>
-          {customers.map((c, i) => (
+        <Swiper
+          navigation
+          modules={[Navigation]}
+          slidesPerView={"auto"}
+          spaceBetween={20}
+        >
+          {staff.map((c, i) => (
             <SwiperSlide
+              key={c.id}
               style={{
                 width: "140px",
                 aspectRatio: "4 / 5",
-                backgroundColor: "#f2f2f2",
+                backgroundColor: "#fff",
                 display: "flex",
                 justifyContent: "center",
               }}
@@ -91,7 +118,6 @@ const StaffMembers = () => {
                 borderRadius={3}
                 overflow="hidden"
               >
-                {/* FIXME: complete this shit - delete and add */}
                 <Stack
                   sx={{
                     position: "absolute",
@@ -102,12 +128,12 @@ const StaffMembers = () => {
                     zIndex: 100,
                   }}
                 >
-                  <IconButton>
+                  <IconButton onClick={() => handleDelete(c.id)}>
                     <DeleteForeverIcon color="error" />
                   </IconButton>
                 </Stack>
                 <Image
-                  src={"/avatar.png"}
+                  src={c.image}
                   alt={"random"}
                   fill
                   style={{

@@ -1,3 +1,5 @@
+'use client'
+
 import { Box, Stack, useTheme } from "@mui/material";
 import SectionHeader from "../sectionHeader/SectionHeader";
 import PosterSwiper from "./component/PosterSwiper";

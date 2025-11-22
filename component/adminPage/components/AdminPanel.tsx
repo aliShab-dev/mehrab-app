@@ -18,6 +18,25 @@ interface TabPanelProps {
   value: number;
 }
 
+export type PermissionType = {
+  can_add_motion_graphic: boolean;
+  can_add_graphic_design: boolean;
+  can_add_movie_and_document: boolean;
+  can_add_audio: boolean;
+};
+
+const allTabs = [
+  { id: 0, label: "دسترسی ها" },
+  { id: 1, label: "موشن گرافی" },
+  { id: 2, label: "فیلم و مستند" },
+  { id: 3, label: "صوت و نریشن" },
+  { id: 4, label: "گرافیک دیزاین" },
+  { id: 5, label: "همراهان" },
+  { id: 6, label: "اعضا" },
+  { id: 7, label: "شبکه اجتماعی" },
+  { id: 8, label: "سفارشات" },
+];
+
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -36,6 +55,36 @@ function CustomTabPanel(props: TabPanelProps) {
 
 const AdminPanel = () => {
   const [value, setValue] = useState<number>(0);
+
+  const storedPermission = JSON.parse(
+    localStorage.getItem("permissions") || "[]"
+  );
+
+  const userRole = localStorage.getItem('role') || 'admin'
+
+  const mapPermissionsToNumbers = (permissions: PermissionType): number[] => {
+    const result: number[] = [];
+    if (permissions.can_add_motion_graphic) result.push(1);
+    if (permissions.can_add_graphic_design) result.push(2);
+    if (permissions.can_add_movie_and_document) result.push(3);
+    if (permissions.can_add_audio) result.push(4);
+    return result;
+  };
+
+  const getVisibleTabs = (role: string, permissions: PermissionType) => {
+    if (role == "Administrator") return allTabs;
+
+    const allowedPermissions = mapPermissionsToNumbers(permissions);
+
+    return allTabs.filter((tab) => {
+      const hiddenForAdmin = [1, 6, 7, 8, 9];
+      if (hiddenForAdmin.includes(tab.id)) return false;
+
+      return allowedPermissions.includes(tab.id);
+    });
+  };
+
+  const visibleTabs = getVisibleTabs(userRole, storedPermission);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -67,15 +116,9 @@ const AdminPanel = () => {
             aria-label="تب های اختیارات"
             sx={{ pr: 3 }}
           >
-            <Tab label="دسترسی ها" sx={{ fontSize: 20 }} />
-            <Tab label="موشن گرافی" sx={{ fontSize: 20 }} />
-            <Tab label="فیلم و مستند" sx={{ fontSize: 20 }} />
-            <Tab label="صوت و نریشن" sx={{ fontSize: 20 }} />
-            <Tab label="گرافیک دیزاین" sx={{ fontSize: 20 }} />
-            <Tab label="همراهان" sx={{ fontSize: 20 }} />
-            <Tab label="اعضا" sx={{ fontSize: 20 }} />
-            <Tab label="شبکه اجتماعی" sx={{ fontSize: 20 }} />
-            <Tab label="سفارشات" sx={{ fontSize: 20 }} />
+            {visibleTabs.map((tab) => (
+              <Tab key={tab.id} label={tab.label} sx={{ fontSize: 20 }} />
+            ))}
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

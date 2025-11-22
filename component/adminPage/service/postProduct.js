@@ -30,9 +30,15 @@ const createProduct = async ({
   if (poster instanceof File) {
     formData.append("poster", poster);
   }
-  if (file instanceof File) {
+  if (Array.isArray(file)) {
+    file.forEach((f, index) => {
+      formData.append("file", f);
+    });
+  } else if (file instanceof File) {
     formData.append("file", file);
   }
+
+  console.log("inside: ", file);
 
   try {
     const response = await fetch(API_URL, {

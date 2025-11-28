@@ -175,7 +175,7 @@ const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
         <ReactAudioPlayer
           ref={audioRef}
           src={
-            selectedItem?.file ? `${BASE_URL}${selectedItem.file}` : undefined
+            selectedItem?.files ? `${BASE_URL}${selectedItem.files[0].file}` : undefined
           }
           preload="auto"
           style={{ display: "none" }}

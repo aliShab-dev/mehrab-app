@@ -1,8 +1,11 @@
+import { FileType } from "@/component/adminPage/components/tabs/Graphic";
+
 export type Product = {
   id: number;
   name: string;
   description: string;
   file: string;
+  files: FileType[];
   company: string;
   poster: string | null;
   episode: number | null;

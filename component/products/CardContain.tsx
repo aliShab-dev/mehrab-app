@@ -39,6 +39,8 @@ const CardContainer = ({
   const router = useRouter();
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+  console.log(allItems);
+
   return (
     <motion.div
       key={showAll ? "all" : `page-${page}`}
@@ -47,7 +49,7 @@ const CardContainer = ({
       animate="visible"
       style={{
         minHeight: 150,
-        position: 'relative',
+        position: "relative",
         display: "grid",
         gridTemplateColumns: "repeat(auto-fill, minmax(270px, 1fr))",
         gap: "24px 12px",
@@ -96,10 +98,14 @@ const CardContainer = ({
             top: 80,
             width: "100%",
             minHeight: "200px",
-            textAlign: 'center'
+            textAlign: "center",
           }}
         >
-          <Typography variant="h6" color="text.secondary" fontSize={{xs: 14, sm: 18, md: 22, lg: 24}} >
+          <Typography
+            variant="h6"
+            color="text.secondary"
+            fontSize={{ xs: 14, sm: 18, md: 22, lg: 24 }}
+          >
             هیچ محصولی یافت نشد
           </Typography>
         </Box>
@@ -158,7 +164,7 @@ const CardContainer = ({
                   src={
                     product.poster
                       ? `${BASE_URL}${product.poster}`
-                      : `${BASE_URL}${product.file}`
+                      : `${BASE_URL}${product.files[0].file}`
                   }
                   alt="image"
                   fill

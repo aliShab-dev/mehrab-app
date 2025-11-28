@@ -133,6 +133,8 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
     }
   }, [listOfPics]);
 
+  console.log(listOfPics)
+
   return (
     <Stack width="100%" overflow={"visible"} position={"relative"}>
       <MySwiperStyles />
@@ -195,7 +197,6 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
         className="custom-swiper"
         style={{ paddingBottom: 100 }}
         onInit={(swiper) => {
-          // Force initial update on mount
           swiper.update();
           swiper.updateSize();
           swiper.updateSlides();
@@ -237,15 +238,15 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
                     overflow: "hidden",
                   }}
                 >
-                  {/* <Image
-                    src={`${BASE_URL}${poster.file}`}
+                  <Image
+                    src={`${BASE_URL}${poster.files[0].file}`}
                     alt={poster.name}
                     fill
                     style={{
                       objectFit: "cover",
                       borderRadius: 12,
                     }}
-                  /> */}
+                  />
                 </Box>
 
                 <Stack p={0.5} pr={0.8} mt={-0.3}>

@@ -6,9 +6,6 @@ export const getsocialMedia = async () => {
 
     const response = await fetch(`${BASE_URL}/api/social_media/`, {
       method: "GET",
-      headers: {
-        Authorization: `Token ${token}`,
-      },
     });
 
     if (!response.ok) {

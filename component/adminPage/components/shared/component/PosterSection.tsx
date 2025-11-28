@@ -10,7 +10,7 @@ interface PosterSectionProps {
   buttonRef: React.RefObject<HTMLButtonElement | null>;
   openTimer: boolean;
   handleButtonClick: () => void;
-  episod: number | "";
+  episod: number | null;
   handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setOpenTimer: (isOpen: boolean) => void;
   selectedTime: Dayjs | null;

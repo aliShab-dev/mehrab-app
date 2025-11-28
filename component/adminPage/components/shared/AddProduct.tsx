@@ -5,11 +5,12 @@ import { Product } from "../tabs/MotionGraphy";
 import PreviewEdition from "./component/PreviewEdition";
 import InputField from "./component/InputField";
 import { Dayjs } from "dayjs";
+import { FileType } from "../tabs/Graphic";
 
 interface DisplayProductInterface {
   company: string;
   setCompany: (company: string) => void;
-  productImage: File | null;
+  productImage: FileType[] | File | null;
   setProductImage: (file: File | null) => void;
   name: string;
   setName: (name: string) => void;
@@ -50,7 +51,7 @@ interface DisplayProductInterface {
   handleButtonClick: () => void;
   handleClose: () => void;
   handleChange: (newValue: Dayjs | null) => void;
-  episod: number | "";
+  episod: number | null;
   handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setOpenTimer: (isOpen: boolean) => void;
   selectedTime: Dayjs | null;

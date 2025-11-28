@@ -55,6 +55,8 @@ const VideoPlayerComponent = ({
   selectedProduct,
   posterUrl,
 }: VideoPlayerType) => {
+  console.log(videoUrl)
+  
   return (
     <Stack width={"100%"}>
       <Box

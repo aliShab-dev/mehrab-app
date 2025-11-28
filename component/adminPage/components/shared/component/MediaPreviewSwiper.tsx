@@ -4,11 +4,12 @@ import { Box } from "@mui/material";
 import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import { useEffect, useMemo } from "react";
 import ImagesSwiper from "./ImagesSwiper";
+import { FileType } from "../../tabs/Graphic";
 
 type MediaType = "image" | "video" | "audio";
 interface MediaPreviewProps {
   isEditing: number | null;
-  productImage: File[] | [];
+  productImage: (File | FileType)[];
   mediaType: MediaType;
   onDeleteImage: (i: number) => void;
 }
@@ -27,11 +28,28 @@ const MediaPreviewSwiper = ({
       if (file instanceof File) {
         return URL.createObjectURL(file);
       }
-      return typeof file === "string" ? file : "";
+      return typeof file === "string" ? `${BASE_URL}${file}` : "";
     });
   }, [productImage]);
 
-  const imageUrls = productImage.map((file) => URL.createObjectURL(file));
+  console.log(productImage);
+
+  const imageUrls = productImage.map((item) => {
+    if (item instanceof File) {
+      return URL.createObjectURL(item);
+    }
+
+    if (item.file instanceof File) {
+      return URL.createObjectURL(item.file);
+    }
+
+    if (typeof item.file === "string") {
+      return `${BASE_URL}${item.file}`;
+    }
+
+    console.warn("Unexpected image object:", item);
+    return "";
+  });
 
   useEffect(() => {
     return () => {
@@ -46,8 +64,6 @@ const MediaPreviewSwiper = ({
       });
     };
   }, [objectUrls]);
-
-  console.log(productImage, objectUrls);
 
   if (!productImage.length || !objectUrls.length) {
     return (

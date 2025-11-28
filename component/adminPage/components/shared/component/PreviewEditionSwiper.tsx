@@ -8,13 +8,13 @@ import MediaPreview from "./MediaPreview";
 import { useRef } from "react";
 import { Dayjs } from "dayjs";
 import MediaPreviewSwiper from "./MediaPreviewSwiper";
-import { ProductSwiper } from "../../tabs/Graphic";
+import { FileType, ProductSwiper } from "../../tabs/Graphic";
 
 interface PreviewEditionInterface {
   selectedTime: Dayjs | null;
   isEditing: null | number;
-  productImage: File[] | [];
-  setProductImage: (file: File[] | []) => void;
+  productImage: (File | FileType)[];
+  setProductImage: (file: (File | FileType)[]) => void;
   name: string;
   setName: (name: string) => void;
   description: string;

@@ -2,13 +2,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getCustomers = async () => {
   try {
-    const token = localStorage.getItem("token");
-
     const response = await fetch(`${BASE_URL}/api/customers/`, {
       method: "GET",
-      headers: {
-        Authorization: `Token ${token}`,
-      },
     });
 
     if (!response.ok) {
@@ -69,10 +64,9 @@ export const deleteCustomers = async ({ id }) => {
       throw new Error(`Server error: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json();
-    return Array.isArray(data) ? data : [];
+    return true;
   } catch (err) {
     console.error("Fetch error:", err);
-    return [];
+    return false;
   }
 };

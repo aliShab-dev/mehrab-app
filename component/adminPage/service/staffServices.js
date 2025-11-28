@@ -2,13 +2,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getStaff = async () => {
   try {
-    const token = localStorage.getItem("token");
-
     const response = await fetch(`${BASE_URL}/api/staff-users/`, {
       method: "GET",
-      headers: {
-        Authorization: `Token ${token}`,
-      },
     });
 
     if (!response.ok) {

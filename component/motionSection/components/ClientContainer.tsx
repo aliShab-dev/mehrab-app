@@ -6,6 +6,7 @@ import VideoPlayer from "./VideoPlayer";
 import { useEffect, useState } from "react";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
 import { Categories } from "@/types/categories";
+import { FileType } from "@/component/adminPage/components/tabs/Graphic";
 
 interface ClientContainerProps {
   categories: Categories;
@@ -13,6 +14,7 @@ interface ClientContainerProps {
 
 export interface Product {
   category: string;
+  files: FileType[];
   company: string;
   created_at: string;
   description: string;
@@ -88,7 +90,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
           selectedProduct ? `${BASE_URL}${selectedProduct.poster}` : ""
         }
         selectedProduct={selectedProduct}
-        url={selectedProduct ? `${BASE_URL}${selectedProduct.file}` : ""}
+        url={selectedProduct ? `${BASE_URL}${selectedProduct.files[0].file}` : ""}
       />
     </Stack>
   );

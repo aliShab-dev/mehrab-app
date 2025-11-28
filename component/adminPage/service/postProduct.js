@@ -3,7 +3,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const createProduct = async ({
   name,
   description,
-  staff: staff_data,
+  staff: staff_data = [],
   category,
   duration,
   episode,
@@ -11,52 +11,79 @@ const createProduct = async ({
   sub_category,
   level,
   poster,
+  files,
   file,
 }) => {
   const API_URL = `${BASE_URL}/api/products/`;
   const token = localStorage.getItem("token");
 
+  console.log(file, 'file');
+  console.log(files, 'files');
+
   const formData = new FormData();
+
   formData.append("name", name);
-  formData.append("description", description);
+  formData.append("description", description || "");
   formData.append("company", company || "");
   formData.append("category", category);
   formData.append("sub_category", sub_category);
-  formData.append("duration", duration);
-  formData.append("episode", episode);
-  formData.append("staff_data", JSON.stringify(staff_data || []));
   formData.append("level", level.toString());
+
+  if (duration) formData.append("duration", duration);
+
+  const episodeInt = episode && !isNaN(episode) ? parseInt(episode, 10) : null;
+  if (!isNaN(episodeInt) && episodeInt > 0) {
+    formData.append("episode", episodeInt.toString());
+  }
+
+  if (staff_data && staff_data.length > 0) {
+    formData.append("staff_data", JSON.stringify(staff_data));
+  }
 
   if (poster instanceof File) {
     formData.append("poster", poster);
   }
-  if (Array.isArray(file)) {
-    file.forEach((f, index) => {
-      formData.append("file", f);
-    });
-  } else if (file instanceof File) {
-    formData.append("file", file);
+
+  let filesToSend = [];
+
+  if (Array.isArray(files) && files.length > 0) {
+    filesToSend = files.map((item) => ({
+      file: item.file,
+      title: item.title || "",
+    }));
+  } else if (file) {
+    const rawFiles = Array.isArray(file) ? file : [file];
+    filesToSend = rawFiles.map((f, i) => ({
+      file: f,
+      title: f.name.split(".").slice(0, -1).join(".") || `فایل ${i + 1}`,
+    }));
   }
 
-  console.log("inside: ", file);
+  filesToSend.forEach((item, index) => {
+    formData.append(`files[${index}][file]`, item.file);
+    formData.append(`files[${index}][title]`, item.title);
+  });
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
       headers: {
-        Authorization: `Token ${token}`, // Use Bearer to match backend
+        Authorization: `Token ${token}`,
       },
       body: formData,
     });
 
+    const result = await response.json();
+
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Server error: ${response.status} - ${errorText}`);
+      throw new Error(
+        `Server error: ${response.status} - ${JSON.stringify(result)}`
+      );
     }
 
-    return await response.json();
+    return result;
   } catch (err) {
-    console.error("Post new product failed:", err);
+    console.error("Create product failed:", err);
     throw err;
   }
 };

@@ -5,9 +5,7 @@ import SelectedCatBtn from "@/component/selectCatBtn/SelectCatBtn";
 import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import Pagination from "@/component/products/Pagination";
-// import { Categories, Category, SubCategory } from "@/app/page";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
-// import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 import { Categories, Category, SubCategory } from "@/types/categories";
 import { Product } from "@/types/products";
 

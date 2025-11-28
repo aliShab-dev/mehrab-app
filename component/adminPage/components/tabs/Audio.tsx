@@ -76,14 +76,14 @@ const Audio = () => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [openTimer, setOpenTimer] = useState(false);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
-  const [episod, setEpisod] = useState<number | "">("");
+  const [episod, setEpisod] = useState<number | null>(null);
 
   const resetInputs = () => {
     setName("");
     setDescription("");
     setStaffArray([]);
     setSelectedTime(null);
-    setEpisod("");
+    setEpisod(null);
     setCompany("");
     setProductImage(null);
     setPoster(null);
@@ -106,7 +106,7 @@ const Audio = () => {
     const newValue = event.target.value;
 
     if (newValue === "" || /^\d+$/.test(newValue)) {
-      setEpisod(newValue === "" ? "" : Number(newValue));
+      setEpisod(newValue === null ? null : Number(newValue));
     }
   };
   const handleDeleteStaff = (name: string) => {
@@ -165,7 +165,8 @@ const Audio = () => {
       createProduct({
         name,
         description,
-        staff: staffArray,
+        files: null,
+        // staff: staffArray,
         category: subcategories[0].category_id,
         duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
         episode: episod,
@@ -388,7 +389,7 @@ const Audio = () => {
                           ? dayjs(`1970-01-01 ${product.duration}`)
                           : null
                       );
-                      setEpisod(product.episode ?? "");
+                      setEpisod(product.episode ?? null);
                       setProductImage(product.file);
                       setName(product.name ?? "");
                       setDescription(product.description ?? "");

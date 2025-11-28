@@ -14,7 +14,9 @@ import getCategories from "@/component/adminPage/service/getCat";
 
 async function fetchProduct(id: string): Promise<FetchedProduct | null> {
   try {
-    const product = (await getProductsByProductId(id)) as unknown as FetchedProduct;
+    const product = (await getProductsByProductId(
+      id
+    )) as unknown as FetchedProduct;
     return product || null;
   } catch (error) {
     console.error("Failed to fetch product:", error);
@@ -25,7 +27,9 @@ async function fetchOtherFromSameSubCat(
   id: number
 ): Promise<FetchedProduct[] | null> {
   try {
-    const product = (await getProductsByCatId(id)) as unknown as FetchedProduct[];
+    const product = (await getProductsByCatId(
+      id
+    )) as unknown as FetchedProduct[];
     return product || null;
   } catch (error) {
     console.error("Failed to fetch product:", error);
@@ -44,11 +48,11 @@ async function fetchCategoriesData(): Promise<RawCategories[]> {
 }
 
 type ProductPageParams = {
-  params: Promise<{ productId: string }>;
+  params: { productId: string };
 };
 
 const ProductPage = async ({ params }: ProductPageParams) => {
-const { productId } = await params;
+  const { productId } = await params;
   const product = await fetchProduct(productId);
   const categories = await fetchCategoriesData();
   const sameSubCat = categories.find(
@@ -58,9 +62,10 @@ const { productId } = await params;
   const sameSubCatProduct = sameSubCat
     ? await fetchOtherFromSameSubCat(sameSubCat.id)
     : null;
-  const sameWithoutCurrent = product && sameSubCatProduct
-    ? sameSubCatProduct.filter((item) => item.id !== product.id)
-    : undefined;
+  const sameWithoutCurrent =
+    product && sameSubCatProduct
+      ? sameSubCatProduct.filter((item) => item.id !== product.id)
+      : undefined;
 
   if (!product) return notFound();
 

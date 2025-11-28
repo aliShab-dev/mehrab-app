@@ -5,11 +5,12 @@ import ImageNotSupportedIcon from "@mui/icons-material/ImageNotSupported";
 import ReactPlayer from "react-player";
 import { useEffect, useMemo } from "react";
 import ImagesSwiper from "./ImagesSwiper"
+import { FileType } from "../../tabs/Graphic";
 
 type MediaType = "image" | "video" | "audio";
 interface MediaPreviewProps {
   isEditing: number | null;
-  productImage: File | null;
+  productImage: File | FileType[]| null;
   mediaType: MediaType;
   onDeleteImage: (i: number) => void
 }
@@ -87,7 +88,7 @@ const MediaPreview = ({
 
       {mediaType === "audio" && (
         <audio controls style={{ width: "100%" }} key={objectUrl}>
-          <source src={objectUrl} type={productImage.type || "audio/mpeg"} />
+          <source src={objectUrl} type={ !Array.isArray(productImage) && productImage.type || "audio/mpeg"} />
           مرورگر شما از تگ صوت پشتیبانی نمی‌کند.
         </audio>
       )}

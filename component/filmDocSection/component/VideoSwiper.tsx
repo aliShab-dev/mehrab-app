@@ -250,7 +250,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                   }}
                 >
                   <ReactPlayer
-                    url={`${BASE_URL}${video.file}`}
+                    url={`${BASE_URL}${video.files[0].file}`}
                     light={`${BASE_URL}${video.poster}`}
                     controls
                     playing

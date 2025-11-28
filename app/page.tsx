@@ -12,8 +12,26 @@ export default async function Home() {
   const categories = await getCategories();
   const transformedData = transformCategories(categories);
 
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "استودیو محراب",
+    url: "https://mehrabfamily.ir",
+    logo: "https://mehrabfamily.ir/logo.png",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+989103533906",
+      contactType: "پشتیتانی",
+      areaServed: "IR",
+    },
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       <main>
         <section>
           <MainBanner />

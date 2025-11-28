@@ -33,9 +33,10 @@ export type Product = {
   name: string;
   description: string;
   file: File | null;
+  files: FileType[] | [];
   company: string;
   poster: File | null;
-  episode: number;
+  episode: number | null;
   staff: { name: string; role: string; image: File | null }[];
   level: string;
   category: string;
@@ -50,13 +51,20 @@ export type FetchedProduct = {
   file: string;
   company: string;
   poster: string | null;
-  episode: number;
+  episode: number | null;
   staff_data: { name: string; role: string; image: string | null }[];
   level: string;
   category: string;
   sub_category: string;
   duration: string;
 };
+
+type FileType = {
+  id: number;
+  file: File;
+  title: string;
+  order: number;
+}
 
 type Subcategory = {
   id: number;
@@ -124,14 +132,14 @@ const MotionGraphy = () => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [openTimer, setOpenTimer] = useState(false);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
-  const [episod, setEpisod] = useState<number | "">("");
+  const [episod, setEpisod] = useState<number | null>(null);
 
   const resetInputs = () => {
     setName("");
     setDescription("");
     setStaffArray([]);
     setSelectedTime(null);
-    setEpisod("");
+    setEpisod(null);
     setCompany("");
     setProductImage(null);
     setPoster(null);
@@ -154,7 +162,7 @@ const MotionGraphy = () => {
     const newValue = event.target.value;
 
     if (newValue === "" || /^\d+$/.test(newValue)) {
-      setEpisod(newValue === "" ? "" : Number(newValue));
+      setEpisod(newValue === null ? null : Number(newValue));
     }
   };
   const handleDeleteStaff = (name: string) => {
@@ -212,8 +220,9 @@ const MotionGraphy = () => {
     } else {
       createProduct({
         name,
+        files: null,
         description,
-        staff: staffArray,
+        // staff: staffArray,
         category: subcategories[0].category_id,
         duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
         episode: episod,
@@ -249,6 +258,8 @@ const MotionGraphy = () => {
     }
   }, [age, subcategories, newResponse]);
 
+
+  console.log(products)
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>
@@ -435,8 +446,8 @@ const MotionGraphy = () => {
                           ? dayjs(`1970-01-01 ${product.duration}`)
                           : null
                       );
-                      setEpisod(product.episode ?? "");
-                      setProductImage(product.file);
+                      setEpisod(product.episode ?? null);
+                      setProductImage(product.files[0].file);
                       setName(product.name ?? "");
                       setDescription(product.description ?? "");
                       setLevel(`سطح ${product.level}`);

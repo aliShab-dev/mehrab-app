@@ -64,7 +64,7 @@ interface InputFieldProps {
   openTimer: boolean;
   handleButtonClick: () => void;
   handleClose: () => void;
-  episod: number | "";
+  episod: number | null;
   handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setOpenTimer: (isOpen: boolean) => void;
   selectedTime: Dayjs | null;

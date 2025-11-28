@@ -4,13 +4,13 @@ import { SelectChangeEvent, Stack } from "@mui/material";
 import InputField from "./InputField";
 import { Dayjs } from "dayjs";
 import PreviewEditionSwiper from "./PreviewEditionSwiper";
-import { ProductSwiper } from "../../tabs/Graphic";
+import { FileType, ProductSwiper } from "../../tabs/Graphic";
 
 interface DisplayProductInterface {
   company: string;
   setCompany: (company: string) => void;
-  productImage: File[] | [];
-  setProductImage: (file: File[] | []) => void;
+  productImage: (File | FileType)[];
+  setProductImage: (file: (File | FileType)[]) => void;
   name: string;
   setName: (name: string) => void;
   description: string;
@@ -50,7 +50,7 @@ interface DisplayProductInterface {
   handleButtonClick: () => void;
   handleClose: () => void;
   handleChange: (newValue: Dayjs | null) => void;
-  episod: number | "";
+  episod: number | null;
   handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setOpenTimer: (isOpen: boolean) => void;
   selectedTime: Dayjs | null;

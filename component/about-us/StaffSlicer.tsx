@@ -3,42 +3,93 @@
 import {
   Box,
   IconButton,
+  Skeleton,
   Stack,
   Typography,
   alpha,
   useMediaQuery,
 } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import "swiper/css";
-import { useMotionValue } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { Swiper as SwiperClass } from "swiper";
+import { getStaff } from "../adminPage/service/staffServices";
 
 type User = {
   id: string;
-  src: string;
+  image: string;
   name: string;
 };
 
-export default function UserImageCarousel({
-  users,
-  initialSelectedId,
-}: {
-  users: User[];
-  initialSelectedId: string;
-}) {
+const Loader = () => (
+  <Stack direction={"row"} width={"100%"} gap={1} overflow={"hidden"}>
+    {Array.from({ length: 8 }).map((_, i) => {
+      return (
+        <Stack
+          key={i}
+          sx={{
+            width: 140,
+            minWidth: 140,
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              minHeight: { xs: 300, md: 350 },
+              borderRadius: 3,
+              overflow: "hidden",
+              cursor: "pointer",
+            }}
+          >
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height="100%"
+              sx={{
+                position: "absolute",
+                inset: 0,
+              }}
+            />
+          </Box>
+        </Stack>
+      );
+    })}
+  </Stack>
+);
+
+export default function UserImageCarousel() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery("(max-width:600px)");
-  const [selectedId, setSelectedId] = useState(initialSelectedId);
+  const [selectedId, setSelectedId] = useState("");
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
-  const progress = useMotionValue(0);
 
   const handleSelect = (userId: string) => {
     setSelectedId(userId);
   };
+
+  console.log(users)
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      setLoading(true);
+      const data = await getStaff();
+      setUsers(data);
+      setSelectedId(data[0]?.id);
+      setLoading(false);
+    };
+
+    loadUsers();
+  }, []);
+
+  if (loading) return <Loader />;
 
   return (
     <Stack direction={"row"} width={"100%"} mx={"auto"} position={"relative"}>
@@ -146,9 +197,8 @@ export default function UserImageCarousel({
           });
         }}
       >
-        {users.map((user, index) => {
-          const isSelected = user.id === selectedId;
-
+        {users.map((user) => {
+          const isSelected = user.id == selectedId;
           return (
             <SwiperSlide
               key={user.id}
@@ -199,8 +249,8 @@ export default function UserImageCarousel({
               >
                 <Image
                   src={
-                    typeof user.src === "string" && user.src.trim() !== ""
-                      ? user.src
+                    typeof user.image === "string" && user.image.trim() !== ""
+                      ? user.image
                       : "/avatar.png"
                   }
                   alt={user.name}
@@ -216,8 +266,8 @@ export default function UserImageCarousel({
                     position: "absolute",
                     width: "100%",
                     height: 70,
-                    bottom: isSelected ? 0 : -50, // slides up/down
-                    opacity: isSelected ? 1 : 0, // fade in/out
+                    bottom: isSelected ? 0 : -50,
+                    opacity: isSelected ? 1 : 0,
                     transition: "opacity 0.6s ease, bottom 0.6s ease",
                     background: (theme) =>
                       `linear-gradient(to top, ${

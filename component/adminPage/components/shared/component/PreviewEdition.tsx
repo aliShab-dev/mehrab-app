@@ -9,11 +9,12 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import MediaPreview from "./MediaPreview";
 import { useRef } from "react";
 import { Dayjs } from "dayjs";
+import { FileType } from "../../tabs/Graphic";
 
 interface PreviewEditionInterface {
   selectedTime: Dayjs | null;
   isEditing: null | number;
-  productImage: File | null;
+  productImage: File | FileType[] | null;
   setProductImage: (file: File | null) => void;
   name: string;
   setName: (name: string) => void;
@@ -66,15 +67,18 @@ const PreviewEdition = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const handleDownload = () => {
     if (!productImage) return;
+    if (mediaType === "image" && Array.isArray(productImage)) return;
 
-    const url = URL.createObjectURL(productImage);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = productImage.name || "downloaded-image";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    if (productImage instanceof File === true) {
+      const url = URL.createObjectURL(productImage);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = productImage.name || "downloaded-image";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

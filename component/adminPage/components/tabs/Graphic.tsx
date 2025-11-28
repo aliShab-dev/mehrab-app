@@ -26,11 +26,19 @@ import {
 } from "../../service/postProduct";
 import getCategories from "../../service/getCat";
 
+export type FileType = {
+  id: number;
+  file: File;
+  title: string;
+  order: number;
+};
+
 export type ProductSwiper = {
   id: number;
   name: string;
   description: string;
   file: File[] | [];
+  files: FileType[] | [];
   company: string;
   poster: File[] | [];
   episode: number;
@@ -87,7 +95,7 @@ const Graphic = () => {
   const [staffName, setStaffName] = useState("");
   const [staffRole, setStaffRole] = useState("");
   const [staffImage, setStaffImage] = useState<File | null>(null);
-  const [productImage, setProductImage] = useState<File[]>([]);
+  const [productImage, setProductImage] = useState<(File | FileType)[]>([]);
   const [poster, setPoster] = useState<File | null>(null);
 
   const [staffArray, setStaffArray] = useState<
@@ -101,14 +109,14 @@ const Graphic = () => {
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [openTimer, setOpenTimer] = useState(false);
   const [selectedTime, setSelectedTime] = useState<Dayjs | null>(null);
-  const [episod, setEpisod] = useState<number | "">("");
+  const [episod, setEpisod] = useState<number | null>(null);
 
   const resetInputs = () => {
     setName("");
     setDescription("");
     setStaffArray([]);
     setSelectedTime(null);
-    setEpisod("");
+    setEpisod(null);
     setCompany("");
     setProductImage([]);
     setPoster(null);
@@ -131,7 +139,7 @@ const Graphic = () => {
     const newValue = event.target.value;
 
     if (newValue === "" || /^\d+$/.test(newValue)) {
-      setEpisod(newValue === "" ? "" : Number(newValue));
+      setEpisod(newValue === null ? null : Number(newValue));
     }
   };
   const handleDeleteStaff = (name: string) => {
@@ -189,14 +197,20 @@ const Graphic = () => {
     } else {
       createProduct({
         name,
+        file: null,
         description,
-        staff: staffArray,
+        // staff: staffArray,
         category: subcategories[0].category_id,
         duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
         episode: episod,
         company: company,
         sub_category: subcategories.find((subCat) => subCat.name == age)?.id,
-        file: productImage,
+        files:
+          Array.isArray(productImage) &&
+          productImage.map((file, index) => ({
+            file,
+            title: `فایل ${index + 1}`,
+          })),
         poster,
         level: parseInt(level.replace(/[^\d]/g, ""), 10),
       })
@@ -226,7 +240,7 @@ const Graphic = () => {
     }
   }, [age, subcategories, newResponse]);
 
-  console.log(products)
+  console.log(products);
 
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
@@ -384,7 +398,11 @@ const Graphic = () => {
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
                 <Avatar
-                  src={product.file ? `${BASE_URL}${product.file}` : ""}
+                  src={
+                    product?.files?.[0]?.file
+                      ? `${BASE_URL}${product.files[0].file}`
+                      : ""
+                  }
                   alt="poster"
                   variant="rounded"
                   sx={{
@@ -414,7 +432,7 @@ const Graphic = () => {
                           : null
                       );
                       setEpisod(product.episode ?? "");
-                      setProductImage(product.file);
+                      setProductImage(product.files);
                       setName(product.name ?? "");
                       setDescription(product.description ?? "");
                       setLevel(`سطح ${product.level}`);

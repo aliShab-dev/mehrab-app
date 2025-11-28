@@ -62,12 +62,9 @@ const Customers = () => {
     setPreviewUrl(null);
   };
 
-  const handleDelete = (id: number) => {
-    deleteCustomers({ id: id })
-      .then((res) => {
-        refreshCustomers();
-      })
-      .catch((err) => console.error(err));
+  const handleDelete = async (id: number) => {
+    await deleteCustomers({ id });
+    refreshCustomers();
   };
 
   const refreshCustomers = () => {

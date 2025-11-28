@@ -4,9 +4,42 @@ import OrderForm from "./components/OrderForm";
 import IconSection from "./components/IconSection";
 import DownloadSection from "./components/DownloadSection";
 
+export async function generateMetadata() {
+  return {
+    title: "ثبت سفارش | استودیو محراب",
+    description: "صفحه ثبت سفارش محصولات و خدمات استودیو محراب.",
+    robots: "noindex, nofollow",
+    authors: [{ name: "استودیو محراب", url: "https://mehrabfamily.ir" }],
+    publisher: "استودیو محراب",
+  };
+}
+
 const SetOrder = () => {
+  const orderJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "خدمات رسانه‌ای استودیو محراب",
+    description: "سفارش آثار هنری و رسانه‌ای با کیفیت از استودیو محراب",
+    brand: {
+      "@type": "Organization",
+      name: "استودیو محراب",
+      url: "https://mehrabfamily.ir",
+    },
+    offers: {
+      "@type": "Offer",
+      url: "https://mehrabfamily.ir/set-order",
+      priceCurrency: "IRR",
+      price: "0",
+      availability: "https://schema.org/InStock",
+    },
+  };
+  
   return (
     <Stack width={{ xs: "85%", md: "80%" }} mx={"auto"}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(orderJsonLd) }}
+      />
       <Stack
         component={"section"}
         direction={{ xs: "column", lg: "row" }}

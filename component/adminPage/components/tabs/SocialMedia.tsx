@@ -24,62 +24,63 @@ import {
   deletesocialMedia,
   getsocialMedia,
   postsocialMedia,
+  updatSocialMedia,
 } from "../../service/socialMediaServices";
 
 const socialMedia = [
   {
-    id: 1,
+    id: null,
     platform: "eitaa",
     platform_name: "ایتا",
-    link: "https://www.aparat.com/mehrab.art",
+    link: "",
     icon: "/gs-eita.png",
   },
   {
-    id: 2,
+    id: null,
     platform: "instagram",
     platform_name: "اینستاگرام",
-    link: "https://www.instagram.com/",
+    link: "",
     icon: "/gs-instagram.png",
   },
   {
-    id: 3,
+    id: null,
     platform: "telegram",
     platform_name: "تلگرام",
-    link: "https://t.me/mehrabartmedia",
+    link: "",
     icon: "/gs-telegram.png",
   },
   {
-    id: 4,
+    id: null,
     platform: "whatsapp",
     platform_name: "واتساپ",
-    link: "https://t.me/mehrabartmedia",
+    link: "",
     icon: "/gs-whatsapp.png",
   },
   {
-    id: 5,
+    id: null,
     platform: "email",
     platform_name: "ایمیل",
-    link: "https://eitaa.com/s/mehrabartmedia",
+    link: "",
     icon: "/imail.png",
   },
   {
-    id: 6,
+    id: null,
     platform: "aparat",
     platform_name: "آپارات",
-    link: "https://eitaa.com/s/mehrabartmedia",
+    link: "",
     icon: "/gs-aparat.png",
   },
   {
-    id: 7,
+    id: null,
     platform: "phone",
     platform_name: "تماس با ما",
-    link: "https://eitaa.com/s/mehrabartmedia",
+    link: "",
     icon: "/gs-phone.png",
   },
 ];
 
 type socialMediaType = {
-  id: number;
+  id: number | null;
   platform: string;
   platform_name: string;
   link: string;
@@ -104,16 +105,28 @@ const SocialMedia = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    postsocialMedia({
-      link,
-      platform: selectedSM?.platform,
-      platform_name: selectedSM?.platform_name,
-    })
-      .then((res) => {
-        console.log(res);
-        refreshCustomers();
+    if (!!selectedSM?.link.length) {
+      updatSocialMedia({
+        id: selectedSM?.id,
+        href: link,
       })
-      .catch((err) => console.error(err));
+        .then((res) => {
+          console.log(res);
+          refreshCustomers();
+        })
+        .catch((err) => console.error(err));
+    } else {
+      postsocialMedia({
+        link,
+        platform: selectedSM?.platform,
+        platform_name: selectedSM?.platform_name,
+      })
+        .then((res) => {
+          console.log(res);
+          refreshCustomers();
+        })
+        .catch((err) => console.error(err));
+    }
 
     setLink("");
   };
@@ -131,10 +144,8 @@ const SocialMedia = () => {
     getsocialMedia()
       .then((res) => {
         const updatedSocialMedias = socialMedia.map((item) => {
-          const match = res.find((r) => r.platform === item.platform);
-          return match
-            ? { ...item, link: match.link }
-            : item;
+          const match = res.find((r) => r.platform_name === item.platform_name);
+          return match ? { ...item, link: match.link, id: match.id } : item;
         });
 
         setSocialMedias(updatedSocialMedias);

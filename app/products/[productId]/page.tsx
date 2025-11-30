@@ -23,6 +23,7 @@ async function fetchProduct(id: string): Promise<FetchedProduct | null> {
     return null;
   }
 }
+
 async function fetchOtherFromSameSubCat(
   id: number
 ): Promise<FetchedProduct[] | null> {

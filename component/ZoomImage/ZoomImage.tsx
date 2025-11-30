@@ -16,6 +16,12 @@ import ReactAudioPlayer from "react-audio-player";
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 import PauseRoundedIcon from "@mui/icons-material/PauseRounded";
 import PlayArrowRoundedIcon from "@mui/icons-material/PlayArrowRounded";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FileType } from "../adminPage/components/tabs/Graphic";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 const formatTime = (time: number) => {
   if (!time) return "0:00";
@@ -42,27 +48,50 @@ export function getFileFormat(
   return "unknown";
 }
 
-const ZoomImageModal = ({ src, alt }: { src: string; alt?: string }) => {
+const ZoomImageModal = ({ src, alt }: { src: FileType[]; alt?: string }) => {
   const [open, setOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState("");
 
   const handleClose = () => setOpen(false);
 
   return (
     <>
-      <Box
-        component="img"
-        src={src}
-        alt={alt || ""}
-        sx={{
-          py: 1,
-          height: "100%",
-          width: "auto",
-          objectFit: "contain",
-          cursor: "zoom-in",
-          borderRadius: 2,
+      <Swiper
+        modules={[Navigation, Pagination]}
+        navigation
+        pagination={{ clickable: true }}
+        spaceBetween={10}
+        slidesPerView={1}
+        style={{ width: "100%", height: "100%" }}
+        onSwiper={(swiper) => {
+          const activeIndex = swiper.activeIndex;
+          const activeImage = src[activeIndex];
+          setSelectedFile(`${activeImage.file}`);
         }}
-        onClick={() => setOpen(true)}
-      />
+        onSlideChange={(swiper) => {
+          const activeIndex = swiper.activeIndex;
+          const activeImage = src[activeIndex];
+          setSelectedFile(`${activeImage.file}`);
+        }}
+      >
+        {src.map((img) => (
+          <SwiperSlide key={img.id}>
+            <Box
+              component="img"
+              src={img.file}
+              alt={alt || ""}
+              sx={{
+                height: "100%",
+                width: "auto",
+                objectFit: "contain",
+                cursor: "zoom-in",
+                borderRadius: 2,
+              }}
+              onClick={() => setOpen(true)}
+            />
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
       <Dialog
         open={open}
@@ -103,7 +132,7 @@ const ZoomImageModal = ({ src, alt }: { src: string; alt?: string }) => {
 
           <Box
             component="img"
-            src={src}
+            src={selectedFile}
             alt={alt || ""}
             onClick={(e) => e.stopPropagation()}
             sx={{
@@ -128,7 +157,7 @@ const VideoPlayer = ({ product }: { product: FetchedProduct }) => {
   return (
     <>
       <ReactPlayer
-        url={`${product.file}`}
+        url={`${product.files[0].file}`}
         light={`${product.poster}`}
         controls
         playing
@@ -227,7 +256,11 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
     >
       <ReactAudioPlayer
         ref={audioRef}
-        src={product?.file ? `${product.file}` : "/bensound-slowmotion.mp3"}
+        src={
+          product?.files[0].file
+            ? `${product?.files[0].file}`
+            : "/bensound-slowmotion.mp3"
+        }
         preload="auto"
         style={{ display: "none" }}
       />
@@ -236,7 +269,7 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
         onClick={togglePlay}
         sx={{
           aspectRatio: { xs: "2/2", sm: "1/1" },
-          height: {xs: "calc(100% - 50px)",sm: "calc(100% - 80px)"},
+          height: { xs: "calc(100% - 50px)", sm: "calc(100% - 80px)" },
           minWidth: 0,
           borderRadius: "50%",
           bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
@@ -255,7 +288,7 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
           <PlayArrowRoundedIcon sx={{ fontSize: { xs: 72, sm: 140 } }} />
         )}
       </IconButton>
-      <Stack width={"100%"} gap={{xs: 1, sm: 2}}>
+      <Stack width={"100%"} gap={{ xs: 1, sm: 2 }}>
         <Box
           sx={{
             width: "100%",
@@ -281,8 +314,12 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
         </Box>
 
         <Stack direction="row" justifyContent="space-between" width="100%">
-          <Typography variant="body2" fontSize={{xs: 12, sm: 14}}>{formatTime(position)}</Typography>
-          <Typography variant="body2" fontSize={{xs: 12, sm: 14}}>{formatTime(duration)}</Typography>
+          <Typography variant="body2" fontSize={{ xs: 12, sm: 14 }}>
+            {formatTime(position)}
+          </Typography>
+          <Typography variant="body2" fontSize={{ xs: 12, sm: 14 }}>
+            {formatTime(duration)}
+          </Typography>
         </Stack>
       </Stack>
     </Stack>
@@ -291,7 +328,9 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
 
 const DissplayBox = ({ product }: { product: FetchedProduct }) => {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const fileType = getFileFormat(product.file);
+  const fileValue = product.files[0].file;
+  const fileType =
+    typeof fileValue === "string" ? getFileFormat(fileValue) : "video";
 
   return (
     <Stack gap={2}>
@@ -338,7 +377,7 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
         }}
       >
         {fileType == "photo" && (
-          <ZoomImageModal src={`${product.file}`} alt={product.name} />
+          <ZoomImageModal src={product.files} alt={product.name} />
         )}
         {fileType == "video" && <VideoPlayer product={product} />}
         {fileType == "audio" && <AudioPlayer product={product} />}

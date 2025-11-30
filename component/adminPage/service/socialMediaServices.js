@@ -51,6 +51,31 @@ export const postsocialMedia = async ({ link, platform, platform_name }) => {
   }
 };
 
+export const updatSocialMedia = async ({ id, href }) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${BASE_URL}/api/social_media/${id}/`, {
+      method: "patch",
+      headers: {
+        Authorization: `Token ${token}`,
+      },
+      body: {
+        link: href,
+      },
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Server error: ${response.status} - ${errorText}`);
+    }
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error("Fetch error:", err);
+    return [];
+  }
+};
+
 export const deletesocialMedia = async ({ id }) => {
   try {
     const token = localStorage.getItem("token");

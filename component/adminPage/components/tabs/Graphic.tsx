@@ -28,7 +28,7 @@ import getCategories from "../../service/getCat";
 
 export type FileType = {
   id: number;
-  file: File;
+  file: File | string;
   title: string;
   order: number;
 };

@@ -218,7 +218,7 @@ const getProductsByProductId = async (productId) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Server error: ${response.status} - ${errorText}`);
+      throw new Error(`Server error: ${productId} ${response.status} - ${errorText}`);
     }
 
     return await response.json();

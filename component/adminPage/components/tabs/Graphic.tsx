@@ -179,7 +179,13 @@ const Graphic = () => {
         id: isEditing,
         name,
         description,
-        staff: staffArray,
+        files:
+          Array.isArray(productImage) &&
+          productImage.map((file, index) => ({
+            file,
+            title: `فایل ${index + 1}`,
+          })),
+        // staff: staffArray,
         category: subcategories[0].category_id,
         duration: selectedTime ? selectedTime.format("HH:mm:ss") : "00:00:00",
         episode: episod,

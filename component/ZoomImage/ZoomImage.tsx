@@ -81,7 +81,6 @@ const ZoomImageModal = ({ src, alt }: { src: FileType[]; alt?: string }) => {
               src={img.file}
               alt={alt || ""}
               sx={{
-                height: "100%",
                 width: "auto",
                 objectFit: "contain",
                 cursor: "zoom-in",

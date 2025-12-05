@@ -17,9 +17,6 @@ const createProduct = async ({
   const API_URL = `${BASE_URL}/api/products/`;
   const token = localStorage.getItem("token");
 
-  console.log(file, 'file');
-  console.log(files, 'files');
-
   const formData = new FormData();
 
   formData.append("name", name);
@@ -52,6 +49,8 @@ const createProduct = async ({
       title: item.title || "",
     }));
   } else if (file) {
+    console.log(file)
+
     const rawFiles = Array.isArray(file) ? file : [file];
     filesToSend = rawFiles.map((f, i) => ({
       file: f,
@@ -92,7 +91,7 @@ const updateProduct = async ({
   id,
   name,
   description,
-  staff: staff_data,
+  staff: staff_data = [],
   category,
   duration,
   episode,
@@ -100,24 +99,56 @@ const updateProduct = async ({
   sub_category,
   level,
   poster,
+  files,
   file,
 }) => {
   const API_URL = `${BASE_URL}/api/products/${id}/`;
   const token = localStorage.getItem("token");
 
   const formData = new FormData();
+
   formData.append("name", name);
-  formData.append("description", description);
+  formData.append("description", description || "");
   formData.append("company", company || "");
   formData.append("category", category);
   formData.append("sub_category", sub_category);
-  formData.append("duration", duration);
-  formData.append("episode", episode);
-  formData.append("staff_data", JSON.stringify(staff_data || []));
   formData.append("level", level.toString());
 
-  if (poster instanceof File) formData.append("poster", poster);
-  if (file instanceof File) formData.append("file", file);
+  if (duration) formData.append("duration", duration);
+
+  const episodeInt = episode && !isNaN(episode) ? parseInt(episode, 10) : null;
+  if (!isNaN(episodeInt) && episodeInt > 0) {
+    formData.append("episode", episodeInt.toString());
+  }
+
+  if (staff_data && staff_data.length > 0) {
+    formData.append("staff_data", JSON.stringify(staff_data));
+  }
+
+  if (poster instanceof File) {
+    formData.append("poster", poster);
+  }
+
+  let filesToSend = [];
+
+  if (Array.isArray(files) && files.length > 0) {
+    filesToSend = files.map((item) => ({
+      file: item.file,
+      title: item.title || "",
+    }));
+  } else if (file) {
+    console.log(file)
+    const rawFiles = Array.isArray(file) ? file : [file];
+    filesToSend = rawFiles.map((f, i) => ({
+      file: f,
+      title: f.name.split(".").slice(0, -1).join(".") || `فایل ${i + 1}`,
+    }));
+  }
+
+  filesToSend.forEach((item, index) => {
+    formData.append(`files[${index}][file]`, item.file);
+    formData.append(`files[${index}][title]`, item.title);
+  });
 
   try {
     const response = await fetch(API_URL, {
@@ -128,12 +159,15 @@ const updateProduct = async ({
       body: formData,
     });
 
+    const result = await response.json();
+
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Server error: ${response.status} - ${errorText}`);
+      throw new Error(
+        `Server error: ${response.status} - ${JSON.stringify(result)}`
+      );
     }
 
-    return await response.json();
+    return result;
   } catch (err) {
     console.error("Update product failed:", err);
     throw err;
@@ -218,7 +252,9 @@ const getProductsByProductId = async (productId) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Server error: ${productId} ${response.status} - ${errorText}`);
+      throw new Error(
+        `Server error: ${productId} ${response.status} - ${errorText}`
+      );
     }
 
     return await response.json();

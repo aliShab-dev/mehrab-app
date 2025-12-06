@@ -8,6 +8,30 @@ import { transformCategories } from "@/util/numberHandler";
 import MainBanner from "@/component/mainBanner/MainBanner";
 import Comunity from "@/component/comunity/Cumunity";
 
+export async function generateMetadata() {
+  const categories = await getCategories();
+  const transformedCategories = categories.map((cat) => cat.name);
+
+  return {
+    title: "استودیو محراب | رسانه و تولید هنری با رسالت و دغدغه",
+    description:
+      "امروز آثار هنری و رسانه‌ای زبان مشترک مردم جهان‌اند. ما در محراب با گردهم‌آوردن تیمی جوان و متخصص، به دنبال خلق آثار باکیفیت هنری و رسانه‌ای هستیم تا بتوانیم اندیشه‌ها و دغدغه‌های خود را با زبان هنر بیان کنیم.",
+    keywords: transformedCategories,
+    authors: [{ name: "استودیو محراب", url: "https://www.mehrabartmedia.ir" }],
+    creator: "استودیو محراب",
+    publisher: "استودیو محراب",
+    openGraph: {
+      title: "استودیو محراب | رسانه و تولید هنری با رسالت و دغدغه",
+      description:
+        "امروز آثار هنری و رسانه‌ای زبان مشترک مردم جهان‌اند. ما در محراب با گردهم‌آوردن تیمی جوان و متخصص، به دنبال خلق آثار باکیفیت هنری و رسانه‌ای هستیم تا بتوانیم اندیشه‌ها و دغدغه‌های خود را با زبان هنر بیان کنیم.",
+      url: "https://mehrabfamily.ir",
+      siteName: "استودیو محراب",
+      locale: "fa_IR",
+      type: "website",
+    },
+  };
+}
+
 export default async function Home() {
   const categories = await getCategories();
   const transformedData = transformCategories(categories);
@@ -21,11 +45,10 @@ export default async function Home() {
     contactPoint: {
       "@type": "ContactPoint",
       telephone: "+989103533906",
-      contactType: "پشتیتانی",
+      contactType: "پشتیبانی",
       areaServed: "IR",
     },
   };
-
   return (
     <div>
       <script

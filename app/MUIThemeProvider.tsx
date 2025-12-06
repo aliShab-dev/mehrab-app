@@ -117,7 +117,8 @@ export const getCustomTheme = (palette: string) => {
         DataTableFa
       );
   }
-};
+};  
+ 
 
 export default function MUIThemeProvider({
   children,

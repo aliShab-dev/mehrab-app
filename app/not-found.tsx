@@ -1,5 +1,6 @@
 import { Button, Stack, Typography } from "@mui/material";
 
+
 export default function NotFound() {
   return (
     <Stack component={"main"} sx={{ px: 50, py: 15 }} gap={2}>

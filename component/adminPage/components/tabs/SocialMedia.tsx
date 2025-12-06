@@ -26,6 +26,7 @@ import {
   postsocialMedia,
   updatSocialMedia,
 } from "../../service/socialMediaServices";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const socialMedia = [
   {
@@ -131,7 +132,7 @@ const SocialMedia = () => {
     setLink("");
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | null) => {
     deletesocialMedia({ id: id })
       .then((res) => {
         console.log(res);
@@ -203,6 +204,9 @@ const SocialMedia = () => {
                 >
                   <IconButton size="large" onClick={() => handleSelectSM(c)}>
                     <EditIcon fontSize="large" color="primary" />
+                  </IconButton>
+                  <IconButton size="large" onClick={() => handleDelete(c.id)}>
+                    <DeleteForeverIcon fontSize="large" color="error" />
                   </IconButton>
                 </Stack>
                 <Image

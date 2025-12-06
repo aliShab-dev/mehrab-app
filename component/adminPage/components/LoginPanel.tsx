@@ -44,6 +44,7 @@ export default function LoginPanel({ setIsValid }: Props) {
         localStorage.setItem("token", res.token);
         localStorage.setItem("permissions", JSON.stringify(res.permissions));
         localStorage.setItem("role", res.role);
+        localStorage.setItem("name", res.name);
 
         setIsValid(true);
       } else {

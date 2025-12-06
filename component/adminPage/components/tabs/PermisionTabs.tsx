@@ -274,7 +274,7 @@ const PermissionTabs = () => {
             <Stack gap={{ xs: 2, md: 3 }} p={1} py={2}>
               <Stack width={"100%"} textAlign={"center"}>
                 <Typography component={"h2"} fontSize={22} pr={1}>
-                  {selectedAdmin && selectedAdmin > 0
+                  {selectedAdmin && selectedAdmin.length > 0
                     ? " ویرایش ادمین"
                     : "اضافه کردن ادمین"}
                 </Typography>

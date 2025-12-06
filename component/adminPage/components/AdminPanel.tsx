@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Stack, Tab, Tabs, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PermiissionTabs from "./tabs/PermisionTabs";
 import MotionGraphy from "./tabs/MotionGraphy";
 import Movie from "./tabs/Movie";
@@ -60,26 +60,29 @@ const AdminPanel = () => {
     localStorage.getItem("permissions") || "[]"
   );
 
-  const userRole = localStorage.getItem('role') || 'admin'
+  const userRole = localStorage.getItem("role") || "admin";
+  const adminName = localStorage.getItem("name") || "ادمین";
 
   const mapPermissionsToNumbers = (permissions: PermissionType): number[] => {
     const result: number[] = [];
+
     if (permissions.can_add_motion_graphic) result.push(1);
-    if (permissions.can_add_graphic_design) result.push(2);
-    if (permissions.can_add_movie_and_document) result.push(3);
-    if (permissions.can_add_audio) result.push(4);
+    if (permissions.can_add_movie_and_document) result.push(2);
+    if (permissions.can_add_audio) result.push(3);
+    if (permissions.can_add_graphic_design) result.push(4);
+
     return result;
   };
 
   const getVisibleTabs = (role: string, permissions: PermissionType) => {
-    if (role == "Administrator") return allTabs;
+    if (role === "Administrator") return allTabs;
+
+    const hiddenForAdmin = [0, 5, 6, 7, 8];
 
     const allowedPermissions = mapPermissionsToNumbers(permissions);
 
     return allTabs.filter((tab) => {
-      const hiddenForAdmin = [1, 6, 7, 8, 9];
       if (hiddenForAdmin.includes(tab.id)) return false;
-
       return allowedPermissions.includes(tab.id);
     });
   };
@@ -89,6 +92,10 @@ const AdminPanel = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    setValue(visibleTabs[0].id);
+  }, []);
 
   return (
     <Stack width={"100vw"} height={"100vh"} overflow={"hidden"}>
@@ -103,7 +110,7 @@ const AdminPanel = () => {
             نام ادمین:
           </Typography>
           <Typography component={"h2"} fontSize={18} color="secondary.main">
-            ادمین شماره یک
+            {adminName}
           </Typography>
         </Stack>
       </Stack>
@@ -116,11 +123,17 @@ const AdminPanel = () => {
             aria-label="تب های اختیارات"
             sx={{ pr: 3 }}
           >
-            {visibleTabs.map((tab) => (
-              <Tab key={tab.id} label={tab.label} sx={{ fontSize: 20 }} />
+            {visibleTabs.map((tab, index) => (
+              <Tab
+                key={tab.id}
+                label={tab.label}
+                value={tab.id}
+                sx={{ fontSize: 20 }}
+              />
             ))}
           </Tabs>
         </Box>
+
         <CustomTabPanel value={value} index={0}>
           <PermiissionTabs />
         </CustomTabPanel>

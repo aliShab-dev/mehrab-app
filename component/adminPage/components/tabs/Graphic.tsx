@@ -437,7 +437,7 @@ const Graphic = () => {
                           ? dayjs(`1970-01-01 ${product.duration}`)
                           : null
                       );
-                      setEpisod(product.episode ?? "");
+                      setEpisod(product.episode ?? null);
                       setProductImage(product.files);
                       setName(product.name ?? "");
                       setDescription(product.description ?? "");

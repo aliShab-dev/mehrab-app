@@ -40,6 +40,8 @@ const CardContainerProduct = ({
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
 
+  console.log(cardData)
+
   return (
     <Stack gap={1} mt={6}>
       <Stack>
@@ -219,9 +221,9 @@ const CardContainerProduct = ({
                           transition: "filter 0.3s ease",
                         }}
                       >
-                        {getFileFormat(data.file) !== "photo" ? (
+                        {getFileFormat(`${data.files[0].file}`) !== "photo" ? (
                           <Image
-                            src={`${BASE_URL}${data.poster}`}
+                            src={data?.poster ? `${BASE_URL}${data.poster}` : ''}
                             alt="image"
                             fill
                             className="zoom-image"

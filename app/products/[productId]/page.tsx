@@ -49,40 +49,43 @@ async function fetchCategoriesData(): Promise<RawCategories[]> {
 }
 
 type ProductPageParams = {
-  params: { productId: string };
+  params: Promise<{ productId: string }>;
 };
 
-const ProductPage = async ({ params }: ProductPageParams) => {
+export default async function ProductPage({ params }: ProductPageParams) {
   const { productId } = await params;
+
   const product = await fetchProduct(productId);
   const categories = await fetchCategoriesData();
+
+  if (!product) return notFound();
+
   const sameSubCat = categories.find(
-    (cat) => cat.name == product?.sub_category
+    (cat) => cat.name === product.sub_category
   );
 
   const sameSubCatProduct = sameSubCat
     ? await fetchOtherFromSameSubCat(sameSubCat.id)
     : null;
+
   const sameWithoutCurrent =
     product && sameSubCatProduct
       ? sameSubCatProduct.filter((item) => item.id !== product.id)
       : undefined;
 
-  if (!product) return notFound();
-
   return (
     <Stack
       width={{ xs: "90%", md: "75%" }}
       mt={{ xs: 1, md: 5 }}
-      mx={"auto"}
+      mx="auto"
       mb={15}
     >
       <DissplayBox product={product} />
       <Stack mt={3} gap={1.5}>
-        <Stack direction={"row"}>
-          <Stack width={"100%"}>
+        <Stack direction="row">
+          <Stack width="100%">
             <Typography
-              component={"h1"}
+              component="h1"
               fontSize={{ xs: 16, sm: 18, md: 24, lg: 36 }}
               fontWeight={700}
             >
@@ -90,14 +93,13 @@ const ProductPage = async ({ params }: ProductPageParams) => {
             </Typography>
           </Stack>
 
-          {/* left stack */}
           <Stack
-            direction={"row"}
+            direction="row"
             width={300}
-            justifyContent={"space-between"}
+            justifyContent="space-between"
             px={1}
           >
-            <Stack textAlign={"center"}>
+            <Stack textAlign="center">
               <Typography
                 fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}
                 color="textPrimary"
@@ -114,7 +116,7 @@ const ProductPage = async ({ params }: ProductPageParams) => {
                 زمان کار
               </Typography>
             </Stack>
-            <Stack textAlign={"center"}>
+            <Stack textAlign="center">
               <Typography
                 fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}
                 color="textPrimary"
@@ -133,18 +135,20 @@ const ProductPage = async ({ params }: ProductPageParams) => {
             </Stack>
           </Stack>
         </Stack>
+
         <Stack>
-          <Typography
-            fontSize={{ xs: 12, sm: 14, md: 18, lg: 20 }}
-          >{`به سفارش ${product.company}`}</Typography>
+          <Typography fontSize={{ xs: 12, sm: 14, md: 18, lg: 20 }}>
+            به سفارش {product.company}
+          </Typography>
         </Stack>
+
         <Stack width={60}>
           <Box
-            bgcolor={"#FFE95C"}
-            width={"auto"}
+            bgcolor="#FFE95C"
+            width="auto"
             px={{ xs: 0.8, md: 1 }}
             py={0.6}
-            textAlign={"center"}
+            textAlign="center"
             borderRadius={3}
           >
             <Typography
@@ -156,6 +160,7 @@ const ProductPage = async ({ params }: ProductPageParams) => {
             </Typography>
           </Box>
         </Stack>
+
         <Stack mt={2}>
           <Typography
             fontSize={{ xs: 13, sm: 15, md: 18 }}
@@ -167,8 +172,8 @@ const ProductPage = async ({ params }: ProductPageParams) => {
 
         {!!product?.staff_data?.length && (
           <>
-            <Stack direction={"row"} alignItems={"center"} gap={2} mt={8}>
-              <Stack width={50} height={50} position={"relative"}>
+            <Stack direction="row" alignItems="center" gap={2} mt={8}>
+              <Stack width={50} height={50} position="relative">
                 <StarRoundedIcon
                   sx={{
                     position: "absolute",
@@ -204,7 +209,7 @@ const ProductPage = async ({ params }: ProductPageParams) => {
             <Staff staff={product.staff_data} />
           </>
         )}
-        {/* <CardContainerProduct label="دیگر قسمت‌ها" cardData={relatedProduct} /> */}
+
         {!!sameWithoutCurrent?.length && (
           <CardContainerProduct
             label="نمونه‌های دیگر"
@@ -214,6 +219,4 @@ const ProductPage = async ({ params }: ProductPageParams) => {
       </Stack>
     </Stack>
   );
-};
-
-export default ProductPage;
+}

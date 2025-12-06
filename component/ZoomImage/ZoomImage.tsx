@@ -33,7 +33,8 @@ const formatTime = (time: number) => {
 export function getFileFormat(
   filePath: string
 ): "photo" | "video" | "audio" | "unknown" {
-  const extension = filePath.split(".").pop()?.toLowerCase();
+  console.log(filePath);
+  const extension = filePath && filePath.split(".").pop()?.toLowerCase();
 
   const photoExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "webp", "svg"];
   const videoExtensions = ["mp4", "mpeg", "ogg", "webm", "avi", "mov"];
@@ -81,8 +82,9 @@ const ZoomImageModal = ({ src, alt }: { src: FileType[]; alt?: string }) => {
               src={img.file}
               alt={alt || ""}
               sx={{
-                width: "auto",
-                objectFit: "contain",
+                aspectRatio: '1920 / 1080',
+                width: "100%",
+                objectFit: "cover",
                 cursor: "zoom-in",
                 borderRadius: 2,
               }}
@@ -268,7 +270,7 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
         onClick={togglePlay}
         sx={{
           aspectRatio: { xs: "2/2", sm: "1/1" },
-          height: { xs: "calc(100% - 50px)", sm: "calc(100% - 80px)" },
+          height: { xs: "calc(100% - 50px)", sm: "calc(60%)" },
           minWidth: 0,
           borderRadius: "50%",
           bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
@@ -292,7 +294,7 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
           sx={{
             width: "100%",
             height: 10,
-            bgcolor: "#ccc",
+            bgcolor: "#DFE0E6",
             borderRadius: 5,
             cursor: "pointer",
             position: "relative",
@@ -326,8 +328,11 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
 };
 
 const DissplayBox = ({ product }: { product: FetchedProduct }) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const fileValue = product.files[0].file;
+  const fileObj = product?.files?.[0];
+
+  const fileValue =
+    fileObj?.file || fileObj?.title || fileObj?.id || fileObj?.order || "";
+
   const fileType =
     typeof fileValue === "string" ? getFileFormat(fileValue) : "video";
 
@@ -353,9 +358,10 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundImage: `url(${
-            fileType == "photo" ? product.file : product.poster
-          })`,
+          backgroundImage: `url(${product.poster})`,
+          // backgroundImage: `url(${
+          //   fileType == "photo" ? product.file : product.poster
+          // })`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
@@ -366,8 +372,8 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
             left: 0,
             width: "100%",
             height: "100%",
-            backdropFilter: "blur(10px)",
-            backgroundColor: "rgba(0, 0, 0, 0.3)",
+            backdropFilter: "blur(3px)",
+            backgroundColor: "rgba(0, 0, 0, 0.2)",
             zIndex: 0,
           },
           "& > *": {

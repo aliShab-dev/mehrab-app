@@ -80,7 +80,7 @@ export const deletesocialMedia = async ({ id }) => {
   try {
     const token = localStorage.getItem("token");
 
-    const response = await fetch(`${BASE_URL}/api/social_media/${id}`, {
+    const response = await fetch(`${BASE_URL}/api/social_media/${id}/`, {
       method: "DELETE",
       headers: {
         Authorization: `Token ${token}`,
@@ -92,8 +92,8 @@ export const deletesocialMedia = async ({ id }) => {
       throw new Error(`Server error: ${response.status} - ${errorText}`);
     }
 
-    const data = await response.json();
-    return Array.isArray(data) ? data : [];
+    // const data = await response.json();
+    return true;
   } catch (err) {
     console.error("Fetch error:", err);
     return [];

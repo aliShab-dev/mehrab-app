@@ -440,7 +440,6 @@ const Graphic = () => {
                       setName(product.name ?? "");
                       setDescription(product.description ?? "");
                       setLevel(`سطح ${product.level}`);
-                      // setPoster(product.poster);
                       setCat(age);
                       setCompany(product.company ?? "");
                       setStaffArray(product.staff ?? []);

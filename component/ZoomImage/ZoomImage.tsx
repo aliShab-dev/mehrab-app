@@ -82,7 +82,7 @@ const ZoomImageModal = ({ src, alt }: { src: FileType[]; alt?: string }) => {
               src={img.file}
               alt={alt || ""}
               sx={{
-                aspectRatio: '1920 / 1080',
+                aspectRatio: "1920 / 1080",
                 width: "100%",
                 objectFit: "cover",
                 cursor: "zoom-in",
@@ -356,7 +356,12 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundImage: `url(${product.poster})`,
+          backgroundImage:
+            product.poster && product.poster !== "EMPTY"
+              ? `url(${product.poster})`
+              : product.files?.length
+              ? `url(${product.files[0].file})`
+              : "none",
           // backgroundImage: `url(${
           //   fileType == "photo" ? product.file : product.poster
           // })`,

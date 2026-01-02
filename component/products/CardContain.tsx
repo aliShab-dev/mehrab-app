@@ -161,7 +161,7 @@ const CardContainer = ({
               >
                 <Image
                   src={
-                    product.poster
+                     product.poster && `${product.poster}` !== "EMPTY"
                       ? `${product.poster}`
                       : `${product.files[0].file}`
                   }

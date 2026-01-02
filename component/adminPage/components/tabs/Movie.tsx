@@ -366,7 +366,11 @@ const Movie = () => {
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
                 <Avatar
-                  src={product.poster ? `${product.poster}` : ""}
+                  src={
+                    product.poster && `${product.poster}` !== "EMPTY"
+                      ? `${product.poster}`
+                      : ""
+                  }
                   alt="poster"
                   variant="rounded"
                   sx={{

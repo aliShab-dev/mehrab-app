@@ -39,7 +39,6 @@ const SelectStaff = ({
   setStaffRole,
   setIsAddStaff,
 }: SelectStaffProps) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   return (
     <Stack
       position={"relative"}
@@ -93,7 +92,7 @@ const SelectStaff = ({
               {staffImage ? (
                 <Box
                   component="img"
-                  src={staffImage ? `${BASE_URL}${staffImage}` : ""}
+                  src={staffImage ? `${staffImage}` : ""}
                   alt="Preview"
                   sx={{
                     width: 120,

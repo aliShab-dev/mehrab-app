@@ -34,8 +34,6 @@ const CardContainerProduct = ({
   label: string;
   cardData: FetchedProduct[] | null | undefined;
 }) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   const [isBeginning, setIsBeginning] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
@@ -223,7 +221,7 @@ const CardContainerProduct = ({
                       >
                         {getFileFormat(`${data.files[0].file}`) !== "photo" ? (
                           <Image
-                            src={data?.poster ? `${BASE_URL}${data.poster}` : ''}
+                            src={data?.poster ? `${data.poster}` : ''}
                             alt="image"
                             fill
                             className="zoom-image"

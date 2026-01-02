@@ -166,7 +166,6 @@ const motionCats = [
 ];
 
 interface ButtonMenuProps {
-  BASE_URL: string | undefined;
   productById: Product[];
   categories: Categories;
   expanded: string | false;
@@ -178,7 +177,6 @@ interface ButtonMenuProps {
 }
 
 const ButtonMenu: React.FC<ButtonMenuProps> = ({
-  BASE_URL,
   productById,
   categories,
   expanded,
@@ -277,7 +275,7 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
                   ))
                 : productById.slice(0, 3).map((subCat) => {
                     const imageSrc = subCat?.poster
-                      ? `${BASE_URL}${subCat.poster}`
+                      ? `${subCat.poster}`
                       : "/default-poster.png";
 
                     return (

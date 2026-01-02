@@ -55,8 +55,6 @@ const subCat = [
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
 
 const Movie = () => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
   const [age, setAge] = useState(subCat[0]);
@@ -368,7 +366,7 @@ const Movie = () => {
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
                 <Avatar
-                  src={product.poster ? `${BASE_URL}${product.poster}` : ""}
+                  src={product.poster ? `${product.poster}` : ""}
                   alt="poster"
                   variant="rounded"
                   sx={{

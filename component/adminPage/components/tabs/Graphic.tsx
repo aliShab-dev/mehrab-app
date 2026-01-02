@@ -79,8 +79,6 @@ const productsWithCat = [
 ];
 
 const Graphic = () => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   const [newResponse, setNewResponse] = useState<boolean>(false);
   const [subcategories, setSubCategoies] = useState<Subcategory[]>([]);
   const [age, setAge] = useState(subCat[0]);
@@ -406,7 +404,7 @@ const Graphic = () => {
                 <Avatar
                   src={
                     product?.files?.[0]?.file
-                      ? `${BASE_URL}${product.files[0].file}`
+                      ? `${product.files[0].file}`
                       : ""
                   }
                   alt="poster"

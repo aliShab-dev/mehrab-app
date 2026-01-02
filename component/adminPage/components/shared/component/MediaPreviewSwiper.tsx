@@ -20,7 +20,6 @@ const MediaPreviewSwiper = ({
   isEditing,
   onDeleteImage,
 }: MediaPreviewProps) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const objectUrls = useMemo(() => {
     if (!productImage || productImage.length === 0) return [];
 
@@ -28,7 +27,7 @@ const MediaPreviewSwiper = ({
       if (file instanceof File) {
         return URL.createObjectURL(file);
       }
-      return typeof file === "string" ? `${BASE_URL}${file}` : "";
+      return typeof file === "string" ? `${file}` : "";
     });
   }, [productImage]);
 
@@ -44,7 +43,7 @@ const MediaPreviewSwiper = ({
     }
 
     if (typeof item.file === "string") {
-      return `${BASE_URL}${item.file}`;
+      return `${item.file}`;
     }
 
     console.warn("Unexpected image object:", item);

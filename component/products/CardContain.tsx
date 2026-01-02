@@ -37,7 +37,6 @@ const CardContainer = ({
   allItems,
 }: CardContainer) => {
   const router = useRouter();
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   console.log(allItems);
 
@@ -163,8 +162,8 @@ const CardContainer = ({
                 <Image
                   src={
                     product.poster
-                      ? `${BASE_URL}${product.poster}`
-                      : `${BASE_URL}${product.files[0].file}`
+                      ? `${product.poster}`
+                      : `${product.files[0].file}`
                   }
                   alt="image"
                   fill

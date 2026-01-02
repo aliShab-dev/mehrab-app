@@ -33,7 +33,6 @@ const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
 
   const isSelectedItemEmpty =
     !selectedItem || Object.keys(selectedItem).length === 0;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
 
   useEffect(() => {
     const audio = audioRef.current?.audioEl.current;
@@ -175,7 +174,7 @@ const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
         <ReactAudioPlayer
           ref={audioRef}
           src={
-            selectedItem?.files ? `${BASE_URL}${selectedItem.files[0].file}` : undefined
+            selectedItem?.files ? `${selectedItem.files[0].file}` : undefined
           }
           preload="auto"
           style={{ display: "none" }}

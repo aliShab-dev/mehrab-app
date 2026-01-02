@@ -60,7 +60,6 @@ const MySwiperStyles = () => {
 };
 
 const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
@@ -250,8 +249,8 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                   }}
                 >
                   <ReactPlayer
-                    url={`${BASE_URL}${video.files[0].file}`}
-                    light={`${BASE_URL}${video.poster}`}
+                    url={`${video.files[0].file}`}
+                    light={`${video.poster}`}
                     controls
                     playing
                     width="100%"

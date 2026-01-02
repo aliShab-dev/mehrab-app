@@ -31,8 +31,6 @@ export interface Product {
 }
 
 const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   const [expanded, setExpanded] = useState<string | false>("کلاژ موشن");
   const [selectedSubCat, setSelectedSubCat] = useState<number>(1);
   const [productById, setProductById] = useState<Product[]>([]);
@@ -77,7 +75,6 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
       sx={{ aspectRatio: { xs: "nome", md: "1920/980" } }}
     >
       <ButtonMenu
-        BASE_URL={BASE_URL}
         productById={productById}
         categories={categories}
         expanded={expanded}
@@ -87,10 +84,10 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
       />
       <VideoPlayer
         posterUrl={
-          selectedProduct ? `${BASE_URL}${selectedProduct.poster}` : ""
+          selectedProduct ? `${selectedProduct.poster}` : ""
         }
         selectedProduct={selectedProduct}
-        url={selectedProduct ? `${BASE_URL}${selectedProduct.files[0].file}` : ""}
+        url={selectedProduct ? `${selectedProduct.files[0].file}` : ""}
       />
     </Stack>
   );

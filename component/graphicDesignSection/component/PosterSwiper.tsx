@@ -86,7 +86,6 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
   setSeletedCategory,
   listOfPics,
 }) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const swiperRef = useRef<SwiperRef | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -239,7 +238,7 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
                   }}
                 >
                   <Image
-                    src={`${BASE_URL}${poster.files[0].file}`}
+                    src={`${poster.files[0].file}`}
                     alt={poster.name}
                     fill
                     style={{

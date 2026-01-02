@@ -21,10 +21,9 @@ const MediaPreview = ({
   isEditing,
   onDeleteImage
 }: MediaPreviewProps) => {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const objectUrl = useMemo(() => {
     if (typeof isEditing === "number" && typeof productImage === "string") {
-      return `${BASE_URL}${productImage}`;
+      return `${productImage}`;
     } else if (isEditing === null && productImage instanceof File) {
       return URL.createObjectURL(productImage);
     }
@@ -57,7 +56,6 @@ const MediaPreview = ({
       </Box>
     );
   }
-
 
   return (
     <Box

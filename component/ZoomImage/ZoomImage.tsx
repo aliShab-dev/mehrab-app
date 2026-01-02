@@ -182,8 +182,6 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
   const [duration, setDuration] = useState(0);
 
   const isSelectedItemEmpty = !product || Object.keys(product).length === 0;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "";
-
   useEffect(() => {
     const audio = audioRef.current?.audioEl.current;
     if (!audio) return;

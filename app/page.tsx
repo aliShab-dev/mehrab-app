@@ -3,10 +3,10 @@ import AudioSection from "@/component/audioSection/AudioSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
 import { Suspense } from "react";
 import MotionSection from "@/component/motionSection/MotionSection";
-import GraphicDesignWrapper from "@/component/graphicDesignSection/component/GraphicWrapper";
 import { transformCategories } from "@/util/numberHandler";
 import MainBanner from "@/component/mainBanner/MainBanner";
 import Comunity from "@/component/comunity/Cumunity";
+import GraphicDesignSection from "@/component/graphicDesignSection/GraphicDesignSection";
 
 export async function generateMetadata() {
   const categories = await getCategories();
@@ -74,7 +74,7 @@ export default async function Home() {
 
         <section>
           <Suspense fallback={<div>درحال بارگذاری...</div>}>
-            <GraphicDesignWrapper categories={transformedData} />
+            <GraphicDesignSection categories={transformedData} />
           </Suspense>
         </section>
 

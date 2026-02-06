@@ -15,7 +15,7 @@ import getCategories from "@/component/adminPage/service/getCat";
 async function fetchProduct(id: string): Promise<FetchedProduct | null> {
   try {
     const product = (await getProductsByProductId(
-      id
+      id,
     )) as unknown as FetchedProduct;
     return product || null;
   } catch (error) {
@@ -25,11 +25,11 @@ async function fetchProduct(id: string): Promise<FetchedProduct | null> {
 }
 
 async function fetchOtherFromSameSubCat(
-  id: number
+  id: number,
 ): Promise<FetchedProduct[] | null> {
   try {
     const product = (await getProductsByCatId(
-      id
+      id,
     )) as unknown as FetchedProduct[];
     return product || null;
   } catch (error) {
@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: ProductPageParams) {
   if (!product) return notFound();
 
   const sameSubCat = categories.find(
-    (cat) => cat.name === product.sub_category
+    (cat) => cat.name === product.sub_category,
   );
 
   const sameSubCatProduct = sameSubCat
@@ -72,6 +72,8 @@ export default async function ProductPage({ params }: ProductPageParams) {
     product && sameSubCatProduct
       ? sameSubCatProduct.filter((item) => item.id !== product.id)
       : undefined;
+
+  console.log(product);
 
   return (
     <Stack
@@ -99,23 +101,26 @@ export default async function ProductPage({ params }: ProductPageParams) {
             justifyContent="space-between"
             px={1}
           >
-            <Stack textAlign="center">
-              <Typography
-                fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}
-                color="textPrimary"
-                fontWeight={700}
-                lineHeight={1.1}
-              >
-                {product.duration}
-              </Typography>
-              <Typography
-                fontSize={{ xs: 11, sm: 12, md: 14, lg: 18 }}
-                color="textSecondary"
-                lineHeight={1.1}
-              >
-                زمان کار
-              </Typography>
-            </Stack>
+            {product.duration !== "00:00:00" && (
+              <Stack textAlign="center">
+                <Typography
+                  fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}
+                  color="textPrimary"
+                  fontWeight={700}
+                  lineHeight={1.1}
+                >
+                  {product.duration}
+                </Typography>
+                <Typography
+                  fontSize={{ xs: 11, sm: 12, md: 14, lg: 18 }}
+                  color="textSecondary"
+                  lineHeight={1.1}
+                >
+                  زمان کار
+                </Typography>
+              </Stack>
+            )}
+            
             <Stack textAlign="center">
               <Typography
                 fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}

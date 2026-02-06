@@ -274,9 +274,10 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
                     </Button>
                   ))
                 : productById.slice(0, 3).map((subCat) => {
-                    const imageSrc = subCat?.poster
+                  console.log(subCat?.poster)
+                    const imageSrc = subCat?.poster !== 'EMPTY'
                       ? `${subCat.poster}`
-                      : "/default-poster.png";
+                      : "/rules.jpg";
 
                     return (
                       <Button

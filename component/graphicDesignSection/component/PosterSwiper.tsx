@@ -20,6 +20,7 @@ import { Swiper as SwiperClass } from "swiper/types";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
 import { Product } from "@/types/products";
 import { SubCategory } from "@/types/categories";
+import { useRouter } from 'next/navigation';
 
 interface PosterSwiperProps {
   posterCats: SubCategory[] | undefined;
@@ -86,6 +87,7 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
   setSeletedCategory,
   listOfPics,
 }) => {
+  const router = useRouter();
   const swiperRef = useRef<SwiperRef | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -132,7 +134,7 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
     }
   }, [listOfPics]);
 
-  console.log(listOfPics)
+  console.log(listOfPics);
 
   return (
     <Stack width="100%" overflow={"visible"} position={"relative"}>
@@ -271,6 +273,9 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
                     color={(theme) => theme.palette.secondary.main}
                     bgcolor="#fff"
                     p={0.9}
+                    onClick={() => {
+                      router.push(`/products/${poster.id}`);
+                    }}
                     sx={{
                       cursor: "pointer",
                       "&:hover": {
@@ -368,7 +373,7 @@ function PosterButton({
           selectedCategoryId === category.subCatId
             ? `linear-gradient(to bottom,${theme.palette.primary.main}, ${alpha(
                 theme.palette.secondary.dark,
-                0.9
+                0.9,
               )})`
             : `linear-gradient(to bottom,#FFFFFF, #D2D3F0)`,
       })}

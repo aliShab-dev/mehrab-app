@@ -132,12 +132,13 @@ const StaffMembers = () => {
                     <DeleteForeverIcon color="error" />
                   </IconButton>
                 </Stack>
-                <Image
-                  src={c.image}
-                  alt={"random"}
-                  fill
+                <img
+                  src={c.image ?? "/logo.png"}
+                  alt="Company logo"
                   style={{
                     objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
                   }}
                 />
               </Stack>

@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
         hostname: "api.mehrabfamily.ir",
         pathname: "/media/uploads/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/media/uploads/**",
+      },
     ],
   },
 };

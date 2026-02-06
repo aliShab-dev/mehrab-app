@@ -75,7 +75,7 @@ export default function UserImageCarousel() {
     setSelectedId(userId);
   };
 
-  console.log(users)
+  console.log(users);
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -247,16 +247,13 @@ export default function UserImageCarousel() {
                   },
                 }}
               >
-                <Image
-                  src={
-                    typeof user.image === "string" && user.image.trim() !== ""
-                      ? user.image
-                      : "/avatar.png"
-                  }
-                  alt={user.name}
-                  fill
+                <img
+                  src={user.image ?? "/logo.png"}
+                  alt="Company logo"
                   style={{
                     objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
                   }}
                 />
                 <Typography component={"p"}>{user.name}</Typography>
@@ -274,7 +271,7 @@ export default function UserImageCarousel() {
                         theme.palette.secondary.main
                       } 0%,  ${alpha(
                         theme.palette.secondary.light,
-                        0.6
+                        0.6,
                       )} 60%, transparent 100%)`,
                     zIndex: 10,
                   }}

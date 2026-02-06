@@ -10,7 +10,7 @@ interface PosterSectionProps {
   buttonRef: React.RefObject<HTMLButtonElement | null>;
   openTimer: boolean;
   handleButtonClick: () => void;
-  episod: number | null;
+  episod: number | string;
   handleEpisod: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setOpenTimer: (isOpen: boolean) => void;
   selectedTime: Dayjs | null;
@@ -67,7 +67,7 @@ const PosterSection = ({
             >
               {selectedTime
                 ? `زمان انتخاب شده: ${toPersianDigits(
-                    selectedTime.format("HH:mm")
+                    selectedTime.format("HH:mm:ss")
                   )}  `
                 : "زمان کار را انتخاب کنید"}
             </Button>
@@ -79,6 +79,7 @@ const PosterSection = ({
               value={selectedTime}
               onChange={handleChangeTimer}
               ampm={false}
+              views={['hours', 'minutes', 'seconds']} 
               slotProps={{
                 textField: {
                   style: { display: "none" }, // completely hide the input

@@ -77,6 +77,8 @@ const Customers = () => {
     refreshCustomers();
   }, []);
 
+  console.log(customers);
+
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>
@@ -124,12 +126,13 @@ const Customers = () => {
                     <DeleteForeverIcon color="error" />
                   </IconButton>
                 </Stack>
-                <Image
-                  src={c.logo}
-                  alt={"random"}
-                  fill
+                <img
+                  src={c.logo ?? "/logo.png"}
+                  alt="Company logo"
                   style={{
                     objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
                   }}
                 />
               </Stack>

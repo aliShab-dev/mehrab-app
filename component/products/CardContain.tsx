@@ -38,8 +38,6 @@ const CardContainer = ({
 }: CardContainer) => {
   const router = useRouter();
 
-  console.log(allItems);
-
   return (
     <motion.div
       key={showAll ? "all" : `page-${page}`}

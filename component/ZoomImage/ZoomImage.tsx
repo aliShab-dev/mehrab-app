@@ -33,7 +33,6 @@ const formatTime = (time: number) => {
 export function getFileFormat(
   filePath: string
 ): "photo" | "video" | "audio" | "unknown" {
-  console.log(filePath);
   const extension = filePath && filePath.split(".").pop()?.toLowerCase();
 
   const photoExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "webp", "svg"];

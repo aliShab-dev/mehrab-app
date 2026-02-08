@@ -73,7 +73,7 @@ export default async function ProductPage({ params }: ProductPageParams) {
       ? sameSubCatProduct.filter((item) => item.id !== product.id)
       : undefined;
 
-  console.log(product);
+      console.log(product)
 
   return (
     <Stack

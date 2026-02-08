@@ -50,7 +50,7 @@ export const SwiperWrapper = ({
   );
 };
 
-const Loader = ({...props}) => {
+const Loader = ({ ...props }) => {
   return (
     <SwiperWrapper {...props}>
       {Array.from({ length: 8 }).map((_, i) => (
@@ -81,15 +81,18 @@ const SwiperStack = () => {
     return (
       <Stack>
         <Loader />
-        <Loader reverse/>
+        <Loader reverse />
       </Stack>
     );
 
   return (
     <>
       <SwiperWrapper>
-        {customers.map((item) => (
-          <SwiperSlide key={item.name} style={{ background: "transparent" }}>
+        {customers.map((item, i) => (
+          <SwiperSlide
+            key={`${i}-${item.name}`}
+            style={{ background: "transparent" }}
+          >
             <Image
               src={item.logo}
               alt={item.name}
@@ -101,8 +104,11 @@ const SwiperStack = () => {
         ))}
       </SwiperWrapper>
       <SwiperWrapper reverse>
-        {customers.map((item) => (
-          <SwiperSlide key={item.name} style={{ background: "transparent" }}>
+        {customers.map((item, i) => (
+          <SwiperSlide
+            key={`${i}-${item.name}`}
+            style={{ background: "transparent" }}
+          >
             <Image
               src={item.logo}
               alt={item.name}

@@ -38,8 +38,6 @@ const CardContainerProduct = ({
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
 
-  console.log(cardData)
-
   return (
     <Stack gap={1} mt={6}>
       <Stack>
@@ -99,7 +97,6 @@ const CardContainerProduct = ({
               },
             }}
           >
-            {/* <ChevronLeft fontSize="large" sx={{ml: -.2}}/> */}
             <Image
               src="/arrow-left.png"
               alt="arrow-left"
@@ -221,7 +218,7 @@ const CardContainerProduct = ({
                       >
                         {getFileFormat(`${data.files[0].file}`) !== "photo" ? (
                           <Image
-                            src={data?.poster ? `${data.poster}` : ''}
+                            src={data?.poster ? `${data.poster}` : ""}
                             alt="image"
                             fill
                             className="zoom-image"
@@ -233,7 +230,7 @@ const CardContainerProduct = ({
                           />
                         ) : (
                           <Image
-                            src={data.file}
+                            src={`${data.files[0].file}`}
                             alt="image"
                             fill
                             className="zoom-image"

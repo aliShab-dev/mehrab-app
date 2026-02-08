@@ -75,8 +75,6 @@ export default function UserImageCarousel() {
     setSelectedId(userId);
   };
 
-  console.log(users);
-
   useEffect(() => {
     const loadUsers = async () => {
       setLoading(true);

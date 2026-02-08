@@ -134,8 +134,6 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
     }
   }, [listOfPics]);
 
-  console.log(listOfPics);
-
   return (
     <Stack width="100%" overflow={"visible"} position={"relative"}>
       <MySwiperStyles />

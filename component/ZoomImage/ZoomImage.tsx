@@ -31,7 +31,7 @@ const formatTime = (time: number) => {
 };
 
 export function getFileFormat(
-  filePath: string
+  filePath: string,
 ): "photo" | "video" | "audio" | "unknown" {
   const extension = filePath && filePath.split(".").pop()?.toLowerCase();
 
@@ -247,8 +247,8 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
   };
   return (
     <Stack
-      width={"90%"}
-      height={"100%"}
+      width={{ xs: "85%", sm: "90%" }}
+      height={{ xs: "85%", sm: "100%" }}
       alignItems="center"
       justifyContent={"space-around"}
     >
@@ -270,28 +270,25 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
           height: { xs: "calc(100% - 50px)", sm: "calc(60%)" },
           minWidth: 0,
           borderRadius: "50%",
-          bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
-          color: "#fff",
+          bgcolor: (theme) => alpha(theme.palette.primary.main, 0.7),
+          color: "#DFE0E6",
           "&:hover": {
-            bgcolor: (theme) =>
-              playing
-                ? alpha(theme.palette.primary.main, 0.8)
-                : alpha("#DFE0E6", 0.8),
+            bgcolor: (theme) => alpha(theme.palette.primary.main, 0.85),
           },
         }}
       >
         {playing ? (
-          <PauseRoundedIcon sx={{ fontSize: { xs: 72, sm: 140 } }} />
+          <PauseRoundedIcon sx={{ fontSize: { xs: 72, sm: 180 } }} />
         ) : (
-          <PlayArrowRoundedIcon sx={{ fontSize: { xs: 72, sm: 140 } }} />
+          <PlayArrowRoundedIcon sx={{ fontSize: { xs: 72, sm: 180 } }} />
         )}
       </IconButton>
       <Stack width={"100%"} gap={{ xs: 1, sm: 2 }}>
         <Box
           sx={{
             width: "100%",
-            height: 10,
-            bgcolor: "#DFE0E6",
+            height: { xs: 7, sm: 10 },
+            bgcolor: (theme) => alpha("#DFE0E6", 0.7),
             borderRadius: 5,
             cursor: "pointer",
             position: "relative",
@@ -312,10 +309,30 @@ const AudioPlayer = ({ product }: { product: FetchedProduct }) => {
         </Box>
 
         <Stack direction="row" justifyContent="space-between" width="100%">
-          <Typography variant="body2" fontSize={{ xs: 12, sm: 14 }}>
+          <Typography
+            variant="body2"
+            color="primary.main"
+            fontSize={{ xs: 12, sm: 14 }}
+            sx={{
+              bgcolor: (theme) => alpha(theme.palette.secondary.dark, 0.6),
+              px: { xs: 1, sm: 2 },
+              py: { xs: 0.1, sm: 0.3 },
+              borderRadius: 2,
+            }}
+          >
             {formatTime(position)}
           </Typography>
-          <Typography variant="body2" fontSize={{ xs: 12, sm: 14 }}>
+          <Typography
+            variant="body2"
+            color="primary.main"
+            fontSize={{ xs: 12, sm: 14 }}
+            sx={{
+              bgcolor: (theme) => alpha(theme.palette.secondary.dark, 0.6),
+              px: { xs: 1, sm: 2 },
+              py: { xs: 0.1, sm: 0.3 },
+              borderRadius: 2,
+            }}
+          >
             {formatTime(duration)}
           </Typography>
         </Stack>
@@ -359,11 +376,8 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
             product.poster && product.poster !== "EMPTY"
               ? `url(${product.poster})`
               : product.files?.length
-              ? `url(${product.files[0].file})`
-              : "none",
-          // backgroundImage: `url(${
-          //   fileType == "photo" ? product.file : product.poster
-          // })`,
+                ? `url(${product.files[0].file})`
+                : "none",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",

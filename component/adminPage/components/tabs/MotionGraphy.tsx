@@ -196,6 +196,7 @@ const MotionGraphy = () => {
   const submitProduct = () => {
     setNewResponse(false);
     if (typeof isEditing === "number") {
+      console.log('sending ....')
       updateProduct({
         id: isEditing,
         name,

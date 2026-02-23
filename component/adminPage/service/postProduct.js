@@ -49,7 +49,7 @@ const createProduct = async ({
       title: item.title || "",
     }));
   } else if (file) {
-    console.log(file)
+    console.log(file);
 
     const rawFiles = Array.isArray(file) ? file : [file];
     filesToSend = rawFiles.map((f, i) => ({
@@ -76,7 +76,7 @@ const createProduct = async ({
 
     if (!response.ok) {
       throw new Error(
-        `Server error: ${response.status} - ${JSON.stringify(result)}`
+        `Server error: ${response.status} - ${JSON.stringify(result)}`,
       );
     }
 
@@ -106,7 +106,7 @@ const updateProduct = async ({
   const token = localStorage.getItem("token");
 
   const formData = new FormData();
-
+  //FIXME: this need backend to support null for not changes
   formData.append("name", name);
   formData.append("description", description || "");
   formData.append("company", company || "");
@@ -129,26 +129,19 @@ const updateProduct = async ({
     formData.append("poster", poster);
   }
 
-  let filesToSend = [];
+  if (Array.isArray(files)) {
+    const newFiles = files.filter((f) => f instanceof File);
 
-  if (Array.isArray(files) && files.length > 0) {
-    filesToSend = files.map((item) => ({
-      file: item.file,
-      title: item.title || "",
-    }));
-  } else if (file) {
-    console.log(file)
-    const rawFiles = Array.isArray(file) ? file : [file];
-    filesToSend = rawFiles.map((f, i) => ({
-      file: f,
-      title: f.name.split(".").slice(0, -1).join(".") || `فایل ${i + 1}`,
-    }));
+    newFiles.forEach((fileObj, index) => {
+      formData.append(`files[${index}][file]`, fileObj);
+      formData.append(
+        `files[${index}][title]`,
+        fileObj.name
+          ? fileObj.name.split(".").slice(0, -1).join(".")
+          : `File ${index + 1}`,
+      );
+    });
   }
-
-  filesToSend.forEach((item, index) => {
-    formData.append(`files[${index}][file]`, item.file);
-    formData.append(`files[${index}][title]`, item.title);
-  });
 
   try {
     const response = await fetch(API_URL, {
@@ -163,7 +156,7 @@ const updateProduct = async ({
 
     if (!response.ok) {
       throw new Error(
-        `Server error: ${response.status} - ${JSON.stringify(result)}`
+        `Server error: ${response.status} - ${JSON.stringify(result)}`,
       );
     }
 
@@ -208,7 +201,7 @@ const getProductsByCatId = async (cat) => {
       `${BASE_URL}/api/subcategories/${cat}/get_products/`,
       {
         method: "get",
-      }
+      },
     );
 
     if (!response.ok) {
@@ -229,7 +222,7 @@ const getProductsByCategoryId = async (cat) => {
       `${BASE_URL}/api/categories/${cat}/get_products/`,
       {
         method: "get",
-      }
+      },
     );
 
     if (!response.ok) {
@@ -253,7 +246,7 @@ const getProductsByProductId = async (productId) => {
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(
-        `Server error: ${productId} ${response.status} - ${errorText}`
+        `Server error: ${productId} ${response.status} - ${errorText}`,
       );
     }
 

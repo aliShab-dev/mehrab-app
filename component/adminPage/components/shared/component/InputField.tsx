@@ -13,8 +13,9 @@ import SelectStaff from "./SelectStaff";
 import { Dayjs } from "dayjs";
 import PosterSection from "./PosterSection";
 
-export const StyledTextField = ({ ...props }) => (
+export const StyledTextField = ({ value, ...props }) => (
   <TextField
+    value={value ?? ""}
     fullWidth
     {...props}
     sx={{
@@ -56,7 +57,7 @@ interface InputFieldProps {
   handleDeleteStaff: (name: string) => void;
   staffArray: { name: string; role: string; image: File | null }[];
   setStaffArray: (
-    staff: { name: string; role: string; image: File | null }[]
+    staff: { name: string; role: string; image: File | null }[],
   ) => void;
   setIsAddStaff: (isAdd: boolean) => void;
   mediaType: "audio" | "video" | "image";

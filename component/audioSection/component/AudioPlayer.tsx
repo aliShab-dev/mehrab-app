@@ -31,6 +31,8 @@ const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  console.log(selectedItem);
+
   const isSelectedItemEmpty =
     !selectedItem || Object.keys(selectedItem).length === 0;
 
@@ -183,23 +185,36 @@ const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
         <IconButton
           onClick={togglePlay}
           sx={{
-            width: 200,
-            height: 200,
+            width: { xs: 240, sm: 260, md: 200, lg: 280 },
+            height: { xs: 240, sm: 260, md: 200, lg: 280 },
             borderRadius: "50%",
-            bgcolor: playing ? "primary.main" : alpha("#DFE0E6", 0.6),
-            color: "#fff",
-            "&:hover": {
-              bgcolor: (theme) =>
-                playing
-                  ? alpha(theme.palette.primary.main, 0.8)
-                  : alpha("#DFE0E6", 0.8),
+            color: theme => theme.palette.primary.light,
+            position: "relative",
+            overflow: "hidden",
+            backgroundImage: selectedItem?.poster
+              ? `url(${selectedItem.poster})`
+              : "none",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              inset: 0,
+              borderRadius: "50%",
+              backgroundColor: playing ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.2)",
+              transition: "0.3s",
+            },
+
+            "&:hover::after": {
+              backgroundColor: "rgba(0,0,0,0.3)",
             },
           }}
         >
           {playing ? (
-            <PauseRoundedIcon sx={{ fontSize: 140 }} />
+            <PauseRoundedIcon sx={{ fontSize: 170 }} />
           ) : (
-            <PlayArrowRoundedIcon sx={{ fontSize: 140 }} />
+            <PlayArrowRoundedIcon sx={{ fontSize: 170 }} />
           )}
         </IconButton>
 

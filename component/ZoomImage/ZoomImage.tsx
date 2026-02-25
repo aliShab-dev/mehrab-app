@@ -165,8 +165,8 @@ const VideoPlayer = ({ product }: { product: FetchedProduct }) => {
         height="100%"
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
+          top: 0.8,
+          left: 0.4,
         }}
         onError={(e) => console.error("ReactPlayer Error:", e)}
       />
@@ -365,7 +365,7 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
       <Box
         sx={{
           width: "100%",
-          aspectRatio: "1.8056",
+          aspectRatio: "1.78",
           position: "relative",
           overflow: "hidden",
           borderRadius: 5,
@@ -373,25 +373,12 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
           alignItems: "center",
           justifyContent: "center",
           backgroundImage:
-            product.poster && product.poster !== "EMPTY"
+            fileType === "audio" && product.poster && product.poster !== "EMPTY"
               ? `url(${product.poster})`
-              : product.files?.length
-                ? `url(${product.files[0].file})`
-                : "none",
+              : "none",
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backdropFilter: "blur(3px)",
-            backgroundColor: "rgba(0, 0, 0, 0.2)",
-            zIndex: 0,
-          },
           "& > *": {
             zIndex: 1,
           },
@@ -400,7 +387,10 @@ const DissplayBox = ({ product }: { product: FetchedProduct }) => {
         {fileType == "photo" && (
           <ZoomImageModal src={product.files} alt={product.name} />
         )}
-        {fileType == "video" && <VideoPlayer product={product} />}
+        {fileType == "video" && (
+          // <></>
+          <VideoPlayer product={product} />
+        )}
         {fileType == "audio" && <AudioPlayer product={product} />}
       </Box>
     </Stack>

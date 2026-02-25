@@ -10,6 +10,7 @@ import { css, Global } from "@emotion/react";
 import type { Swiper as SwiperClass } from "swiper";
 import { FetchedProduct } from "@/types/products";
 import { getFileFormat } from "../ZoomImage/ZoomImage";
+import Link from "next/link";
 const cardVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: { opacity: 1, y: 0 },
@@ -37,6 +38,8 @@ const CardContainerProduct = ({
   const [isBeginning, setIsBeginning] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
+
+  const navigateToProductPage = () => {};
 
   return (
     <Stack gap={1} mt={6}>
@@ -180,9 +183,13 @@ const CardContainerProduct = ({
                   >
                     <Box
                       flexDirection={"column"}
-                      component={"a"}
+                      component={Link}
+                      href={`/products/${data.id}`}
                       sx={{
                         width: { xs: 200, md: 250 },
+                        textDecoration: "none",
+                        color: "inherit",
+                        display: "block",
                         borderRadius: 3,
                         backgroundImage: (theme) =>
                           `linear-gradient(to bottom, ${theme.palette.secondary.light}, ${theme.palette.secondary.dark})`,
@@ -250,7 +257,7 @@ const CardContainerProduct = ({
                           fontSize={{ xs: 14, md: 20 }}
                           noWrap
                         >
-                          {data.name} asdkfssss
+                          {data.name}
                         </Typography>
                         <Typography
                           width={"100%"}

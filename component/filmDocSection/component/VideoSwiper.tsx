@@ -20,8 +20,13 @@ const MySwiperStyles = () => {
   return (
     <Global
       styles={css`
+        .swiper {
+        padding-bottom: 30px
+        }
         .mySwiper .swiper-slide {
-          transition: transform 0.4s ease, z-index 0.4s ease,
+          transition:
+            transform 0.4s ease,
+            z-index 0.4s ease,
             box-shadow 0.4s ease;
           transform: scale(0.75);
           z-index: 1;
@@ -30,15 +35,18 @@ const MySwiperStyles = () => {
         }
 
         .mySwiper .swiper-slide-active {
-          transform: scale(1);
+          transform: scale(1.1) translateY(10px);
           z-index: 3;
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* stronger shadow for active */
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* stronger shadow for active */
         }
 
         .mySwiper .swiper-slide-prev,
         .mySwiper .swiper-slide-next {
           transform: scale(0.9);
           z-index: 2;
+        }
+        .mySwiper .swiper-pagination {
+          bottom: -25px !important; /* move it lower */
         }
         .mySwiper .swiper-pagination-bullet {
           width: 15px;
@@ -74,7 +82,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
   }, [videoList, swiperRef]);
 
   return (
-    <Stack width="100%" mt={3} position={"relative"}>
+    <Stack width="100%" mt={1} position={"relative"}>
       {!isBeginning && (
         <IconButton
           onClick={() => swiperRef?.slidePrev()}
@@ -89,7 +97,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
               xs: "calc(85%)",
               sm: "calc(80%)",
               md: "calc(78%)",
-              lg: "calc(60% + 255px)",
+              lg: "calc(60% + 260px)",
             },
             zIndex: 100,
             background: `linear-gradient(to bottom,#37E3C3, #049070)`,
@@ -119,7 +127,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
               xs: "calc(85%)",
               sm: "calc(80%)",
               md: "calc(78%)",
-              lg: "calc(60% + 255px)",
+              lg: "calc(60% + 260px)",
             },
             zIndex: 100,
             background: `linear-gradient(to bottom,#37E3C3, #049070)`,

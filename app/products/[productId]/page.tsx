@@ -73,8 +73,6 @@ export default async function ProductPage({ params }: ProductPageParams) {
       ? sameSubCatProduct.filter((item) => item.id !== product.id)
       : undefined;
 
-      console.log(product)
-
   return (
     <Stack
       width={{ xs: "90%", md: "75%" }}
@@ -120,7 +118,7 @@ export default async function ProductPage({ params }: ProductPageParams) {
                 </Typography>
               </Stack>
             )}
-            
+
             <Stack textAlign="center">
               <Typography
                 fontSize={{ xs: 13, sm: 14, md: 16, lg: 20 }}

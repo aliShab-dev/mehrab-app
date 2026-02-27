@@ -31,7 +31,7 @@ const PosterSection = ({
   episod,
   handleEpisod,
   handleButtonClick,
-  handleClose
+  handleClose,
 }: PosterSectionProps) => {
   return (
     <Stack direction={"row"} gap={2}>
@@ -67,7 +67,7 @@ const PosterSection = ({
             >
               {selectedTime
                 ? `زمان انتخاب شده: ${toPersianDigits(
-                    selectedTime.format("HH:mm:ss")
+                    selectedTime.format("HH:mm:ss"),
                   )}  `
                 : "زمان کار را انتخاب کنید"}
             </Button>
@@ -79,7 +79,8 @@ const PosterSection = ({
               value={selectedTime}
               onChange={handleChangeTimer}
               ampm={false}
-              views={['hours', 'minutes', 'seconds']} 
+              views={["hours", "minutes", "seconds"]}
+              timeSteps={{ hours: 1, minutes: 1, seconds: 1 }}
               slotProps={{
                 textField: {
                   style: { display: "none" }, // completely hide the input
@@ -111,6 +112,5 @@ const PosterSection = ({
     </Stack>
   );
 };
-
 
 export default PosterSection;

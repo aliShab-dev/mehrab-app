@@ -21,7 +21,7 @@ const MySwiperStyles = () => {
     <Global
       styles={css`
         .swiper {
-        padding-bottom: 30px
+          padding-bottom: 30px;
         }
         .mySwiper .swiper-slide {
           transition:
@@ -71,10 +71,12 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     if (swiperRef && videoList.length > 0) {
       swiperRef.slideToLoop(0, 0, false); // jump to first
+      setActiveIndex(0);
       setTimeout(() => {
         swiperRef.update();
       }, 0);
@@ -186,9 +188,11 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
         className="mySwiper"
         onSwiper={(swiper) => {
           setSwiperRef(swiper);
+          setActiveIndex(swiper.realIndex);
           setIsBeginning(swiper.isBeginning);
           setIsEnd(swiper.isEnd);
           swiper.on("slideChange", () => {
+            setActiveIndex(swiper.realIndex);
             setIsBeginning(swiper.isBeginning);
             setIsEnd(swiper.isEnd);
           });
@@ -260,7 +264,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                     url={`${video.files[0].file}`}
                     light={`${video.poster}`}
                     controls
-                    playing
+                    playing={activeIndex === index}
                     width="100%"
                     height="100%"
                     style={{

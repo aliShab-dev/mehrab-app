@@ -283,7 +283,7 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
                         key={subCat.id}
                         fullWidth
                         onClick={() => handleSubCatChange(subCat.id)}
-                        sx={{ px: 0, py: 0.3 }}
+                        sx={{ px: 0, py: 0.6 }}
                       >
                         <Stack
                           direction="row"

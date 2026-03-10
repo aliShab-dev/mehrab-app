@@ -8,14 +8,7 @@ import MuiAccordionSummary, {
 } from "@mui/material/AccordionSummary";
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import React from "react";
-import {
-  Box,
-  Button,
-  Divider,
-  Skeleton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Skeleton, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Categories } from "@/types/categories";
 import { Product } from "./ClientContainer";
@@ -151,18 +144,16 @@ const HeaderButton = ({ expanded, name }: headerButtonType) => (
   </Button>
 );
 
-type SubCat = { id: number; name: string };
-
 const motionCats = [
   "کلاژ موشن",
   "کمیک موشن",
   "هندموشن",
   "فلت موشن",
-  "اینفوموشن",
-  "رئال موشن",
+  " تکس موشن",
+  "مستند موشن",
   " لوگوموشن",
   "پوستر موشن",
-  " استوری موشن",
+  // " استوری موشن",
 ];
 
 interface ButtonMenuProps {
@@ -171,7 +162,7 @@ interface ButtonMenuProps {
   expanded: string | false;
   selectedSubCat: number;
   handleChange: (
-    panel: string
+    panel: string,
   ) => (event: React.SyntheticEvent, expanded: boolean) => void;
   handleSubCatChange: (id: number) => void;
 }
@@ -274,9 +265,10 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
                     </Button>
                   ))
                 : productById.slice(0, 3).map((subCat) => {
-                    const imageSrc = subCat?.poster !== 'EMPTY'
-                      ? `${subCat.poster}`
-                      : "/rules.jpg";
+                    const imageSrc =
+                      subCat?.poster !== "EMPTY"
+                        ? `${subCat.poster}`
+                        : "/rules.jpg";
 
                     return (
                       <Button

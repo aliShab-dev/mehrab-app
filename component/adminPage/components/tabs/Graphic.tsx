@@ -101,7 +101,7 @@ const Graphic = () => {
   >([]);
 
   const [products, setProducts] = useState<ProductSwiper[]>(
-    productsWithCat.find((cat) => cat.name === age)?.products || []
+    productsWithCat.find((cat) => cat.name === age)?.products || [],
   );
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -397,15 +397,13 @@ const Graphic = () => {
             p={1}
             gap={3}
             direction={"row"}
-            sx={{ overflowX: "hidden", overflowY: "auto" }}
+            sx={{ overflowX: "hidden", overflowY: "auto", flexWrap: "wrap" }}
           >
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
                 <Avatar
                   src={
-                    product?.files?.[0]?.file
-                      ? `${product.files[0].file}`
-                      : ""
+                    product?.files?.[0]?.file ? `${product.files[0].file}` : ""
                   }
                   alt="poster"
                   variant="rounded"
@@ -433,7 +431,7 @@ const Graphic = () => {
                       setSelectedTime(
                         product.duration
                           ? dayjs(`1970-01-01 ${product.duration}`)
-                          : null
+                          : null,
                       );
                       setEpisod(product.episode ?? null);
                       setProductImage(product.files);

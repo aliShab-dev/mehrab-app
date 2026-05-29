@@ -39,7 +39,7 @@ type Subcategory = {
 const productsWithCat = [
   { id: 1, name: "ویدیو کامنت ضبطی", products: [] },
   { id: 2, name: "مستند کوتاه", products: [] },
-  { id: 3, name: "کلیپ", products: [] },
+  { id: 3, name: "ویدیو کامنت آرشیوی", products: [] },
   { id: 4, name: "مصاحبه", products: [] },
   { id: 5, name: "تیزر گزارشی", products: [] },
 ];
@@ -47,7 +47,7 @@ const productsWithCat = [
 const subCat = [
   "ویدیو کامنت ضبطی",
   "مستند کوتاه",
-  "کلیپ",
+  "ویدیو کامنت آرشیوی",
   "مصاحبه",
   "تیزر گزارشی",
 ];
@@ -77,7 +77,7 @@ const Movie = () => {
   >([]);
 
   const [products, setProducts] = useState<Product[]>(
-    productsWithCat.find((cat) => cat.name === age)?.products || []
+    productsWithCat.find((cat) => cat.name === age)?.products || [],
   );
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -361,7 +361,7 @@ const Movie = () => {
             p={1}
             gap={3}
             direction={"row"}
-            sx={{ overflowX: "hidden", overflowY: "auto" }}
+            sx={{ overflowX: "hidden", overflowY: "auto", flexWrap: "wrap" }}
           >
             {products.map((product, index) => (
               <Stack key={`${product.name}-${index}`} width={200} gap={1}>
@@ -397,7 +397,7 @@ const Movie = () => {
                       setSelectedTime(
                         product.duration
                           ? dayjs(`1970-01-01 ${product.duration}`)
-                          : null
+                          : null,
                       );
                       setEpisod(product.episode ?? null);
                       setProductImage(product.file);

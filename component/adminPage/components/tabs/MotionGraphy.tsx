@@ -80,11 +80,11 @@ const productsWithCat = [
   { id: 2, name: "کمیک موشن", products: [] },
   { id: 3, name: "هندموشن", products: [] },
   { id: 4, name: "فلت موشن", products: [] },
-  { id: 5, name: "اینفوموشن", products: [] },
-  { id: 6, name: "رئال موشن", products: [] },
+  { id: 5, name: "تکس موشن", products: [] },
+  { id: 6, name: "مستند موشن", products: [] },
   { id: 7, name: "لوگوموشن", products: [] },
   { id: 8, name: "پوستر موشن", products: [] },
-  { id: 9, name: "استوری موشن", products: [] },
+  // { id: 9, name: "استوری موشن", products: [] },
 ];
 
 const subCat = [
@@ -92,11 +92,11 @@ const subCat = [
   "کمیک موشن",
   "هندموشن",
   "فلت موشن",
-  "اینفوموشن",
-  "رئال موشن",
-  " لوگوموشن",
+  "تکس موشن",
+  "مستند موشن",
+  "لوگوموشن",
   "پوستر موشن",
-  " استوری موشن",
+  // " استوری موشن",
 ];
 
 const levels = ["سطح 1", "سطح 2", "سطح 3"];
@@ -124,7 +124,7 @@ const MotionGraphy = () => {
   >([]);
 
   const [products, setProducts] = useState<Product[]>(
-    productsWithCat.find((cat) => cat.name === age)?.products || []
+    productsWithCat.find((cat) => cat.name === age)?.products || [],
   );
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -196,7 +196,7 @@ const MotionGraphy = () => {
   const submitProduct = () => {
     setNewResponse(false);
     if (typeof isEditing === "number") {
-      console.log('sending ....')
+      console.log("sending ....");
       updateProduct({
         id: isEditing,
         name,
@@ -446,7 +446,7 @@ const MotionGraphy = () => {
                       setSelectedTime(
                         product.duration
                           ? dayjs(`1970-01-01 ${product.duration}`)
-                          : null
+                          : null,
                       );
                       setEpisod(product.episode ?? null);
                       setProductImage(product.files[0].file);

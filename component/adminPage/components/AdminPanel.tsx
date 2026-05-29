@@ -57,7 +57,7 @@ const AdminPanel = () => {
   const [value, setValue] = useState<number>(0);
 
   const storedPermission = JSON.parse(
-    localStorage.getItem("permissions") || "[]"
+    localStorage.getItem("permissions") || "[]",
   );
 
   const userRole = localStorage.getItem("role") || "admin";

@@ -22,7 +22,7 @@ interface DisplayProductInterface {
   setCat: (cat: string) => void;
   staffArray: { name: string; role: string; image: File | null }[];
   setStaffArray: (
-    staff: { name: string; role: string; image: File | null }[]
+    staff: { name: string; role: string; image: File | null }[],
   ) => void;
   isEditing: number | null;
   setIsEditing: (id: number | null) => void;

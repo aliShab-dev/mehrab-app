@@ -11,15 +11,16 @@ import {
 } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useEffect, useState } from "react";
-import "swiper/css";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import type { Swiper as SwiperClass } from "swiper";
 import { getStaff } from "../adminPage/service/staffServices";
+import "swiper/css";
 
 type User = {
   id: string;
   image: string;
   name: string;
+  role: string;
 };
 
 const Loader = () => (
@@ -72,6 +73,14 @@ export default function UserImageCarousel() {
 
   const handleSelect = (userId: string) => {
     setSelectedId(userId);
+
+    const index = users.findIndex((user) => user.id === userId);
+
+    if (swiperRef && index !== -1 && isMobile) {
+      setTimeout(() => {
+        swiperRef.slideTo(index, 400);
+      }, 150);
+    }
   };
 
   useEffect(() => {
@@ -90,6 +99,7 @@ export default function UserImageCarousel() {
 
   return (
     <Stack direction={"row"} width={"100%"} mx={"auto"} position={"relative"}>
+      {/* Arrows - Keep on both mobile and desktop */}
       {!isBeginning && (
         <IconButton
           onClick={() => swiperRef?.slidePrev()}
@@ -141,7 +151,9 @@ export default function UserImageCarousel() {
           <ChevronLeft sx={{ ml: -0.6, fontSize: 72 }} />
         </IconButton>
       )}
-      {!isBeginning && (
+
+      {/* Gradients - Only show on Desktop (hide on mobile) */}
+      {!isMobile && !isBeginning && (
         <Box
           sx={{
             position: "absolute",
@@ -157,7 +169,7 @@ export default function UserImageCarousel() {
         />
       )}
 
-      {!isEnd && (
+      {!isMobile && !isEnd && (
         <Box
           sx={{
             position: "absolute",
@@ -175,6 +187,10 @@ export default function UserImageCarousel() {
       <Swiper
         slidesPerView="auto"
         spaceBetween={12}
+        centeredSlides={isMobile}
+        centerInsufficientSlides={isMobile}
+        slideToClickedSlide={isMobile}
+        speed={400}
         onSwiper={(swiper) => {
           setSwiperRef(swiper);
 
@@ -186,12 +202,15 @@ export default function UserImageCarousel() {
             setIsEnd(swiper.isEnd);
           });
 
-          swiper.on("reachBeginning", () => setIsBeginning(true));
-          swiper.on("reachEnd", () => setIsEnd(true));
-          swiper.on("fromEdge", () => {
-            setIsBeginning(swiper.isBeginning);
-            setIsEnd(swiper.isEnd);
-          });
+          // Only add these for desktop if needed
+          if (!isMobile) {
+            swiper.on("reachBeginning", () => setIsBeginning(true));
+            swiper.on("reachEnd", () => setIsEnd(true));
+            swiper.on("fromEdge", () => {
+              setIsBeginning(swiper.isBeginning);
+              setIsEnd(swiper.isEnd);
+            });
+          }
         }}
       >
         {users.map((user) => {
@@ -204,6 +223,7 @@ export default function UserImageCarousel() {
                 transition: "width 0.3s ease",
                 display: "flex",
                 justifyContent: "center",
+                flexShrink: 0, // ← Add this
               }}
               onClick={() => handleSelect(user.id)}
             >
@@ -254,7 +274,9 @@ export default function UserImageCarousel() {
                   }}
                 />
                 <Typography component={"p"}>{user.name}</Typography>
-                <Typography component={"span"}>{"کارشناس فروش"}</Typography>
+                <Typography component={"span"}>
+                  {user.role || "کارشناس فروش"}
+                </Typography>
                 <Box
                   sx={{
                     position: "absolute",

@@ -2,7 +2,7 @@
 
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import VideoSwiper from "./VideoSwiper";
-import { Categories, SubCategory } from "@/types/categories";
+import { Categories } from "@/types/categories";
 import { useCallback, useEffect, useState } from "react";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
@@ -11,23 +11,14 @@ interface ClientContainerProps {
   categories: Categories;
 }
 
-type CategoryType = string[];
-
-const category: CategoryType = [
-  "ویدیو کامنت ضبطی",
-  "مستند کوتاه",
-  "کلیپ",
-  "تیزر گزارشی",
-];
-
 const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   const [listOfVideo, setListOfVideo] = useState<Product[]>([]);
   const [subCategories, setSubCategories] = useState(
-    categories.find((cat) => cat.categoryId === 2)?.subCatList || []
+    categories.find((cat) => cat.categoryId === 2)?.subCatList || [],
   );
 
   const [selectedCategory, setSeletedCategory] = useState<number | null>(
-    subCategories[0]?.subCatId || null
+    subCategories[0]?.subCatId || null,
   );
 
   useEffect(() => {
@@ -36,16 +27,9 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
     }
   }, [subCategories, selectedCategory]);
 
-  const handleTabChange = useCallback(
-    (_event: React.SyntheticEvent, newValue: number) => {
-      setSeletedCategory(newValue);
-    },
-    []
-  );
-
   useEffect(() => {
     setSubCategories(
-      categories.find((cat) => cat.categoryId === 2)?.subCatList || []
+      categories.find((cat) => cat.categoryId === 2)?.subCatList || [],
     );
   }, [categories]);
 

@@ -36,7 +36,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   const [productById, setProductById] = useState<Product[]>([]);
 
   const selectedProduct = productById.find(
-    (product) => product.id == selectedSubCat
+    (product) => product.id == selectedSubCat,
   );
 
   const handleChange = (panel: string) => (event: React.SyntheticEvent) => {
@@ -53,17 +53,32 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
 
   useEffect(() => {
     setProductById([]);
-    getProductsByCatId(
-      categories
-        .find((cat) => cat.categoryId == 1)
-        ?.subCatList.find((subCat) => subCat.subCatName == expanded)?.subCatId
-    )
-      .then((res) => {
-        setSelectedSubCat(res[0]?.id);
-        setProductById(res);
-      })
-      .catch((res) => console.log(res));
-  }, [expanded]);
+
+    const normalize = (str) =>
+      str
+        ? str
+            .replace(/\u00A0/g, " ")
+            .replace(/[\u200C-\u200F]/g, "")
+            .trim()
+        : "";
+
+    const targetName = normalize(expanded);
+
+    const targetSubCat = categories
+      .find((cat) => cat.categoryId == 1)
+      ?.subCatList.find(
+        (subCat) => normalize(subCat.subCatName) === targetName,
+      );
+
+    if (targetSubCat) {
+      getProductsByCatId(targetSubCat.subCatId)
+        .then((res) => {
+          setSelectedSubCat(res[0]?.id);
+          setProductById(res);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [expanded, categories]);
 
   return (
     <Stack
@@ -83,9 +98,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
         selectedSubCat={selectedSubCat}
       />
       <VideoPlayer
-        posterUrl={
-          selectedProduct ? `${selectedProduct.poster}` : ""
-        }
+        posterUrl={selectedProduct ? `${selectedProduct.poster}` : ""}
         selectedProduct={selectedProduct}
         url={selectedProduct ? `${selectedProduct.files[0].file}` : ""}
       />

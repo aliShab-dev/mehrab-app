@@ -31,8 +31,6 @@ const AudioPlayer = ({ selectedItem }: AudioPlayerProps) => {
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  console.log(selectedItem);
-
   const isSelectedItemEmpty =
     !selectedItem || Object.keys(selectedItem).length === 0;
 

@@ -48,6 +48,8 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
     return <div>Loading tabs...</div>;
   }
 
+  console.log(subCategories)
+
   return (
     <Stack
       width="100%"

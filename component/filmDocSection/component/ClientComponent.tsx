@@ -3,7 +3,7 @@
 import { Box, Stack, Tab, Tabs } from "@mui/material";
 import VideoSwiper from "./VideoSwiper";
 import { Categories } from "@/types/categories";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getProductsByCatId } from "@/component/adminPage/service/postProduct";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 
@@ -48,7 +48,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
     return <div>Loading tabs...</div>;
   }
 
-  console.log(subCategories)
+  console.log(subCategories);
 
   return (
     <Stack

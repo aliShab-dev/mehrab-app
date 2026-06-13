@@ -8,6 +8,8 @@ import SwapVertIcon from "@mui/icons-material/SwapVert";
 import { Categories, Category, SubCategory } from "@/types/categories";
 
 interface SelectCatBtnProps {
+  sortOrder: "newest" | "oldest";
+  setSortOrder: React.Dispatch<React.SetStateAction<"newest" | "oldest">>;
   categories: Categories;
   selectedCategory: Category | null;
   setSelectedCategory: React.Dispatch<React.SetStateAction<Category | null>>;
@@ -25,7 +27,7 @@ export type TextBoxProps = {
 };
 
 const sortOptions = [
-  { label: "جدیدترین", value: "latest" },
+  { label: "جدیدترین", value: "newest" },
   { label: "قدیمی‌ترین", value: "oldest" },
 ];
 
@@ -76,21 +78,22 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
+  sortOrder,
   categories,
   selectedLevel,
   selectedSubCat,
   selectedCategory,
+  setSortOrder,
   setSelectedLevel,
   setSelectedSubCat,
   setSelectedCategory,
 }) => {
-  const [sortOrder, setSortOrder] = useState<"latest" | "oldest">("latest");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [menuType, setMenuType] = useState("");
 
   const handleOpenMenu = (
     event: MouseEvent<HTMLButtonElement>,
-    type: MenuType
+    type: MenuType,
   ) => {
     setAnchorEl(event.currentTarget);
     setMenuType(type);
@@ -156,11 +159,11 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
 
       <CustomButton disableRipple onClick={(e) => handleOpenMenu(e, "sort")}>
         <SwapVertIcon />
-        {sortOrder === "latest"
+        {sortOrder === "newest"
           ? "جدیدترین"
           : sortOrder === "oldest"
-          ? "قدیمی‌ترین"
-          : "مرتب‌سازی"}
+            ? "قدیمی‌ترین"
+            : "مرتب‌سازی"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 

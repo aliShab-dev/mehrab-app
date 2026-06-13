@@ -16,11 +16,12 @@ interface ProductsClientProps {
 const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
   const [loading, setLoading] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
-    null
+    null,
   );
   const [selectedSubCat, setSelectedSubCat] = useState<SubCategory | null>(
-    null
+    null,
   );
   const [selectedLevel, setSelectedLevel] = useState<number | null>(1);
   const [products, setProducts] = useState<Product[]>([]);
@@ -30,7 +31,7 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
 
   const currentItems = products.slice(
     (page - 1) * itemsPerPage,
-    page * itemsPerPage
+    page * itemsPerPage,
   );
 
   useEffect(() => {
@@ -46,7 +47,11 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
   }, [categories]);
 
   useEffect(() => {
-    if (selectedCategory && selectedCategory.subCatList && selectedCategory.subCatList.length > 0) {
+    if (
+      selectedCategory &&
+      selectedCategory.subCatList &&
+      selectedCategory.subCatList.length > 0
+    ) {
       setSelectedSubCat(selectedCategory.subCatList[0]);
     } else {
       setSelectedSubCat(null);
@@ -55,22 +60,31 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
   }, [selectedCategory]);
 
   useEffect(() => {
-    if (selectedSubCat) {
-      setProducts([]);
-      setLoading(true);
-      getProductsByCatId(selectedSubCat.subCatId)
-        .then((res) => {
-          setProducts(res);
-          setLoading(false);
-        })
-        .catch((res) => console.log(res));
-    }
-  }, [selectedSubCat]);
+    if (!selectedSubCat) return;
+
+    setProducts([]);
+    setLoading(true);
+
+    getProductsByCatId({
+      cat: selectedSubCat.subCatId,
+      sorting: sortOrder,
+      level: selectedLevel ?? undefined,
+    })
+      .then((res) => {
+        setProducts(res);
+      })
+      .catch(console.error)
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [selectedSubCat, selectedLevel, sortOrder]);
 
   return (
     <Stack>
       <Stack mx={"auto"} mt={3}>
         <SelectedCatBtn
+          sortOrder={sortOrder}
+          setSortOrder={setSortOrder}
           categories={categories}
           selectedLevel={selectedLevel}
           selectedSubCat={selectedSubCat}

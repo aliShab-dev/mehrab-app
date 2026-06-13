@@ -195,12 +195,26 @@ const deleteProduct = async (id) => {
   }
 };
 
-const getProductsByCatId = async (cat) => {
+const getProductsByCatId = async ({ cat, sorting, level }) => {
   try {
+    const params = new URLSearchParams();
+
+    if (sorting) {
+      params.append("ordering", sorting);
+    }
+
+    if (level) {
+      params.append("level", level.toString());
+    }
+
+    const query = params.toString();
+
     const response = await fetch(
-      `${BASE_URL}/api/subcategories/${cat}/get_products/`,
+      `${BASE_URL}/api/subcategories/${cat}/get_products/${
+        query ? `?${query}` : ""
+      }`,
       {
-        method: "get",
+        method: "GET",
       },
     );
 
@@ -211,7 +225,7 @@ const getProductsByCatId = async (cat) => {
 
     return await response.json();
   } catch (err) {
-    console.error("Post new product failed:", err);
+    console.error("Get products failed:", err);
     throw err;
   }
 };

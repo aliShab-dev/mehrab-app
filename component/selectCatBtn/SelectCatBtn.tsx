@@ -237,7 +237,7 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
               key={opt.value}
               selected={sortOrder === opt.value}
               onClick={() => {
-                setSortOrder(opt.value as "latest" | "oldest");
+                setSortOrder(opt.value as "newest" | "oldest");
                 handleClose();
               }}
               sx={{

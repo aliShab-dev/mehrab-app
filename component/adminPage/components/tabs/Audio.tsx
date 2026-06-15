@@ -194,10 +194,14 @@ const Audio = () => {
   }, []);
 
   useEffect(() => {
-    const subCatId = subcategories.find((subCat) => subCat.name == age)?.id;
+    const subCatId = subcategories.find((subCat) => subCat.name === age)?.id;
+
     if (subCatId) {
       setNewResponse(false);
-      getProductsByCatId(subcategories.find((subCat) => subCat.name == age)?.id)
+
+      getProductsByCatId({
+        cat: subCatId,
+      })
         .then((res) => setProducts(res))
         .catch((err) => console.log(err));
     }

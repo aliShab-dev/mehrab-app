@@ -28,9 +28,12 @@ async function fetchOtherFromSameSubCat(
   id: number,
 ): Promise<FetchedProduct[] | null> {
   try {
-    const product = (await getProductsByCatId(
-      id,
-    )) as unknown as FetchedProduct[];
+    const product = (await getProductsByCatId({
+      cat: id, // ← this is what was missing
+      sorting: null, // or undefined / "" / whatever the API expects
+      level: null, // adjust based on your needs
+    })) as unknown as FetchedProduct[];
+
     return product || null;
   } catch (error) {
     console.error("Failed to fetch product:", error);

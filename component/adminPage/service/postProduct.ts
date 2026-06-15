@@ -195,7 +195,15 @@ const deleteProduct = async (id) => {
   }
 };
 
-const getProductsByCatId = async ({ cat, sorting, level }) => {
+const getProductsByCatId = async ({
+  cat,
+  sorting = null,
+  level = null,
+}: {
+  cat: number | string;
+  sorting?: string | null;
+  level?: string | number | null;
+}) => {
   try {
     const params = new URLSearchParams();
 
@@ -210,12 +218,8 @@ const getProductsByCatId = async ({ cat, sorting, level }) => {
     const query = params.toString();
 
     const response = await fetch(
-      `${BASE_URL}/api/subcategories/${cat}/get_products/${
-        query ? `?${query}` : ""
-      }`,
-      {
-        method: "GET",
-      },
+      `${BASE_URL}/api/subcategories/${cat}/get_products/${query ? `?${query}` : ""}`,
+      { method: "GET" },
     );
 
     if (!response.ok) {

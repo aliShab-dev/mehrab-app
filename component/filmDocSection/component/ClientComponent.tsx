@@ -36,7 +36,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   useEffect(() => {
     if (selectedCategory) {
       setListOfVideo([]);
-      getProductsByCatId(selectedCategory)
+      getProductsByCatId({cat: selectedCategory})
         .then((res) => {
           setListOfVideo(res);
         })
@@ -47,8 +47,6 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   if (!subCategories || subCategories.length === 0) {
     return <div>Loading tabs...</div>;
   }
-
-  console.log(subCategories);
 
   return (
     <Stack

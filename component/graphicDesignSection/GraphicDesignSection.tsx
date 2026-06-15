@@ -21,7 +21,7 @@ const GraphicDesignSection: React.FC<AudioSectionProps> = ({ categories }) => {
   useEffect(() => {
     if (selectedCategory?.subCatId) {
       setListOfPics([]);
-      getProductsByCatId(selectedCategory.subCatId)
+      getProductsByCatId({cat: selectedCategory.subCatId})
         .then((res) => {
           res ? setListOfPics(res) : setListOfPics([]);
         })

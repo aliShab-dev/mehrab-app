@@ -71,7 +71,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
       );
 
     if (targetSubCat) {
-      getProductsByCatId(targetSubCat.subCatId)
+      getProductsByCatId({ cat: targetSubCat.subCatId })
         .then((res) => {
           setSelectedSubCat(res[0]?.id);
           setProductById(res);

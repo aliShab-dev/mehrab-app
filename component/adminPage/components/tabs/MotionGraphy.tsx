@@ -239,7 +239,10 @@ const MotionGraphy = () => {
           setOpen(false);
           setNewResponse(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setOpen(false);
+          console.log(err);
+        });
     }
   };
 
@@ -259,7 +262,10 @@ const MotionGraphy = () => {
         cat: subCatId,
       })
         .then((res) => setProducts(res))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setOpen(false);
+          console.log(err);
+        });
     }
   }, [age, subcategories, newResponse]);
 

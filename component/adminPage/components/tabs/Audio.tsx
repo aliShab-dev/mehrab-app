@@ -160,7 +160,10 @@ const Audio = () => {
           setOpen(false);
           setNewResponse(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setOpen(false);
+          console.log(err);
+        });
     } else {
       createProduct({
         name,
@@ -181,7 +184,10 @@ const Audio = () => {
           setOpen(false);
           setNewResponse(true);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          setOpen(false);
+          console.log(err);
+        });
     }
   };
 

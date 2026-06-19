@@ -166,6 +166,7 @@ const Movie = () => {
       })
         .then((res) => {
           resetInputs();
+          setOpen(false);
           setNewResponse(true);
         })
         .catch((err) => console.log(err));
@@ -186,6 +187,7 @@ const Movie = () => {
       })
         .then((res) => {
           resetInputs();
+          setOpen(false);
           setNewResponse(true);
         })
         .catch((err) => console.log(err));

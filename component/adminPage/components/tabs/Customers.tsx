@@ -77,8 +77,6 @@ const Customers = () => {
     refreshCustomers();
   }, []);
 
-  console.log(customers);
-
   return (
     <Stack width={"100%"} boxShadow={3} borderRadius={4} p={1} gap={1}>
       <Stack direction={"row"} alignItems={"center"} gap={3}>

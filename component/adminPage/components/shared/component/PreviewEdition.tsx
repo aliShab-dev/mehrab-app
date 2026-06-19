@@ -174,7 +174,7 @@ const PreviewEdition = ({
           }
           onClick={() => {
             submitProduct();
-            setOpen(false);
+            // setOpen(false);
             setName("");
             setDescription("");
             setLevel("");

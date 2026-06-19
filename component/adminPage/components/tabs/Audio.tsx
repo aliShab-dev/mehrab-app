@@ -157,6 +157,7 @@ const Audio = () => {
       })
         .then((res) => {
           resetInputs();
+          setOpen(false);
           setNewResponse(true);
         })
         .catch((err) => console.log(err));
@@ -177,6 +178,7 @@ const Audio = () => {
       })
         .then((res) => {
           resetInputs();
+          setOpen(false);
           setNewResponse(true);
         })
         .catch((err) => console.log(err));

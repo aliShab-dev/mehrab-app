@@ -4,6 +4,7 @@ export const getCustomers = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/customers/`, {
       method: "GET",
+      cache: "no-store",
     });
 
     if (!response.ok) {

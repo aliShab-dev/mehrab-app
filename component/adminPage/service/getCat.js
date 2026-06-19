@@ -4,6 +4,7 @@ const getCategories = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/subcategories/`, {
       method: "GET",
+      // cache: "no-store", // ← This is the most important
     });
 
     if (!response.ok) {

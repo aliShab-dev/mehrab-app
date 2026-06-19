@@ -219,7 +219,7 @@ const getProductsByCatId = async ({
 
     const response = await fetch(
       `${BASE_URL}/api/subcategories/${cat}/get_products/${query ? `?${query}` : ""}`,
-      { method: "GET" },
+      { method: "GET", cache: "no-store" },
     );
 
     if (!response.ok) {
@@ -239,7 +239,8 @@ const getProductsByCategoryId = async (cat) => {
     const response = await fetch(
       `${BASE_URL}/api/categories/${cat}/get_products/`,
       {
-        method: "get",
+        method: "GET",
+        cache: "no-store",
       },
     );
 
@@ -258,7 +259,8 @@ const getProductsByCategoryId = async (cat) => {
 const getProductsByProductId = async (productId) => {
   try {
     const response = await fetch(`${BASE_URL}/api/products/${productId}/`, {
-      method: "get",
+      method: "GET",
+      cache: "no-store",
     });
 
     if (!response.ok) {

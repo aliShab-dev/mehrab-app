@@ -1,15 +1,16 @@
-const getAdmins = async () => {
-  const token = localStorage.getItem("token");
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Token ${token}`,
-  };
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+const getTokenHeaders = () => ({
+  "Content-Type": "application/json",
+  Authorization: `Token ${localStorage.getItem("token")}`,
+});
+
+export const getAdmins = async () => {
   try {
     const response = await fetch(`${BASE_URL}/User_Service/`, {
       method: "GET",
-      headers,
+      headers: getTokenHeaders(),
+      cache: "no-store",
     });
 
     if (!response.ok) throw new Error("Server error");
@@ -20,7 +21,7 @@ const getAdmins = async () => {
   }
 };
 
-const createNewAdmin = async ({
+export const createNewAdmin = async ({
   permissions,
   userName,
   password,
@@ -28,17 +29,10 @@ const createNewAdmin = async ({
   role,
   name,
 }) => {
-  const token = localStorage.getItem("token");
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Token ${token}`,
-  };
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   try {
     const response = await fetch(`${BASE_URL}/User_Service/`, {
       method: "POST",
-      headers,
+      headers: getTokenHeaders(),
       body: JSON.stringify({
         username: userName,
         password,
@@ -50,15 +44,14 @@ const createNewAdmin = async ({
     });
 
     if (!response.ok) throw new Error("Server error");
-
     return await response.json();
   } catch (err) {
-    console.error("Post new admin failed:", err);
+    console.error("Create admin failed:", err);
     throw err;
   }
 };
 
-const updateAdmin = async ({
+export const updateAdmin = async ({
   permissions,
   userName,
   password,
@@ -66,17 +59,10 @@ const updateAdmin = async ({
   role,
   name,
 }) => {
-  const token = localStorage.getItem("token");
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Token ${token}`,
-  };
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
   try {
     const response = await fetch(`${BASE_URL}/user_service/`, {
-      method: "patch",
-      headers: headers,
+      method: "PATCH",
+      headers: getTokenHeaders(),
       body: JSON.stringify({
         username: userName,
         password,
@@ -87,48 +73,26 @@ const updateAdmin = async ({
       }),
     });
 
-    if (!response.ok) {
-      throw new Error("Server error");
-    }
-
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error("Server error");
+    return await response.json();
   } catch (err) {
-    console.error("Post new admin failed:", err);
+    console.error("Update admin failed:", err);
     throw err;
   }
 };
 
-const deleteAdmin = async ({
-  userName,
-  password,
-  isUserAcitve,
-  role,
-  name,
-}) => {
+export const deleteAdmin = async ({ userName }) => {
   try {
     const response = await fetch(`${BASE_URL}/user_service/`, {
-      method: "delete",
-      headers: headers,
-      body: JSON.stringify({
-        username: userName,
-        password,
-        role,
-        name,
-        isUserAcitve,
-      }),
+      method: "DELETE",
+      headers: getTokenHeaders(),
+      body: JSON.stringify({ username: userName }),
     });
 
-    if (!response.ok) {
-      throw new Error("Server error");
-    }
-
-    const data = await response.json();
-    return data;
+    if (!response.ok) throw new Error("Server error");
+    return await response.json();
   } catch (err) {
-    console.error("Post new admin failed:", err);
+    console.error("Delete admin failed:", err);
     throw err;
   }
 };
-
-export { getAdmins, createNewAdmin, updateAdmin, deleteAdmin };

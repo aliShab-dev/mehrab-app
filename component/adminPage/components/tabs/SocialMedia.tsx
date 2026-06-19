@@ -26,7 +26,7 @@ import {
   postsocialMedia,
   updatSocialMedia,
 } from "../../service/socialMediaServices";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const socialMedia = [
   {
@@ -255,7 +255,7 @@ const SocialMedia = () => {
                   width: "90%",
                   height: "90%",
                   "& img": {
-                    objectFit: "contain", // applies to the inner <img>
+                    objectFit: "contain",
                   },
                   background: "transparent",
                 }}

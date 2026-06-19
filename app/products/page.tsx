@@ -29,14 +29,16 @@ export default async function ProductsPage() {
     "@type": "ItemList",
     name: "تولیدات ما | استودیو محراب",
     url: "https://mehrabfamily.ir/products",
-    itemListElement: categories.map((cat, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: cat.name,
-    })),
+    itemListElement: Array.isArray(categories)
+      ? categories.map((cat, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: cat?.name || "",
+        }))
+      : [],
   };
 
-  console.log(categories)
+  console.log(categories);
 
   return (
     <Stack width={"80%"} mx={"auto"} mt={5} mb={15}>

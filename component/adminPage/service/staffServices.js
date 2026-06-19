@@ -4,6 +4,7 @@ export const getStaff = async () => {
   try {
     const response = await fetch(`${BASE_URL}/api/staff-users/`, {
       method: "GET",
+      cache: "no-store",
     });
 
     if (!response.ok) {

@@ -120,6 +120,8 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
     setSelectedLevel(level);
     handleClose();
   };
+
+  console.log(categories)
   return (
     <Stack
       direction="row"

@@ -6,6 +6,7 @@ export const getsocialMedia = async () => {
 
     const response = await fetch(`${BASE_URL}/api/social_media/`, {
       method: "GET",
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -56,23 +57,24 @@ export const updatSocialMedia = async ({ id, href }) => {
     const token = localStorage.getItem("token");
 
     const response = await fetch(`${BASE_URL}/api/social_media/${id}/`, {
-      method: "patch",
+      method: "PATCH", // Uppercase
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Token ${token}`,
       },
-      body: {
-        link: href,
-      },
+      body: JSON.stringify({ link: href }),
     });
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Server error: ${response.status} - ${errorText}`);
     }
+
     const data = await response.json();
-    return Array.isArray(data) ? data : [];
+    return data;
   } catch (err) {
     console.error("Fetch error:", err);
-    return [];
+    return null;
   }
 };
 

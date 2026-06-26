@@ -38,8 +38,6 @@ export default async function ProductsPage() {
       : [],
   };
 
-  console.log(categories);
-
   return (
     <Stack width={"80%"} mx={"auto"} mt={5} mb={15}>
       <script

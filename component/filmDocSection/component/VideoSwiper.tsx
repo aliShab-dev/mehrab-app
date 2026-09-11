@@ -74,6 +74,13 @@ const MySwiperStyles = () => {
           background-color: #cfffeb;
           opacity: 1;
         }
+        body.video-is-fullscreen .swiper,
+        body.video-is-fullscreen .swiper-wrapper,
+        body.video-is-fullscreen .swiper-slide,
+        body.video-is-fullscreen .swiper-slide-active {
+          transform: none !important;
+          transition: none !important;
+        }
       `}
     />
   );
@@ -94,6 +101,38 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
       }, 0);
     }
   }, [videoList, swiperRef]);
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isFs = !!(
+        document.fullscreenElement ||
+        (document as any).webkitFullscreenElement ||
+        (document as any).mozFullScreenElement
+      );
+
+      if (isFs) {
+        document.body.classList.add("video-is-fullscreen");
+      } else {
+        document.body.classList.remove("video-is-fullscreen");
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+    document.addEventListener("webkitfullscreenchange", handleFullscreenChange); // iOS
+    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
+      document.removeEventListener(
+        "webkitfullscreenchange",
+        handleFullscreenChange,
+      );
+      document.removeEventListener(
+        "mozfullscreenchange",
+        handleFullscreenChange,
+      );
+    };
+  }, []);
 
   return (
     <Stack width="100%" mt={1} position={"relative"}>
@@ -281,9 +320,10 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                       file: {
                         attributes: {
                           playsInline: true,
+                          "webkit-playsinline": "true",
                           controlsList: "nodownload",
-                          // disablePictureInPicture: true, // optional
                         },
+                        forceVideo: true,
                       },
                     }}
                     playing={activeIndex === index}

@@ -76,7 +76,7 @@ const Navbar = () => {
         background: (theme) =>
           `linear-gradient(to top,rgba(248, 249, 255, .01), ${alpha(
             theme.palette.navbarColor.main,
-            0.9
+            0.9,
           )})`,
         pt: 0,
       }}
@@ -250,7 +250,12 @@ const Navbar = () => {
               sx={{ p: 0 }}
             >
               {ListNavButton.map((item) => (
-                <NavButton key={item.name} href={item.href} label={item.name} />
+                <NavButton
+                  key={item.name}
+                  href={item.href}
+                  label={item.name}
+                  onClick={handleCloseMenu}
+                />
               ))}
               <Divider />
               <Stack

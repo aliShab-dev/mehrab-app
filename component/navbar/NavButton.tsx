@@ -8,19 +8,21 @@ interface NavButtonProps {
   href: string;
   label: string;
   sx?: SxProps<Theme>;
+  onClick?: () => void;
 }
 
-const NavButton = ({ href, label, sx }: NavButtonProps) => {
+const NavButton = ({ href, label, sx, onClick }: NavButtonProps) => {
   const pathname = usePathname();
   const isActive = pathname === href || pathname.startsWith(`${href}/`);
   return (
     <Link href={href} passHref>
       <Button
+        onClick={onClick}
         disableRipple
         fullWidth
         color={isActive ? "secondary" : "inherit"}
         sx={{
-          fontSize: {xs: 14, sm: 18},
+          fontSize: { xs: 14, sm: 18 },
           fontWeight: 800,
           color: isActive ? undefined : "text.primary",
           ...sx,

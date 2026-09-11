@@ -135,7 +135,11 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
         onClick={(e) => handleOpenMenu(e, "category")}
       >
         <CategoryRoundedIcon />
-        {selectedCategory ? selectedCategory.categoryName : "دسته بندی"}
+        {selectedCategory
+          ? selectedCategory.categoryName === "موشن گرافی"
+            ? "موشن گرافیک"
+            : selectedCategory.categoryName
+          : "دسته بندی"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 
@@ -186,7 +190,9 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
                 },
               }}
             >
-              {cat.categoryName}
+              {cat.categoryName === "موشن گرافی"
+                ? "موشن گرافیک"
+                : cat.categoryName}
             </MenuItem>
           ))}
 

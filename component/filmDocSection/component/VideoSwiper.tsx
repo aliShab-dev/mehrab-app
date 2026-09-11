@@ -91,7 +91,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
 
   const [externalVideo, setExternalVideo] = useState<{
     url: string;
-    poster: string;
+    poster: string | null;
   } | null>(null);
 
   const externalPlayerRef = useRef<HTMLDivElement>(null);
@@ -104,13 +104,13 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
     }
   }, [videoList, swiperRef]);
 
-  // Open external player (always restarts from beginning)
   const openExternalPlayer = (video: Product) => {
-    if (!video?.files?.[0]?.file) return;
+    const fileUrl = video?.files?.[0]?.file;
+    if (!fileUrl) return;
 
     setExternalVideo({
-      url: video.files[0].file,
-      poster: video.poster,
+      url: String(fileUrl),
+      poster: video.poster ? String(video.poster) : null,
     });
   };
 

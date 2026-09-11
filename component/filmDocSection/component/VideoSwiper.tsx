@@ -23,30 +23,43 @@ const MySwiperStyles = () => {
         .swiper {
           padding-bottom: 30px;
         }
-        .mySwiper .swiper-slide {
-          transition:
-            transform 0.4s ease,
-            z-index 0.4s ease,
-            box-shadow 0.4s ease;
-          transform: scale(0.75);
-          z-index: 1;
-          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* default shadow */
-          border-radius: 28px;
+
+        /* Desktop only scaling */
+        @media (min-width: 600px) {
+          .mySwiper .swiper-slide {
+            transition:
+              transform 0.4s ease,
+              z-index 0.4s ease,
+              box-shadow 0.4s ease;
+            transform: scale(0.75);
+            z-index: 1;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            border-radius: 28px;
+          }
+
+          .mySwiper .swiper-slide-active {
+            transform: scale(1.1) translateY(10px);
+            z-index: 3;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+          }
+
+          .mySwiper .swiper-slide-prev,
+          .mySwiper .swiper-slide-next {
+            transform: scale(0.9);
+            z-index: 2;
+          }
         }
 
-        .mySwiper .swiper-slide-active {
-          transform: scale(1.1) translateY(10px);
-          z-index: 3;
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5); /* stronger shadow for active */
+        /* Mobile – no transform at all */
+        @media (max-width: 599px) {
+          .mySwiper .swiper-slide {
+            border-radius: 16px;
+            overflow: hidden;
+          }
         }
 
-        .mySwiper .swiper-slide-prev,
-        .mySwiper .swiper-slide-next {
-          transform: scale(0.9);
-          z-index: 2;
-        }
         .mySwiper .swiper-pagination {
-          bottom: -25px !important; /* move it lower */
+          bottom: -25px !important;
         }
         .mySwiper .swiper-pagination-bullet {
           width: 15px;
@@ -57,7 +70,6 @@ const MySwiperStyles = () => {
           border-radius: 50%;
           transition: all 0.3s ease;
         }
-
         .mySwiper .swiper-pagination-bullet-active {
           background-color: #cfffeb;
           opacity: 1;
@@ -246,7 +258,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                 style={{
                   width: "50%",
                   borderRadius: 28,
-                  overflow: "clip",
+                  // overflow: "clip",
                 }}
               >
                 <Stack
@@ -264,6 +276,16 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                     url={`${video.files[0].file}`}
                     light={`${video.poster}`}
                     controls
+                    playsinline
+                    config={{
+                      file: {
+                        attributes: {
+                          playsInline: true,
+                          controlsList: "nodownload",
+                          // disablePictureInPicture: true, // optional
+                        },
+                      },
+                    }}
                     playing={activeIndex === index}
                     width="100%"
                     height="100%"

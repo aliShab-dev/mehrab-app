@@ -2,16 +2,24 @@
 
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Box, IconButton, Skeleton, Stack, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Skeleton,
+  Stack,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../css/styles.css";
 import { css, Global } from "@emotion/react";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { Swiper as SwiperClass } from "swiper";
-import Image from "next/image";
+import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
+
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 const MySwiperStyles = () => {
@@ -24,7 +32,6 @@ const MySwiperStyles = () => {
           padding-bottom: 30px;
         }
 
-        /* Desktop only scaling */
         @media (min-width: 600px) {
           .mySwiper .swiper-slide {
             transition:
@@ -36,13 +43,11 @@ const MySwiperStyles = () => {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             border-radius: 28px;
           }
-
           .mySwiper .swiper-slide-active {
             transform: scale(1.1) translateY(10px);
             z-index: 3;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
           }
-
           .mySwiper .swiper-slide-prev,
           .mySwiper .swiper-slide-next {
             transform: scale(0.9);
@@ -50,7 +55,6 @@ const MySwiperStyles = () => {
           }
         }
 
-        /* Mobile – no transform at all */
         @media (max-width: 599px) {
           .mySwiper .swiper-slide {
             border-radius: 16px;
@@ -68,18 +72,10 @@ const MySwiperStyles = () => {
           background-color: ${theme.palette.secondary.main};
           opacity: 0.5;
           border-radius: 50%;
-          transition: all 0.3s ease;
         }
         .mySwiper .swiper-pagination-bullet-active {
           background-color: #cfffeb;
           opacity: 1;
-        }
-        body.video-is-fullscreen .swiper,
-        body.video-is-fullscreen .swiper-wrapper,
-        body.video-is-fullscreen .swiper-slide,
-        body.video-is-fullscreen .swiper-slide-active {
-          transform: none !important;
-          transition: none !important;
         }
       `}
     />
@@ -87,205 +83,158 @@ const MySwiperStyles = () => {
 };
 
 const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [swiperRef, setSwiperRef] = useState<SwiperClass | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const [externalVideo, setExternalVideo] = useState<{
+    url: string;
+    poster: string;
+  } | null>(null);
+
+  const externalPlayerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (swiperRef && videoList.length > 0) {
-      swiperRef.slideToLoop(0, 0, false); // jump to first
+      swiperRef.slideToLoop(0, 0, false);
       setActiveIndex(0);
-      setTimeout(() => {
-        swiperRef.update();
-      }, 0);
+      setTimeout(() => swiperRef.update(), 0);
     }
   }, [videoList, swiperRef]);
 
+  // Open external player (always restarts from beginning)
+  const openExternalPlayer = (video: Product) => {
+    if (!video?.files?.[0]?.file) return;
+
+    setExternalVideo({
+      url: video.files[0].file,
+      poster: video.poster,
+    });
+  };
+
+  // When external player is ready → go fullscreen
+  const handleExternalReady = () => {
+    setTimeout(() => {
+      const videoEl = externalPlayerRef.current?.querySelector(
+        "video",
+      ) as HTMLVideoElement;
+
+      if (!videoEl) return;
+
+      if (videoEl.requestFullscreen) {
+        videoEl.requestFullscreen().catch(() => {});
+      } else if ((videoEl as any).webkitRequestFullscreen) {
+        (videoEl as any).webkitRequestFullscreen();
+      } else if ((videoEl as any).webkitEnterFullscreen) {
+        (videoEl as any).webkitEnterFullscreen(); // iOS
+      }
+    }, 300);
+  };
+
+  // Close external player when leaving fullscreen
   useEffect(() => {
-    const handleFullscreenChange = () => {
+    const handleFsChange = () => {
       const isFs = !!(
-        document.fullscreenElement ||
-        (document as any).webkitFullscreenElement ||
-        (document as any).mozFullScreenElement
+        document.fullscreenElement || (document as any).webkitFullscreenElement
       );
 
-      if (isFs) {
-        document.body.classList.add("video-is-fullscreen");
-      } else {
-        document.body.classList.remove("video-is-fullscreen");
+      if (!isFs) {
+        setExternalVideo(null);
       }
     };
 
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange); // iOS
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
+    document.addEventListener("fullscreenchange", handleFsChange);
+    document.addEventListener("webkitfullscreenchange", handleFsChange);
 
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener(
-        "webkitfullscreenchange",
-        handleFullscreenChange,
-      );
-      document.removeEventListener(
-        "mozfullscreenchange",
-        handleFullscreenChange,
-      );
+      document.removeEventListener("fullscreenchange", handleFsChange);
+      document.removeEventListener("webkitfullscreenchange", handleFsChange);
     };
   }, []);
 
+  // Custom Fullscreen button handler
+  const handleCustomFullscreen = (index: number) => {
+    const video = videoList[index];
+    if (!video) return;
+    openExternalPlayer(video);
+  };
+
   return (
-    <Stack width="100%" mt={1} position={"relative"}>
-      {!isBeginning && (
-        <IconButton
-          onClick={() => swiperRef?.slidePrev()}
-          size="large"
+    <Stack width="100%" mt={1} position="relative">
+      {/* ========== EXTERNAL CLEAN PLAYER ========== */}
+      {externalVideo && (
+        <Box
+          ref={externalPlayerRef}
+          key={externalVideo.url}
           sx={{
-            width: { xs: 32, sm: 43 },
-            height: { xs: 32, sm: 43 },
-            pl: 1.4,
-            position: "absolute",
-            top: { xs: "38%", sm: "40%" },
-            left: {
-              xs: "calc(85%)",
-              sm: "calc(80%)",
-              md: "calc(78%)",
-              lg: "calc(60% + 260px)",
-            },
-            zIndex: 100,
-            background: `linear-gradient(to bottom,#37E3C3, #049070)`,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            position: "fixed",
+            inset: 0,
+            zIndex: 99999,
+            bgcolor: "#000",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <Image
-            src={"/Arrow-right.png"}
-            alt="'Arrow-left"
-            width={19}
-            height={19}
+          <ReactPlayer
+            url={externalVideo.url}
+            playing={true}
+            controls
+            playsinline
+            width="100%"
+            height="100%"
+            onReady={handleExternalReady}
+            config={{
+              file: {
+                attributes: {
+                  playsInline: true,
+                  "webkit-playsinline": "true",
+                  controlsList: "nodownload",
+                },
+                forceVideo: true,
+              },
+            }}
           />
-        </IconButton>
+        </Box>
       )}
 
-      {!isEnd && (
-        <IconButton
-          onClick={() => swiperRef?.slideNext()}
-          size="large"
-          sx={{
-            width: { xs: 32, sm: 43 },
-            height: { xs: 32, sm: 43 },
-            pl: 1.4,
-            position: "absolute",
-            top: { xs: "38%", sm: "40%" },
-            right: {
-              xs: "calc(85%)",
-              sm: "calc(80%)",
-              md: "calc(78%)",
-              lg: "calc(60% + 260px)",
-            },
-            zIndex: 100,
-            background: `linear-gradient(to bottom,#37E3C3, #049070)`,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-          }}
-        >
-          <Image
-            src={"/Arrow-left.png"}
-            alt="'Arrow-left"
-            width={19}
-            height={19}
-          />
-        </IconButton>
-      )}
-      {!isBeginning && (
-        <Box
-          sx={{
-            display: { xs: "none", sm: "block" },
-            position: "absolute",
-            top: 0,
-            right: 0,
-            width: 250,
-            height: "90%",
-            zIndex: 10,
-            background: (theme) =>
-              `linear-gradient(to left, ${theme.palette.primary.main}, transparent)`,
-            pointerEvents: "none",
-          }}
-        />
-      )}
-
-      {!isEnd && (
-        <Box
-          sx={{
-            display: { xs: "none", sm: "block" },
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: 250,
-            height: "90%",
-            zIndex: 10,
-            background: (theme) =>
-              `linear-gradient(to right, ${theme.palette.primary.main}, transparent)`,
-            pointerEvents: "none",
-          }}
-        />
-      )}
       <MySwiperStyles />
+
       <Swiper
         slidesPerView="auto"
         spaceBetween={60}
-        centeredSlides={true}
-        loop={true}
+        centeredSlides
+        loop
         pagination={{ clickable: true }}
         modules={[Pagination]}
         className="mySwiper"
         onSwiper={(swiper) => {
           setSwiperRef(swiper);
           setActiveIndex(swiper.realIndex);
-          setIsBeginning(swiper.isBeginning);
-          setIsEnd(swiper.isEnd);
+
           swiper.on("slideChange", () => {
             setActiveIndex(swiper.realIndex);
-            setIsBeginning(swiper.isBeginning);
-            setIsEnd(swiper.isEnd);
-          });
-          swiper.on("reachBeginning", () => setIsBeginning(true));
-          swiper.on("reachEnd", () => setIsEnd(true));
-          swiper.on("fromEdge", () => {
-            setIsBeginning(swiper.isBeginning);
-            setIsEnd(swiper.isEnd);
           });
         }}
         breakpoints={{
-          0: {
-            slidesPerView: 1.1,
-            spaceBetween: 10,
-          },
-          600: {
-            slidesPerView: 1.8,
-            spaceBetween: 30,
-          },
-          900: {
-            slidesPerView: 2,
-            spaceBetween: 60,
-          },
+          0: { slidesPerView: 1.1, spaceBetween: 10 },
+          600: { slidesPerView: 1.8, spaceBetween: 30 },
+          900: { slidesPerView: 2, spaceBetween: 60 },
         }}
       >
         {videoList.length === 0
           ? Array.from({ length: 5 }).map((_, index) => (
               <SwiperSlide
-                key={`skeleton-${index}`}
-                style={{
-                  width: "50%",
-                  borderRadius: 28,
-                  overflow: "clip",
-                }}
+                key={index}
+                style={{ width: "50%", borderRadius: 28 }}
               >
                 <Stack
                   position="relative"
                   bgcolor="secondary.main"
                   width="100%"
-                  sx={{
-                    aspectRatio: "1920 / 1080",
-                  }}
+                  sx={{ aspectRatio: "1920/1080" }}
                 >
                   <Skeleton variant="rectangular" width="100%" height="100%" />
                 </Stack>
@@ -294,48 +243,62 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
           : videoList.map((video, index) => (
               <SwiperSlide
                 key={index}
-                style={{
-                  width: "50%",
-                  borderRadius: 28,
-                  // overflow: "clip",
-                }}
+                style={{ width: "50%", borderRadius: 28 }}
               >
                 <Stack
                   position="relative"
                   bgcolor="secondary.main"
                   width="100%"
                   sx={{
-                    aspectRatio: "1920 / 1080",
-                    "& video": {
-                      objectFit: "cover",
-                    },
+                    aspectRatio: "1920/1080",
+                    "& video": { objectFit: "cover" },
                   }}
                 >
                   <ReactPlayer
-                    url={`${video.files[0].file}`}
-                    light={`${video.poster}`}
+                    url={video.files[0].file}
+                    light={video.poster}
                     controls
                     playsinline
+                    playing={activeIndex === index && !externalVideo}
+                    width="100%"
+                    height="100%"
+                    style={{ position: "absolute", top: 0, left: 0 }}
                     config={{
                       file: {
                         attributes: {
                           playsInline: true,
                           "webkit-playsinline": "true",
-                          controlsList: "nodownload",
+                          controlsList: isMobile
+                            ? "nodownload nofullscreen"
+                            : "nodownload",
                         },
                         forceVideo: true,
                       },
                     }}
-                    playing={activeIndex === index}
-                    width="100%"
-                    height="100%"
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                    }}
-                    onError={(e) => console.error("ReactPlayer Error:", e)}
                   />
+
+                  {/* Custom Fullscreen Button - only on mobile */}
+                  {isMobile && (
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCustomFullscreen(index);
+                      }}
+                      sx={{
+                        position: "absolute",
+                        bottom: 12,
+                        right: 12,
+                        zIndex: 20,
+                        bgcolor: "rgba(0,0,0,0.55)",
+                        color: "#fff",
+                        "&:hover": { bgcolor: "rgba(0,0,0,0.75)" },
+                        width: 42,
+                        height: 42,
+                      }}
+                    >
+                      <FullscreenIcon />
+                    </IconButton>
+                  )}
                 </Stack>
               </SwiperSlide>
             ))}

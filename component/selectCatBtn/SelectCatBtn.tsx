@@ -32,6 +32,7 @@ const sortOptions = [
 ];
 
 const levelOptions = [
+  { id: null, name: "همه سطح ها" },
   { id: 1, name: "سطح 1" },
   { id: 2, name: "سطح 2" },
   { id: 3, name: "سطح 3" },
@@ -116,12 +117,11 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
     handleClose();
   };
 
-  const handleSelectLevel = (level: number) => {
+  const handleSelectLevel = (level: number | null) => {
     setSelectedLevel(level);
     handleClose();
   };
 
-  console.log(categories)
   return (
     <Stack
       direction="row"
@@ -145,7 +145,7 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
         disabled={!selectedCategory}
       >
         <BarChartRoundedIcon />
-        {selectedLevel !== null ? `سطح ${selectedLevel}` : "سطح"}
+        {selectedLevel !== null ? `سطح ${selectedLevel}` : "همه سطح ها"}
         <ExpandMoreIcon className="arrow" />
       </CustomButton>
 
@@ -215,11 +215,9 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
         {menuType === "level" &&
           levelOptions.map((level) => (
             <MenuItem
-              key={level.id}
-              selected={selectedLevel == level.id}
-              onClick={() => {
-                handleSelectLevel(level.id);
-              }}
+              key={level.id ?? "all"}
+              selected={selectedLevel === level.id}
+              onClick={() => handleSelectLevel(level.id)}
               sx={{
                 mx: 0.5,
                 my: 0.5,
@@ -233,6 +231,7 @@ const SelectedCatBtn: React.FC<SelectCatBtnProps> = ({
               {level.name}
             </MenuItem>
           ))}
+
         {menuType === "sort" &&
           sortOptions.map((opt) => (
             <MenuItem

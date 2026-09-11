@@ -211,16 +211,20 @@ const getProductsByCatId = async ({
       params.append("ordering", sorting);
     }
 
-    if (level) {
+    // Only send level when it's a real number (1, 2, 3...)
+    if (level !== null && level !== undefined && level !== "") {
       params.append("level", level.toString());
     }
 
     const query = params.toString();
+    const url = `${BASE_URL}/api/subcategories/${cat}/get_products/${
+      query ? `?${query}` : ""
+    }`;
 
-    const response = await fetch(
-      `${BASE_URL}/api/subcategories/${cat}/get_products/${query ? `?${query}` : ""}`,
-      { method: "GET", cache: "no-store" },
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       const errorText = await response.text();

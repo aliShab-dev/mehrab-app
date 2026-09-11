@@ -56,7 +56,7 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
     } else {
       setSelectedSubCat(null);
     }
-    setSelectedLevel(1);
+    setSelectedLevel(null);
   }, [selectedCategory]);
 
   useEffect(() => {
@@ -68,15 +68,11 @@ const ProductsClient: React.FC<ProductsClientProps> = ({ categories }) => {
     getProductsByCatId({
       cat: selectedSubCat.subCatId,
       sorting: sortOrder,
-      level: selectedLevel ?? undefined,
+      level: selectedLevel,
     })
-      .then((res) => {
-        setProducts(res);
-      })
+      .then((res) => setProducts(res))
       .catch(console.error)
-      .finally(() => {
-        setLoading(false);
-      });
+      .finally(() => setLoading(false));
   }, [selectedSubCat, selectedLevel, sortOrder]);
 
   return (

@@ -336,6 +336,15 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
     }
   };
 
+  const desiredOrder = ["پوستر", "اینفوگرافیک", "جلد کتاب", "لوگو"];
+
+  const sortedCategories = [...posterCats].sort((a, b) => {
+    return (
+      desiredOrder.indexOf(a.subCatName as (typeof desiredOrder)[number]) -
+      desiredOrder.indexOf(b.subCatName as (typeof desiredOrder)[number])
+    );
+  });
+
   return (
     <Stack width="100%" overflow={"visible"} position={"relative"}>
       <MySwiperStyles />
@@ -440,13 +449,13 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
         <Stack
           position="absolute"
           bottom={-40}
-          direction="row-reverse"
           gap={2.3}
           width="100%"
           justifyContent="center"
+          direction={'row'}
         >
-          {posterCats &&
-            posterCats.map((item, index) => (
+          {sortedCategories &&
+            sortedCategories.map((item, index) => (
               <PosterButton
                 key={item.subCatId}
                 category={item}
@@ -470,8 +479,8 @@ const PosterSwiper: React.FC<PosterSwiperProps> = ({
             padding: "20px 16px",
           }}
         >
-          {posterCats &&
-            posterCats.map((item, index) => (
+          {sortedCategories &&
+            sortedCategories.map((item, index) => (
               <SwiperSlide
                 key={item.subCatId}
                 style={{ width: 80, height: "auto", background: "transparent" }}

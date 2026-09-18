@@ -36,7 +36,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   useEffect(() => {
     if (selectedCategory) {
       setListOfVideo([]);
-      getProductsByCatId({cat: selectedCategory})
+      getProductsByCatId({ cat: selectedCategory })
         .then((res) => {
           setListOfVideo(res);
         })
@@ -47,6 +47,22 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
   if (!subCategories || subCategories.length === 0) {
     return <div>Loading tabs...</div>;
   }
+
+  console.log(subCategories);
+
+  const desiredOrder = [
+    "مستند کوتاه",
+    "تیزر گزارشی",
+    "ویدیو کامنت ضبطی",
+    "ویدیو کامنت آرشیوی",
+    "مصاحبه",
+  ];
+
+  const sortedCategories = [...subCategories].sort((a, b) => {
+    return (
+      desiredOrder.indexOf(a.subCatName) - desiredOrder.indexOf(b.subCatName)
+    );
+  });
 
   return (
     <Stack
@@ -107,7 +123,7 @@ const ClientContainer: React.FC<ClientContainerProps> = ({ categories }) => {
               },
             }}
           >
-            {subCategories?.map((cat) => (
+            {sortedCategories?.map((cat) => (
               <Tab
                 key={cat.subCatId}
                 value={cat.subCatId}

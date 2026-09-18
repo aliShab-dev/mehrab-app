@@ -1,4 +1,4 @@
-import getCategories from "@/component/adminPage/service/getCat";
+  import getCategories from "@/component/adminPage/service/getCat";
 import AudioSection from "@/component/audioSection/AudioSection";
 import FilmDocSection from "@/component/filmDocSection/FIlmDocSection";
 import { Suspense } from "react";

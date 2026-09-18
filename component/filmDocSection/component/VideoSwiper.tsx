@@ -2,14 +2,7 @@
 
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Box,
-  IconButton,
-  Skeleton,
-  Stack,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Skeleton, Stack, useTheme, useMediaQuery } from "@mui/material";
 import "swiper/css";
 import "swiper/css/pagination";
 import "../css/styles.css";
@@ -17,7 +10,6 @@ import { css, Global } from "@emotion/react";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useRef } from "react";
 import type { Swiper as SwiperClass } from "swiper";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { Product } from "@/component/adminPage/components/tabs/MotionGraphy";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
@@ -95,6 +87,7 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
   } | null>(null);
 
   const externalPlayerRef = useRef<HTMLDivElement>(null);
+  const playerRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     if (swiperRef && videoList.length > 0) {
@@ -154,12 +147,44 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
     };
   }, []);
 
-  // Custom Fullscreen button handler
-  const handleCustomFullscreen = (index: number) => {
-    const video = videoList[index];
-    if (!video) return;
-    openExternalPlayer(video);
-  };
+  // Intercept native fullscreen button → open our external player instead
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const handleFullscreenRequest = (e: Event) => {
+      // Prevent native fullscreen
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Find which video requested fullscreen
+      const videoEl = e.target as HTMLVideoElement;
+      const index = playerRefs.current.findIndex((ref) =>
+        ref?.contains(videoEl),
+      );
+
+      if (index !== -1 && videoList[index]) {
+        openExternalPlayer(videoList[index]);
+      }
+    };
+
+    // Listen for fullscreen requests on all videos
+    const videos = document.querySelectorAll("video");
+    videos.forEach((video) => {
+      video.addEventListener("webkitbeginfullscreen", handleFullscreenRequest);
+      // Some browsers use this
+      video.addEventListener("fullscreenchange", handleFullscreenRequest);
+    });
+
+    return () => {
+      videos.forEach((video) => {
+        video.removeEventListener(
+          "webkitbeginfullscreen",
+          handleFullscreenRequest,
+        );
+        video.removeEventListener("fullscreenchange", handleFullscreenRequest);
+      });
+    };
+  }, [videoList, isMobile, activeIndex]);
 
   return (
     <Stack width="100%" mt={1} position="relative">
@@ -246,6 +271,9 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                 style={{ width: "50%", borderRadius: 28 }}
               >
                 <Stack
+                  ref={(el) => {
+                    playerRefs.current[index] = el;
+                  }}
                   position="relative"
                   bgcolor="secondary.main"
                   width="100%"
@@ -268,37 +296,13 @@ const VideoSwiper = ({ videoList }: { videoList: Product[] | [] }) => {
                         attributes: {
                           playsInline: true,
                           "webkit-playsinline": "true",
-                          controlsList: isMobile
-                            ? "nodownload nofullscreen"
-                            : "nodownload",
+                          // Keep native fullscreen button visible
+                          controlsList: "nodownload",
                         },
                         forceVideo: true,
                       },
                     }}
                   />
-
-                  {/* Custom Fullscreen Button - only on mobile */}
-                  {isMobile && (
-                    <IconButton
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleCustomFullscreen(index);
-                      }}
-                      sx={{
-                        position: "absolute",
-                        bottom: 12,
-                        right: 12,
-                        zIndex: 20,
-                        bgcolor: "rgba(0,0,0,0.55)",
-                        color: "#fff",
-                        "&:hover": { bgcolor: "rgba(0,0,0,0.75)" },
-                        width: 42,
-                        height: 42,
-                      }}
-                    >
-                      <FullscreenIcon />
-                    </IconButton>
-                  )}
                 </Stack>
               </SwiperSlide>
             ))}

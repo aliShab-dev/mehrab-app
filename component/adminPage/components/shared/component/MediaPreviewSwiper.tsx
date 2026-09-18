@@ -31,8 +31,6 @@ const MediaPreviewSwiper = ({
     });
   }, [productImage]);
 
-  console.log(productImage);
-
   const imageUrls = productImage.map((item) => {
     if (item instanceof File) {
       return URL.createObjectURL(item);
